@@ -1,4 +1,4 @@
-package com.teamphacode.MerchantManagement.constant;
+package com.teamphacode.MerchantManagement.util.constant;
 
 public enum ActionType {
     CREATE("Tạo mới"),

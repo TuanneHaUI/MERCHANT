@@ -1,6 +1,7 @@
 package com.teamphacode.MerchantManagement.domain;
 
 
+import com.teamphacode.MerchantManagement.util.SecurityUtil;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -97,11 +98,17 @@ public class Merchant {
 
     @PrePersist
     protected void onCreate() {
+        this.createdBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
+                ? SecurityUtil.getCurrentUserLogin().get()
+                : "";
         this.createdAt = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
+        this.updatedBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
+                ? SecurityUtil.getCurrentUserLogin().get()
+                : "";
         this.updatedAt = LocalDateTime.now();
     }
 

@@ -1,7 +1,9 @@
 spring:
   application:
     name: Tuanne
-
+  redis:
+    host: localhost
+    port: 6379
   datasource:
     url: jdbc:mysql://localhost:3306/Merchant
     username: root
@@ -21,3 +23,17 @@ springdoc:
     operations-sorter: method
     tags-sorter: alpha
     display-request-duration: true
+
+
+tuanne:
+  jwt:
+    base64-secret: qoAEABDke07+AVLepXB4aCMtsT0wMAqR5x2VFyldsnx6e75YQkJH2UcZKTjEyoNgG71SBCXfq5N6NVZxWOfsHQ==
+    access-token-validity-in-seconds: 8640000
+    refresh-token-validity-in-seconds: 8640000
+
+logging:
+  level:
+    root: INFO
+    org.springframework.web: DEBUG
+    org.springdoc: DEBUG
+    com.teamphacode: DEBUG
