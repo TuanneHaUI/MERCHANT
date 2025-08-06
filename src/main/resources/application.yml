@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: Tuanne
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/Merchant
+    username: root
+    password: 2542004Tuan@
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    display-request-duration: true
