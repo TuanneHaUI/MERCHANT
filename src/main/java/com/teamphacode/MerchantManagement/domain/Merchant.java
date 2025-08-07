@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.Builder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 
 @Entity
 @Table(name = "merchants")

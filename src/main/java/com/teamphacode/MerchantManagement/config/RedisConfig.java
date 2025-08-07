@@ -65,15 +65,5 @@ public class RedisConfig {
         return template;
     }
 
-    @Bean
-    public RedisCacheManager cacheManager() {
-        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-                .entryTtl(Duration.ofMinutes(10))
-                .serializeValuesWith(SerializationPair.fromSerializer(jackson2JsonRedisSerializer()))
-                .disableCachingNullValues();
 
-        return RedisCacheManager.builder(redisConnectionFactory())
-                .cacheDefaults(config)
-                .build();
-    }
 }
