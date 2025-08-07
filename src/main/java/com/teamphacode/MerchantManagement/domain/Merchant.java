@@ -12,6 +12,7 @@ import lombok.Data;
 import lombok.Builder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 
 @Entity
 @Table(name = "merchants")
@@ -68,10 +69,10 @@ public class Merchant {
     @Email(message = "Email không đúng định dạng")
     private String email;
 
-    @Column(name = "status", length = 1, nullable = false)
+    @Column(name = "status", nullable = false)
     @NotBlank(message = "Trạng thái không được để trống")
-    @Pattern(regexp = "^[12]$", message = "Trạng thái phải là 1 (Hoạt động) hoặc 2 (Đóng)")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private StatusEnum status;
 
     @Column(name = "open_date")
     private LocalDate openDate;
