@@ -2,6 +2,7 @@ package com.teamphacode.MerchantManagement.domain;
 
 
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
+import com.teamphacode.MerchantManagement.util.SecurityUtil;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.Builder;
 import java.time.LocalDateTime;
+import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 
 @Entity
 @Table(name = "merchants")
@@ -91,12 +93,19 @@ public class Merchant {
 
     @PrePersist
     protected void onCreate() {
+        this.createdBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
+                ? SecurityUtil.getCurrentUserLogin().get()
+                : "";
         this.openDate = LocalDateTime.now();
     }
 
     @PreUpdate
     protected void onUpdate() {
+        this.updatedBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
+                ? SecurityUtil.getCurrentUserLogin().get()
+                : "";
         this.updatedAt = LocalDateTime.now();
+        this.closeDate = LocalDateTime.from(LocalDateTime.now());
     }
 
 }

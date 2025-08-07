@@ -1,0 +1,781 @@
+250806 23:20:14.593 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :50  ]   Starting MerchantManagementApplication using Java 17.0.12 with PID 4148 (C:\Users\Admin\Downloads\MerchantManagement\target\classes started by Tuanne in C:\Users\Admin\Downloads\MerchantManagement)
+250806 23:20:14.596 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :660 ]   The following 1 profile is active: "prod"
+250806 23:20:14.655 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+250806 23:20:14.658 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+250806 23:20:15.742 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:20:15.744 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+250806 23:20:15.887 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 128 ms. Found 1 JPA repository interface.
+250806 23:20:15.906 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:20:15.907 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+250806 23:20:15.924 [restartedMain] INFO   [.RepositoryConfigurationExtensionSupport:320 ]   Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.teamphacode.MerchantManagement.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+250806 23:20:15.925 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+250806 23:20:16.404 [restartedMain] WARN   [ConfigServletWebServerApplicationContext:632 ]   Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+250806 23:20:16.419 [restartedMain] INFO   [.s.b.a.l.ConditionEvaluationReportLogger:82  ]   
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+250806 23:20:16.443 [restartedMain] ERROR  [o.s.boot.SpringApplication              :851 ]   Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:277)
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:805)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at com.teamphacode.MerchantManagement.MerchantManagementApplication.main(MerchantManagementApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:409)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.aop.framework.autoproxy.BeanFactoryAdvisorRetrievalHelper.findAdvisorBeans(BeanFactoryAdvisorRetrievalHelper.java:91)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findCandidateAdvisors(AbstractAdvisorAutoProxyCreator.java:111)
+	at org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator.findCandidateAdvisors(AnnotationAwareAspectJAutoProxyCreator.java:92)
+	at org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator.shouldSkip(AspectJAwareAdvisorAutoProxyCreator.java:101)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessBeforeInstantiation(AbstractAutoProxyCreator.java:281)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1130)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.resolveBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1105)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:511)
+	... 19 common frames omitted
+Caused by: java.lang.IllegalArgumentException: error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.aspectj.weaver.tools.PointcutParser.parsePointcutExpression(PointcutParser.java:319)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.buildPointcutExpression(AspectJExpressionPointcut.java:223)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.obtainPointcutExpression(AspectJExpressionPointcut.java:194)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.getClassFilter(AspectJExpressionPointcut.java:173)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:236)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:298)
+	at org.springframework.aop.support.AopUtils.findAdvisorsThatCanApply(AopUtils.java:330)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findAdvisorsThatCanApply(AbstractAdvisorAutoProxyCreator.java:128)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findEligibleAdvisors(AbstractAdvisorAutoProxyCreator.java:97)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.getAdvicesAndAdvisorsForBean(AbstractAdvisorAutoProxyCreator.java:78)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.wrapIfNecessary(AbstractAutoProxyCreator.java:368)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessAfterInitialization(AbstractAutoProxyCreator.java:320)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization(AbstractAutowireCapableBeanFactory.java:438)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1789)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	... 41 common frames omitted
+250806 23:20:28.006 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :50  ]   Starting MerchantManagementApplication using Java 17.0.12 with PID 21300 (C:\Users\Admin\Downloads\MerchantManagement\target\classes started by Tuanne in C:\Users\Admin\Downloads\MerchantManagement)
+250806 23:20:28.009 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :660 ]   The following 1 profile is active: "prod"
+250806 23:20:28.070 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+250806 23:20:28.071 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+250806 23:20:29.215 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:20:29.216 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+250806 23:20:29.379 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 143 ms. Found 1 JPA repository interface.
+250806 23:20:29.397 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:20:29.398 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+250806 23:20:29.413 [restartedMain] INFO   [.RepositoryConfigurationExtensionSupport:320 ]   Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.teamphacode.MerchantManagement.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+250806 23:20:29.414 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+250806 23:20:29.900 [restartedMain] WARN   [ConfigServletWebServerApplicationContext:632 ]   Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+250806 23:20:29.920 [restartedMain] INFO   [.s.b.a.l.ConditionEvaluationReportLogger:82  ]   
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+250806 23:20:29.941 [restartedMain] ERROR  [o.s.boot.SpringApplication              :851 ]   Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:277)
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:805)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at com.teamphacode.MerchantManagement.MerchantManagementApplication.main(MerchantManagementApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:409)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.aop.framework.autoproxy.BeanFactoryAdvisorRetrievalHelper.findAdvisorBeans(BeanFactoryAdvisorRetrievalHelper.java:91)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findCandidateAdvisors(AbstractAdvisorAutoProxyCreator.java:111)
+	at org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator.findCandidateAdvisors(AnnotationAwareAspectJAutoProxyCreator.java:92)
+	at org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator.shouldSkip(AspectJAwareAdvisorAutoProxyCreator.java:101)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessBeforeInstantiation(AbstractAutoProxyCreator.java:281)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1130)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.resolveBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1105)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:511)
+	... 19 common frames omitted
+Caused by: java.lang.IllegalArgumentException: error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.aspectj.weaver.tools.PointcutParser.parsePointcutExpression(PointcutParser.java:319)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.buildPointcutExpression(AspectJExpressionPointcut.java:223)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.obtainPointcutExpression(AspectJExpressionPointcut.java:194)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.getClassFilter(AspectJExpressionPointcut.java:173)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:236)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:298)
+	at org.springframework.aop.support.AopUtils.findAdvisorsThatCanApply(AopUtils.java:330)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findAdvisorsThatCanApply(AbstractAdvisorAutoProxyCreator.java:128)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findEligibleAdvisors(AbstractAdvisorAutoProxyCreator.java:97)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.getAdvicesAndAdvisorsForBean(AbstractAdvisorAutoProxyCreator.java:78)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.wrapIfNecessary(AbstractAutoProxyCreator.java:368)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessAfterInitialization(AbstractAutoProxyCreator.java:320)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization(AbstractAutowireCapableBeanFactory.java:438)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1789)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	... 41 common frames omitted
+250806 23:22:24.310 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :50  ]   Starting MerchantManagementApplication using Java 17.0.12 with PID 15688 (C:\Users\Admin\Downloads\MerchantManagement\target\classes started by Tuanne in C:\Users\Admin\Downloads\MerchantManagement)
+250806 23:22:24.312 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :660 ]   The following 1 profile is active: "prod"
+250806 23:22:24.378 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+250806 23:22:24.379 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+250806 23:22:25.534 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:22:25.536 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+250806 23:22:25.691 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 142 ms. Found 1 JPA repository interface.
+250806 23:22:25.710 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:22:25.711 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+250806 23:22:25.725 [restartedMain] INFO   [.RepositoryConfigurationExtensionSupport:320 ]   Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.teamphacode.MerchantManagement.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+250806 23:22:25.726 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+250806 23:22:26.190 [restartedMain] WARN   [ConfigServletWebServerApplicationContext:632 ]   Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+250806 23:22:26.205 [restartedMain] INFO   [.s.b.a.l.ConditionEvaluationReportLogger:82  ]   
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+250806 23:22:26.231 [restartedMain] ERROR  [o.s.boot.SpringApplication              :851 ]   Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:277)
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:805)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at com.teamphacode.MerchantManagement.MerchantManagementApplication.main(MerchantManagementApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:409)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.aop.framework.autoproxy.BeanFactoryAdvisorRetrievalHelper.findAdvisorBeans(BeanFactoryAdvisorRetrievalHelper.java:91)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findCandidateAdvisors(AbstractAdvisorAutoProxyCreator.java:111)
+	at org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator.findCandidateAdvisors(AnnotationAwareAspectJAutoProxyCreator.java:92)
+	at org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator.shouldSkip(AspectJAwareAdvisorAutoProxyCreator.java:101)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessBeforeInstantiation(AbstractAutoProxyCreator.java:281)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1130)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.resolveBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1105)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:511)
+	... 19 common frames omitted
+Caused by: java.lang.IllegalArgumentException: error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.aspectj.weaver.tools.PointcutParser.parsePointcutExpression(PointcutParser.java:319)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.buildPointcutExpression(AspectJExpressionPointcut.java:223)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.obtainPointcutExpression(AspectJExpressionPointcut.java:194)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.getClassFilter(AspectJExpressionPointcut.java:173)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:236)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:298)
+	at org.springframework.aop.support.AopUtils.findAdvisorsThatCanApply(AopUtils.java:330)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findAdvisorsThatCanApply(AbstractAdvisorAutoProxyCreator.java:128)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findEligibleAdvisors(AbstractAdvisorAutoProxyCreator.java:97)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.getAdvicesAndAdvisorsForBean(AbstractAdvisorAutoProxyCreator.java:78)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.wrapIfNecessary(AbstractAutoProxyCreator.java:368)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessAfterInitialization(AbstractAutoProxyCreator.java:320)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization(AbstractAutowireCapableBeanFactory.java:438)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1789)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	... 41 common frames omitted
+250806 23:23:44.338 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :50  ]   Starting MerchantManagementApplication using Java 17.0.12 with PID 21988 (C:\Users\Admin\Downloads\MerchantManagement\target\classes started by Tuanne in C:\Users\Admin\Downloads\MerchantManagement)
+250806 23:23:44.340 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :660 ]   The following 1 profile is active: "prod"
+250806 23:23:44.401 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+250806 23:23:44.402 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+250806 23:23:45.523 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:23:45.525 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+250806 23:23:45.669 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 129 ms. Found 1 JPA repository interface.
+250806 23:23:45.687 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:23:45.689 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+250806 23:23:45.702 [restartedMain] INFO   [.RepositoryConfigurationExtensionSupport:320 ]   Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.teamphacode.MerchantManagement.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+250806 23:23:45.703 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+250806 23:23:46.173 [restartedMain] WARN   [ConfigServletWebServerApplicationContext:632 ]   Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+250806 23:23:46.185 [restartedMain] INFO   [.s.b.a.l.ConditionEvaluationReportLogger:82  ]   
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+250806 23:23:46.204 [restartedMain] ERROR  [o.s.boot.SpringApplication              :851 ]   Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:277)
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:805)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at com.teamphacode.MerchantManagement.MerchantManagementApplication.main(MerchantManagementApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:409)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.aop.framework.autoproxy.BeanFactoryAdvisorRetrievalHelper.findAdvisorBeans(BeanFactoryAdvisorRetrievalHelper.java:91)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findCandidateAdvisors(AbstractAdvisorAutoProxyCreator.java:111)
+	at org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator.findCandidateAdvisors(AnnotationAwareAspectJAutoProxyCreator.java:92)
+	at org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator.shouldSkip(AspectJAwareAdvisorAutoProxyCreator.java:101)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessBeforeInstantiation(AbstractAutoProxyCreator.java:281)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1130)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.resolveBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1105)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:511)
+	... 19 common frames omitted
+Caused by: java.lang.IllegalArgumentException: error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.aspectj.weaver.tools.PointcutParser.parsePointcutExpression(PointcutParser.java:319)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.buildPointcutExpression(AspectJExpressionPointcut.java:223)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.obtainPointcutExpression(AspectJExpressionPointcut.java:194)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.getClassFilter(AspectJExpressionPointcut.java:173)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:236)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:298)
+	at org.springframework.aop.support.AopUtils.findAdvisorsThatCanApply(AopUtils.java:330)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findAdvisorsThatCanApply(AbstractAdvisorAutoProxyCreator.java:128)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findEligibleAdvisors(AbstractAdvisorAutoProxyCreator.java:97)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.getAdvicesAndAdvisorsForBean(AbstractAdvisorAutoProxyCreator.java:78)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.wrapIfNecessary(AbstractAutoProxyCreator.java:368)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessAfterInitialization(AbstractAutoProxyCreator.java:320)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization(AbstractAutowireCapableBeanFactory.java:438)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1789)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	... 41 common frames omitted
+250806 23:24:43.339 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :50  ]   Starting MerchantManagementApplication using Java 17.0.12 with PID 24964 (C:\Users\Admin\Downloads\MerchantManagement\target\classes started by Tuanne in C:\Users\Admin\Downloads\MerchantManagement)
+250806 23:24:43.343 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :660 ]   The following 1 profile is active: "prod"
+250806 23:24:43.411 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+250806 23:24:43.411 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+250806 23:24:44.512 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:24:44.514 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+250806 23:24:44.663 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 137 ms. Found 1 JPA repository interface.
+250806 23:24:44.682 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:24:44.684 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+250806 23:24:44.699 [restartedMain] INFO   [.RepositoryConfigurationExtensionSupport:320 ]   Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.teamphacode.MerchantManagement.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+250806 23:24:44.699 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+250806 23:24:45.159 [restartedMain] WARN   [ConfigServletWebServerApplicationContext:632 ]   Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+250806 23:24:45.171 [restartedMain] INFO   [.s.b.a.l.ConditionEvaluationReportLogger:82  ]   
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+250806 23:24:45.194 [restartedMain] ERROR  [o.s.boot.SpringApplication              :851 ]   Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:277)
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:805)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at com.teamphacode.MerchantManagement.MerchantManagementApplication.main(MerchantManagementApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:409)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.aop.framework.autoproxy.BeanFactoryAdvisorRetrievalHelper.findAdvisorBeans(BeanFactoryAdvisorRetrievalHelper.java:91)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findCandidateAdvisors(AbstractAdvisorAutoProxyCreator.java:111)
+	at org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator.findCandidateAdvisors(AnnotationAwareAspectJAutoProxyCreator.java:92)
+	at org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator.shouldSkip(AspectJAwareAdvisorAutoProxyCreator.java:101)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessBeforeInstantiation(AbstractAutoProxyCreator.java:281)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1130)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.resolveBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1105)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:511)
+	... 19 common frames omitted
+Caused by: java.lang.IllegalArgumentException: error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.aspectj.weaver.tools.PointcutParser.parsePointcutExpression(PointcutParser.java:319)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.buildPointcutExpression(AspectJExpressionPointcut.java:223)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.obtainPointcutExpression(AspectJExpressionPointcut.java:194)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.getClassFilter(AspectJExpressionPointcut.java:173)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:236)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:298)
+	at org.springframework.aop.support.AopUtils.findAdvisorsThatCanApply(AopUtils.java:330)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findAdvisorsThatCanApply(AbstractAdvisorAutoProxyCreator.java:128)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findEligibleAdvisors(AbstractAdvisorAutoProxyCreator.java:97)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.getAdvicesAndAdvisorsForBean(AbstractAdvisorAutoProxyCreator.java:78)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.wrapIfNecessary(AbstractAutoProxyCreator.java:368)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessAfterInitialization(AbstractAutoProxyCreator.java:320)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization(AbstractAutowireCapableBeanFactory.java:438)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1789)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	... 41 common frames omitted
+250806 23:27:20.269 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :50  ]   Starting MerchantManagementApplication using Java 17.0.12 with PID 3372 (C:\Users\Admin\Downloads\MerchantManagement\target\classes started by Tuanne in C:\Users\Admin\Downloads\MerchantManagement)
+250806 23:27:20.272 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :660 ]   The following 1 profile is active: "prod"
+250806 23:27:20.338 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+250806 23:27:20.338 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+250806 23:27:21.479 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:27:21.481 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+250806 23:27:21.628 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 135 ms. Found 1 JPA repository interface.
+250806 23:27:21.649 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:27:21.650 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+250806 23:27:21.664 [restartedMain] INFO   [.RepositoryConfigurationExtensionSupport:320 ]   Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.teamphacode.MerchantManagement.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+250806 23:27:21.665 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+250806 23:27:22.135 [restartedMain] WARN   [ConfigServletWebServerApplicationContext:632 ]   Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+250806 23:27:22.147 [restartedMain] INFO   [.s.b.a.l.ConditionEvaluationReportLogger:82  ]   
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+250806 23:27:22.171 [restartedMain] ERROR  [o.s.boot.SpringApplication              :851 ]   Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:277)
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:805)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at com.teamphacode.MerchantManagement.MerchantManagementApplication.main(MerchantManagementApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:409)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.aop.framework.autoproxy.BeanFactoryAdvisorRetrievalHelper.findAdvisorBeans(BeanFactoryAdvisorRetrievalHelper.java:91)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findCandidateAdvisors(AbstractAdvisorAutoProxyCreator.java:111)
+	at org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator.findCandidateAdvisors(AnnotationAwareAspectJAutoProxyCreator.java:92)
+	at org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator.shouldSkip(AspectJAwareAdvisorAutoProxyCreator.java:101)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessBeforeInstantiation(AbstractAutoProxyCreator.java:281)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1130)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.resolveBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1105)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:511)
+	... 19 common frames omitted
+Caused by: java.lang.IllegalArgumentException: error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.aspectj.weaver.tools.PointcutParser.parsePointcutExpression(PointcutParser.java:319)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.buildPointcutExpression(AspectJExpressionPointcut.java:223)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.obtainPointcutExpression(AspectJExpressionPointcut.java:194)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.getClassFilter(AspectJExpressionPointcut.java:173)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:236)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:298)
+	at org.springframework.aop.support.AopUtils.findAdvisorsThatCanApply(AopUtils.java:330)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findAdvisorsThatCanApply(AbstractAdvisorAutoProxyCreator.java:128)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findEligibleAdvisors(AbstractAdvisorAutoProxyCreator.java:97)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.getAdvicesAndAdvisorsForBean(AbstractAdvisorAutoProxyCreator.java:78)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.wrapIfNecessary(AbstractAutoProxyCreator.java:368)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessAfterInitialization(AbstractAutoProxyCreator.java:320)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization(AbstractAutowireCapableBeanFactory.java:438)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1789)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	... 41 common frames omitted
+250806 23:28:40.009 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :50  ]   Starting MerchantManagementApplication using Java 17.0.12 with PID 19600 (C:\Users\Admin\Downloads\MerchantManagement\target\classes started by Tuanne in C:\Users\Admin\Downloads\MerchantManagement)
+250806 23:28:40.012 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :660 ]   The following 1 profile is active: "prod"
+250806 23:28:40.070 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+250806 23:28:40.070 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+250806 23:28:41.186 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:28:41.189 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+250806 23:28:41.336 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 131 ms. Found 1 JPA repository interface.
+250806 23:28:41.354 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:28:41.355 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+250806 23:28:41.370 [restartedMain] INFO   [.RepositoryConfigurationExtensionSupport:320 ]   Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.teamphacode.MerchantManagement.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+250806 23:28:41.370 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+250806 23:28:41.836 [restartedMain] WARN   [ConfigServletWebServerApplicationContext:632 ]   Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+250806 23:28:41.850 [restartedMain] INFO   [.s.b.a.l.ConditionEvaluationReportLogger:82  ]   
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+250806 23:28:41.869 [restartedMain] ERROR  [o.s.boot.SpringApplication              :851 ]   Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:277)
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:805)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at com.teamphacode.MerchantManagement.MerchantManagementApplication.main(MerchantManagementApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:409)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.aop.framework.autoproxy.BeanFactoryAdvisorRetrievalHelper.findAdvisorBeans(BeanFactoryAdvisorRetrievalHelper.java:91)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findCandidateAdvisors(AbstractAdvisorAutoProxyCreator.java:111)
+	at org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator.findCandidateAdvisors(AnnotationAwareAspectJAutoProxyCreator.java:92)
+	at org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator.shouldSkip(AspectJAwareAdvisorAutoProxyCreator.java:101)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessBeforeInstantiation(AbstractAutoProxyCreator.java:281)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1130)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.resolveBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1105)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:511)
+	... 19 common frames omitted
+Caused by: java.lang.IllegalArgumentException: error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.aspectj.weaver.tools.PointcutParser.parsePointcutExpression(PointcutParser.java:319)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.buildPointcutExpression(AspectJExpressionPointcut.java:223)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.obtainPointcutExpression(AspectJExpressionPointcut.java:194)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.getClassFilter(AspectJExpressionPointcut.java:173)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:236)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:298)
+	at org.springframework.aop.support.AopUtils.findAdvisorsThatCanApply(AopUtils.java:330)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findAdvisorsThatCanApply(AbstractAdvisorAutoProxyCreator.java:128)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findEligibleAdvisors(AbstractAdvisorAutoProxyCreator.java:97)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.getAdvicesAndAdvisorsForBean(AbstractAdvisorAutoProxyCreator.java:78)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.wrapIfNecessary(AbstractAutoProxyCreator.java:368)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessAfterInitialization(AbstractAutoProxyCreator.java:320)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization(AbstractAutowireCapableBeanFactory.java:438)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1789)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	... 41 common frames omitted
+250806 23:30:36.885 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :50  ]   Starting MerchantManagementApplication using Java 17.0.12 with PID 13336 (C:\Users\Admin\Downloads\MerchantManagement\target\classes started by Tuanne in C:\Users\Admin\Downloads\MerchantManagement)
+250806 23:30:36.889 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :660 ]   The following 1 profile is active: "prod"
+250806 23:30:36.966 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+250806 23:30:36.966 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+250806 23:30:38.129 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:30:38.130 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+250806 23:30:38.283 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 140 ms. Found 1 JPA repository interface.
+250806 23:30:38.302 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:30:38.303 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+250806 23:30:38.319 [restartedMain] INFO   [.RepositoryConfigurationExtensionSupport:320 ]   Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.teamphacode.MerchantManagement.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+250806 23:30:38.319 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+250806 23:30:39.335 [restartedMain] INFO   [o.s.b.w.embedded.tomcat.TomcatWebServer :109 ]   Tomcat initialized with port 8080 (http)
+250806 23:30:39.359 [restartedMain] INFO   [o.a.coyote.http11.Http11NioProtocol     :173 ]   Initializing ProtocolHandler ["http-nio-8080"]
+250806 23:30:39.364 [restartedMain] INFO   [o.apache.catalina.core.StandardService  :173 ]   Starting service [Tomcat]
+250806 23:30:39.365 [restartedMain] INFO   [o.apache.catalina.core.StandardEngine   :173 ]   Starting Servlet engine: [Apache Tomcat/10.1.20]
+250806 23:30:39.448 [restartedMain] INFO   [o.a.c.c.C.[Tomcat].[localhost].[/]      :173 ]   Initializing Spring embedded WebApplicationContext
+250806 23:30:39.449 [restartedMain] INFO   [w.s.c.ServletWebServerApplicationContext:296 ]   Root WebApplicationContext: initialization completed in 2482 ms
+250806 23:30:39.874 [restartedMain] INFO   [o.hibernate.jpa.internal.util.LogHelper :31  ]   HHH000204: Processing PersistenceUnitInfo [name: default]
+250806 23:30:40.085 [restartedMain] INFO   [org.hibernate.Version                   :44  ]   HHH000412: Hibernate ORM core version 6.4.4.Final
+250806 23:30:40.124 [restartedMain] INFO   [o.h.c.internal.RegionFactoryInitiator   :50  ]   HHH000026: Second-level cache disabled
+250806 23:30:40.416 [restartedMain] INFO   [o.s.o.j.p.SpringPersistenceUnitInfo     :87  ]   No LoadTimeWeaver setup: ignoring JPA class transformer
+250806 23:30:40.441 [restartedMain] INFO   [com.zaxxer.hikari.HikariDataSource      :110 ]   HikariPool-1 - Starting...
+250806 23:30:40.709 [restartedMain] INFO   [com.zaxxer.hikari.pool.HikariPool       :565 ]   HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@7dedcb0d
+250806 23:30:40.711 [restartedMain] INFO   [com.zaxxer.hikari.HikariDataSource      :123 ]   HikariPool-1 - Start completed.
+250806 23:30:41.685 [restartedMain] INFO   [o.h.e.t.j.p.i.JtaPlatformInitiator      :58  ]   HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+250806 23:30:41.741 [restartedMain] INFO   [j.LocalContainerEntityManagerFactoryBean:437 ]   Initialized JPA EntityManagerFactory for persistence unit 'default'
+250806 23:30:42.801 [restartedMain] WARN   [JpaBaseConfiguration$JpaWebConfiguration:232 ]   spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+250806 23:30:43.659 [restartedMain] INFO   [o.s.s.web.DefaultSecurityFilterChain    :54  ]   Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@6a4466d9, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@9bf2a9, org.springframework.security.web.context.SecurityContextHolderFilter@1748a15a, org.springframework.security.web.header.HeaderWriterFilter@33f18bd1, org.springframework.web.filter.CorsFilter@3e2b5940, org.springframework.security.web.authentication.logout.LogoutFilter@162c1e17, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@3ce04dcf, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@26bb550b, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7503f6b7, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@34e24573, org.springframework.security.web.session.SessionManagementFilter@44b39ee1, org.springframework.security.web.access.ExceptionTranslationFilter@59c4a350, org.springframework.security.web.access.intercept.AuthorizationFilter@4e9721f2]
+250806 23:30:44.538 [restartedMain] INFO   [o.s.b.d.a.OptionalLiveReloadServer      :59  ]   LiveReload server is running on port 35729
+250806 23:30:44.561 [restartedMain] INFO   [o.a.coyote.http11.Http11NioProtocol     :173 ]   Starting ProtocolHandler ["http-nio-8080"]
+250806 23:30:44.600 [restartedMain] INFO   [o.s.b.w.embedded.tomcat.TomcatWebServer :241 ]   Tomcat started on port 8080 (http) with context path ''
+250806 23:30:44.615 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :56  ]   Started MerchantManagementApplication in 8.333 seconds (process running for 8.886)
+250806 23:30:48.925 [SpringApplicationShutdownHook] INFO   [j.LocalContainerEntityManagerFactoryBean:650 ]   Closing JPA EntityManagerFactory for persistence unit 'default'
+250806 23:30:48.933 [SpringApplicationShutdownHook] INFO   [com.zaxxer.hikari.HikariDataSource      :350 ]   HikariPool-1 - Shutdown initiated...
+250806 23:30:48.944 [SpringApplicationShutdownHook] INFO   [com.zaxxer.hikari.HikariDataSource      :352 ]   HikariPool-1 - Shutdown completed.
+250806 23:31:08.482 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :50  ]   Starting MerchantManagementApplication using Java 17.0.12 with PID 468 (C:\Users\Admin\Downloads\MerchantManagement\target\classes started by Tuanne in C:\Users\Admin\Downloads\MerchantManagement)
+250806 23:31:08.485 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :660 ]   The following 1 profile is active: "prod"
+250806 23:31:08.556 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+250806 23:31:08.556 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+250806 23:31:09.770 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:31:09.772 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+250806 23:31:09.914 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 134 ms. Found 1 JPA repository interface.
+250806 23:31:09.935 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:31:09.936 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+250806 23:31:09.950 [restartedMain] INFO   [.RepositoryConfigurationExtensionSupport:320 ]   Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.teamphacode.MerchantManagement.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+250806 23:31:09.950 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+250806 23:31:10.876 [restartedMain] INFO   [o.s.b.w.embedded.tomcat.TomcatWebServer :109 ]   Tomcat initialized with port 8080 (http)
+250806 23:31:10.903 [restartedMain] INFO   [o.a.coyote.http11.Http11NioProtocol     :173 ]   Initializing ProtocolHandler ["http-nio-8080"]
+250806 23:31:10.908 [restartedMain] INFO   [o.apache.catalina.core.StandardService  :173 ]   Starting service [Tomcat]
+250806 23:31:10.909 [restartedMain] INFO   [o.apache.catalina.core.StandardEngine   :173 ]   Starting Servlet engine: [Apache Tomcat/10.1.20]
+250806 23:31:10.998 [restartedMain] INFO   [o.a.c.c.C.[Tomcat].[localhost].[/]      :173 ]   Initializing Spring embedded WebApplicationContext
+250806 23:31:11.000 [restartedMain] INFO   [w.s.c.ServletWebServerApplicationContext:296 ]   Root WebApplicationContext: initialization completed in 2441 ms
+250806 23:31:11.477 [restartedMain] INFO   [o.hibernate.jpa.internal.util.LogHelper :31  ]   HHH000204: Processing PersistenceUnitInfo [name: default]
+250806 23:31:11.634 [restartedMain] INFO   [org.hibernate.Version                   :44  ]   HHH000412: Hibernate ORM core version 6.4.4.Final
+250806 23:31:11.699 [restartedMain] INFO   [o.h.c.internal.RegionFactoryInitiator   :50  ]   HHH000026: Second-level cache disabled
+250806 23:31:12.030 [restartedMain] INFO   [o.s.o.j.p.SpringPersistenceUnitInfo     :87  ]   No LoadTimeWeaver setup: ignoring JPA class transformer
+250806 23:31:12.057 [restartedMain] INFO   [com.zaxxer.hikari.HikariDataSource      :110 ]   HikariPool-1 - Starting...
+250806 23:31:12.337 [restartedMain] INFO   [com.zaxxer.hikari.pool.HikariPool       :565 ]   HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@750dc29d
+250806 23:31:12.339 [restartedMain] INFO   [com.zaxxer.hikari.HikariDataSource      :123 ]   HikariPool-1 - Start completed.
+250806 23:31:13.293 [restartedMain] INFO   [o.h.e.t.j.p.i.JtaPlatformInitiator      :58  ]   HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+250806 23:31:13.369 [restartedMain] INFO   [j.LocalContainerEntityManagerFactoryBean:437 ]   Initialized JPA EntityManagerFactory for persistence unit 'default'
+250806 23:31:14.525 [restartedMain] WARN   [JpaBaseConfiguration$JpaWebConfiguration:232 ]   spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+250806 23:31:15.426 [restartedMain] INFO   [o.s.s.web.DefaultSecurityFilterChain    :54  ]   Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@16823c0c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@a94eb55, org.springframework.security.web.context.SecurityContextHolderFilter@155b0acc, org.springframework.security.web.header.HeaderWriterFilter@16757b6c, org.springframework.web.filter.CorsFilter@6a7913d2, org.springframework.security.web.authentication.logout.LogoutFilter@3bded7ed, org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter@27e8ecb1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7c260efb, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@777f91c3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@43bab1a9, org.springframework.security.web.session.SessionManagementFilter@4941708c, org.springframework.security.web.access.ExceptionTranslationFilter@361a6f30, org.springframework.security.web.access.intercept.AuthorizationFilter@4f180570]
+250806 23:31:16.064 [restartedMain] INFO   [o.s.b.d.a.OptionalLiveReloadServer      :59  ]   LiveReload server is running on port 35729
+250806 23:31:16.080 [restartedMain] INFO   [o.a.coyote.http11.Http11NioProtocol     :173 ]   Starting ProtocolHandler ["http-nio-8080"]
+250806 23:31:16.108 [restartedMain] INFO   [o.s.b.w.embedded.tomcat.TomcatWebServer :241 ]   Tomcat started on port 8080 (http) with context path ''
+250806 23:31:16.121 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :56  ]   Started MerchantManagementApplication in 8.231 seconds (process running for 8.705)
+250806 23:31:33.258 [SpringApplicationShutdownHook] INFO   [j.LocalContainerEntityManagerFactoryBean:650 ]   Closing JPA EntityManagerFactory for persistence unit 'default'
+250806 23:31:33.265 [SpringApplicationShutdownHook] INFO   [com.zaxxer.hikari.HikariDataSource      :350 ]   HikariPool-1 - Shutdown initiated...
+250806 23:31:33.279 [SpringApplicationShutdownHook] INFO   [com.zaxxer.hikari.HikariDataSource      :352 ]   HikariPool-1 - Shutdown completed.
+250806 23:31:44.914 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :50  ]   Starting MerchantManagementApplication using Java 17.0.12 with PID 13208 (C:\Users\Admin\Downloads\MerchantManagement\target\classes started by Tuanne in C:\Users\Admin\Downloads\MerchantManagement)
+250806 23:31:44.917 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :660 ]   The following 1 profile is active: "prod"
+250806 23:31:44.981 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+250806 23:31:44.981 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+250806 23:31:46.080 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:31:46.082 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+250806 23:31:46.237 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 144 ms. Found 1 JPA repository interface.
+250806 23:31:46.256 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:31:46.257 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+250806 23:31:46.273 [restartedMain] INFO   [.RepositoryConfigurationExtensionSupport:320 ]   Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.teamphacode.MerchantManagement.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+250806 23:31:46.274 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+250806 23:31:46.761 [restartedMain] WARN   [ConfigServletWebServerApplicationContext:632 ]   Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+250806 23:31:46.773 [restartedMain] INFO   [.s.b.a.l.ConditionEvaluationReportLogger:82  ]   
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+250806 23:31:46.795 [restartedMain] ERROR  [o.s.boot.SpringApplication              :851 ]   Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:277)
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:805)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at com.teamphacode.MerchantManagement.MerchantManagementApplication.main(MerchantManagementApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:409)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.aop.framework.autoproxy.BeanFactoryAdvisorRetrievalHelper.findAdvisorBeans(BeanFactoryAdvisorRetrievalHelper.java:91)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findCandidateAdvisors(AbstractAdvisorAutoProxyCreator.java:111)
+	at org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator.findCandidateAdvisors(AnnotationAwareAspectJAutoProxyCreator.java:92)
+	at org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator.shouldSkip(AspectJAwareAdvisorAutoProxyCreator.java:101)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessBeforeInstantiation(AbstractAutoProxyCreator.java:281)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1130)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.resolveBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1105)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:511)
+	... 19 common frames omitted
+Caused by: java.lang.IllegalArgumentException: error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.aspectj.weaver.tools.PointcutParser.parsePointcutExpression(PointcutParser.java:319)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.buildPointcutExpression(AspectJExpressionPointcut.java:223)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.obtainPointcutExpression(AspectJExpressionPointcut.java:194)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.getClassFilter(AspectJExpressionPointcut.java:173)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:236)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:298)
+	at org.springframework.aop.support.AopUtils.findAdvisorsThatCanApply(AopUtils.java:330)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findAdvisorsThatCanApply(AbstractAdvisorAutoProxyCreator.java:128)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findEligibleAdvisors(AbstractAdvisorAutoProxyCreator.java:97)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.getAdvicesAndAdvisorsForBean(AbstractAdvisorAutoProxyCreator.java:78)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.wrapIfNecessary(AbstractAutoProxyCreator.java:368)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessAfterInitialization(AbstractAutoProxyCreator.java:320)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization(AbstractAutowireCapableBeanFactory.java:438)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1789)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	... 41 common frames omitted
+250806 23:42:00.580 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :50  ]   Starting MerchantManagementApplication using Java 17.0.12 with PID 25680 (C:\Users\Admin\Downloads\MerchantManagement\target\classes started by Tuanne in C:\Users\Admin\Downloads\MerchantManagement)
+250806 23:42:00.582 [restartedMain] INFO   [c.t.M.MerchantManagementApplication     :660 ]   The following 1 profile is active: "prod"
+250806 23:42:00.644 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+250806 23:42:00.645 [restartedMain] INFO   [.e.DevToolsPropertyDefaultsPostProcessor:252 ]   For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+250806 23:42:01.717 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:42:01.719 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+250806 23:42:01.875 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 143 ms. Found 1 JPA repository interface.
+250806 23:42:01.893 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:295 ]   Multiple Spring Data modules found, entering strict repository configuration mode
+250806 23:42:01.894 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:143 ]   Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+250806 23:42:01.908 [restartedMain] INFO   [.RepositoryConfigurationExtensionSupport:320 ]   Spring Data Redis - Could not safely identify store assignment for repository candidate interface com.teamphacode.MerchantManagement.repository.UserRepository; If you want this repository to be a Redis repository, consider annotating your entities with one of these annotations: org.springframework.data.redis.core.RedisHash (preferred), or consider extending one of the following types with your repository: org.springframework.data.keyvalue.repository.KeyValueRepository
+250806 23:42:01.908 [restartedMain] INFO   [.s.d.r.c.RepositoryConfigurationDelegate:211 ]   Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+250806 23:42:02.387 [restartedMain] WARN   [ConfigServletWebServerApplicationContext:632 ]   Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+250806 23:42:02.400 [restartedMain] INFO   [.s.b.a.l.ConditionEvaluationReportLogger:82  ]   
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+250806 23:42:02.427 [restartedMain] ERROR  [o.s.boot.SpringApplication              :851 ]   Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'projectingArgumentResolverBeanPostProcessor' defined in class path resource [org/springframework/data/web/config/ProjectingArgumentResolverRegistrar.class]: BeanPostProcessor before instantiation of bean failed
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:277)
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:805)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:608)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1354)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1343)
+	at com.teamphacode.MerchantManagement.MerchantManagementApplication.main(MerchantManagementApplication.java:10)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50)
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration': error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:409)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1335)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1165)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:326)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:324)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205)
+	at org.springframework.aop.framework.autoproxy.BeanFactoryAdvisorRetrievalHelper.findAdvisorBeans(BeanFactoryAdvisorRetrievalHelper.java:91)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findCandidateAdvisors(AbstractAdvisorAutoProxyCreator.java:111)
+	at org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator.findCandidateAdvisors(AnnotationAwareAspectJAutoProxyCreator.java:92)
+	at org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator.shouldSkip(AspectJAwareAdvisorAutoProxyCreator.java:101)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessBeforeInstantiation(AbstractAutoProxyCreator.java:281)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1130)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.resolveBeforeInstantiation(AbstractAutowireCapableBeanFactory.java:1105)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:511)
+	... 19 common frames omitted
+Caused by: java.lang.IllegalArgumentException: error Type referred to is not an annotation type: com$teamphacode$MerchantManagement$config$aop$LogStepByStep
+	at org.aspectj.weaver.tools.PointcutParser.parsePointcutExpression(PointcutParser.java:319)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.buildPointcutExpression(AspectJExpressionPointcut.java:223)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.obtainPointcutExpression(AspectJExpressionPointcut.java:194)
+	at org.springframework.aop.aspectj.AspectJExpressionPointcut.getClassFilter(AspectJExpressionPointcut.java:173)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:236)
+	at org.springframework.aop.support.AopUtils.canApply(AopUtils.java:298)
+	at org.springframework.aop.support.AopUtils.findAdvisorsThatCanApply(AopUtils.java:330)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findAdvisorsThatCanApply(AbstractAdvisorAutoProxyCreator.java:128)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.findEligibleAdvisors(AbstractAdvisorAutoProxyCreator.java:97)
+	at org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator.getAdvicesAndAdvisorsForBean(AbstractAdvisorAutoProxyCreator.java:78)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.wrapIfNecessary(AbstractAutoProxyCreator.java:368)
+	at org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator.postProcessAfterInitialization(AbstractAutoProxyCreator.java:320)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization(AbstractAutowireCapableBeanFactory.java:438)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1789)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600)
+	... 41 common frames omitted

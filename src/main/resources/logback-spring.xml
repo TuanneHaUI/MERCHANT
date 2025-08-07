@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <property name="LOGS_PATH" value="./logs" />
+    <property name="LOG_PATTERN"
+              value="%d{yyMMdd HH:mm:ss.SSS} [%thread] %-5level %X{traceId} [%-40.40logger{39}:%-4.4line] %X{step} %X{tag} %msg%n" />
+    <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <appender name="RollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGS_PATH}/spring-boot-logger.log</file>
+        <encoder>
+            <pattern>${LOG_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_PATH}/archived/spring-boot-logger-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <springProfile name="dev">
+        <root level="info">
+            <appender-ref ref="Console" />
+        </root>
+        <logger name="com.teamphacode" level="debug" additivity="false">
+            <appender-ref ref="Console" />
+        </logger>
+    </springProfile>
+
+    <springProfile name="prod">
+        <root level="info">
+            <appender-ref ref="RollingFile" />
+        </root>
+        <logger name="com.teamphacode" level="info" additivity="false">
+            <appender-ref ref="RollingFile" />
+        </logger>
+    </springProfile>
+
+</configuration>
