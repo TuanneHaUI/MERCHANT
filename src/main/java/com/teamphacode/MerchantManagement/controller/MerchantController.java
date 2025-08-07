@@ -1,29 +1,33 @@
 package com.teamphacode.MerchantManagement.controller;
 
+import com.teamphacode.MerchantManagement.domain.Merchant;
 import com.teamphacode.MerchantManagement.domain.dto.request.MerchantCreateRequest;
+import com.teamphacode.MerchantManagement.domain.dto.request.ReqUpdateMerchant;
 import com.teamphacode.MerchantManagement.domain.dto.response.MerchantResponse;
 import com.teamphacode.MerchantManagement.domain.dto.response.RestResponse;
 import com.teamphacode.MerchantManagement.service.MerchantService;
+import com.teamphacode.MerchantManagement.service.impl.MerchantServiceImpl;
 import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@Slf4j
 @RequestMapping("/api/v1")
 @Validated
 public class MerchantController {
     @Autowired
-    private MerchantService merchantService;
+    private MerchantServiceImpl merchantService;
+
     @PostMapping("/merchant/create")
-    RestResponse<MerchantResponse> createMerchant(@Valid @RequestBody MerchantCreateRequest request){
-        RestResponse<MerchantResponse> res = new RestResponse<>();
-        res.setData(merchantService.handleCreateMerchant(request));
-        return res;
+    ResponseEntity<MerchantResponse> createMerchant(@Valid @RequestBody MerchantCreateRequest request){
+        return ResponseEntity.ok(merchantService.handleCreateMerchant(request));
+    }
+
+    @PutMapping("/merchant/update")
+    ResponseEntity<?> updateMerchant(@Valid @RequestBody ReqUpdateMerchant request){
+        Merchant merchant = this.merchantService.handleUpdateMerchant(request);
+        return ResponseEntity.ok(merchant);
     }
 }

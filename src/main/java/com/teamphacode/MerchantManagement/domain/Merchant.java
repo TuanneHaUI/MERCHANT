@@ -108,6 +108,7 @@ public class Merchant {
                 ? SecurityUtil.getCurrentUserLogin().get()
                 : "";
         this.updatedAt = LocalDateTime.now();
+        this.closeDate = LocalDate.from(LocalDateTime.now());
     }
 
 }
