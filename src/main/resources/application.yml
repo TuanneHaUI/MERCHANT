@@ -9,7 +9,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/Merchant
     username: root
-    password: Cong@27032003
+    password: 2542004Tuan@
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
