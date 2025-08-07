@@ -6,6 +6,7 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class RestResponse<T> {
     private int errorCode;
     private String errorDesc;

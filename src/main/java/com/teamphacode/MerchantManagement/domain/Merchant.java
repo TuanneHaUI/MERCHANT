@@ -1,12 +1,10 @@
 package com.teamphacode.MerchantManagement.domain;
 
 
+import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 import com.teamphacode.MerchantManagement.util.SecurityUtil;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
@@ -69,10 +67,10 @@ public class Merchant {
     @Email(message = "Email không đúng định dạng")
     private String email;
 
-    @Column(name = "status", length = 1, nullable = false)
-    @NotBlank(message = "Trạng thái không được để trống")
-    @Pattern(regexp = "^[12]$", message = "Trạng thái phải là 1 (Hoạt động) hoặc 2 (Đóng)")
-    private String status;
+    @Column(name = "status", nullable = false)
+    @NotNull(message = "Trạng thái không được để trống")
+    @Enumerated(EnumType.STRING)
+    private StatusEnum status;
 
     @Column(name = "open_date")
     private LocalDate openDate;
