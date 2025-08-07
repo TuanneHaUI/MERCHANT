@@ -4,10 +4,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.teamphacode.MerchantManagement.domain.dto.response.RestResponse;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -15,6 +18,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalException {
 
     // handle all exception
@@ -51,16 +55,31 @@ public class GlobalException {
         BindingResult result = ex.getBindingResult();
         final List<FieldError> fieldErrors = result.getFieldErrors();
 
-        RestResponse<Object> res = new RestResponse<Object>();
-        res.setErrorCode(HttpStatus.BAD_REQUEST.value());
-        res.setErrorDesc(ex.getBody().getDetail());
+        List<String> errors = fieldErrors.stream()
+                .map(FieldError::getDefaultMessage)
+                .collect(Collectors.toList());
 
-        List<String> errors = fieldErrors.stream().map(f -> f.getDefaultMessage()).collect(Collectors.toList());
-       // res.setMessage(errors.size() > 1 ? errors : errors.get(0));
+        RestResponse<Object> res = new RestResponse<>();
+        res.setErrorCode(HttpStatus.BAD_REQUEST.value());
+
+        // Nếu chỉ có 1 lỗi thì show rõ, còn nhiều lỗi thì gộp vào danh sách
+        res.setErrorDesc(errors.size() == 1 ? errors.get(0) : String.join("; ", errors));
+        res.setData(null);
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
 
+
+    @ExceptionHandler(AppException.class)
+    public ResponseEntity<RestResponse<Object>> handleAppException(AppException ex) {
+        RestResponse<Object> response = RestResponse.builder()
+                .errorCode(ex.getErrorCode())
+                .errorDesc(ex.getMessage())
+                .data(null)
+                .build();
+
+        return ResponseEntity.status(ex.getErrorCode()).body(response);
+    }
 
 
 }
