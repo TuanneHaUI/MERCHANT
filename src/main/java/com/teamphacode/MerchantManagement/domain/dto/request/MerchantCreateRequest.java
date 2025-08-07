@@ -51,6 +51,4 @@ public class MerchantCreateRequest {
     private String branchCode;
 
     private String createdBy;
-
-    private String openDate;
 }

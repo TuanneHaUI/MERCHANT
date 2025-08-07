@@ -9,4 +9,5 @@ import java.util.List;
 public interface MerchantServiceImpl {
     MerchantResponse handleCreateMerchant(MerchantCreateRequest request);
     List<Merchant> getAll();
+    void handleCreateMultipleMerchants(List<MerchantCreateRequest> requests);
 }

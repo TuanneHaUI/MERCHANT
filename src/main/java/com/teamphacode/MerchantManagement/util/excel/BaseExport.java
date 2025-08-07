@@ -48,14 +48,18 @@ public class BaseExport<T> {
 
         for(int i = 0; i < headers.length; i++){
             createCell(row, i, headers[i], style);
+            sheet.autoSizeColumn(i);
         }
         return this;
     }
 
     private void createCell(Row row, int columnCount, Object value, CellStyle style) {
-        sheet.autoSizeColumn(columnCount);
+        //sheet.autoSizeColumn(columnCount);
         Cell cell = row.createCell(columnCount);
-        if (value instanceof Integer) {
+
+        if (value == null) {
+            cell.setCellValue("");
+        } else if (value instanceof Integer) {
             cell.setCellValue((Integer) value);
         } else if (value instanceof Boolean) {
             cell.setCellValue((Boolean) value);
@@ -95,6 +99,9 @@ public class BaseExport<T> {
                 }
                 columnCount++;
             }
+        }
+        for(int i = 0; i < fields.length; i++) {
+            sheet.autoSizeColumn(i);
         }
         return this;
     }

@@ -20,10 +20,9 @@ public class MerchantResponse {
     private String phoneNo;
     private String email;
     private StatusEnum status;
-    private LocalDate openDate;
-    private LocalDate closeDate;
+    private LocalDateTime openDate;
+    private LocalDateTime closeDate;
     private String branchCode;
-    private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String createdBy;
     private String updatedBy;

@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.Builder;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -72,17 +71,14 @@ public class Merchant {
     private StatusEnum status;
 
     @Column(name = "open_date")
-    private LocalDate openDate;
+    private LocalDateTime openDate;
 
     @Column(name = "close_date")
-    private LocalDate closeDate;
+    private LocalDateTime closeDate;
 
     @Column(name = "branch_code", length = 4)
     @Size(max = 4, message = "Mã chi nhánh không được vượt quá 4 ký tự")
     private String branchCode;
-
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
@@ -95,7 +91,7 @@ public class Merchant {
 
     @PrePersist
     protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
+        this.openDate = LocalDateTime.now();
     }
 
     @PreUpdate
