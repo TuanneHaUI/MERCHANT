@@ -14,7 +14,7 @@ spring:
 
   jpa:
     hibernate:
-    ddl-auto: update
+      ddl-auto: update
     show-sql: true
 
 springdoc:
@@ -31,7 +31,7 @@ tuanne:
     base64-secret: qoAEABDke07+AVLepXB4aCMtsT0wMAqR5x2VFyldsnx6e75YQkJH2UcZKTjEyoNgG71SBCXfq5N6NVZxWOfsHQ==
     access-token-validity-in-seconds: 8640000
     refresh-token-validity-in-seconds: 8640000
-logging:
-  level:
-    org.springframework: DEBUG # Bật log DEBUG cho toàn bộ Spring
-    org.springframework.aop: TRACE # Bật log TRACE (chi tiết nhất) cho AOP
+#logging:
+#  level:
+#    org.springframework: DEBUG # Bật log DEBUG cho toàn bộ Spring
+#    org.springframework.aop: TRACE # Bật log TRACE (chi tiết nhất) cho AOP

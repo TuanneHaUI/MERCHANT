@@ -7,11 +7,13 @@ import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
+@ToString
 public class ReqUpdateMerchant {
 
     @Column(name = "account_no", length = 19, nullable = false, unique = true)
@@ -51,8 +53,16 @@ public class ReqUpdateMerchant {
     @Email(message = "Email không đúng định dạng")
     private String email;
 
-    @Column(name = "status", nullable = false)
-    @NotNull(message = "Trạng thái không được để trống")
+    @Column(name = "open_date")
+    private LocalDate openDate;
+
+    @Column(name = "close_date")
+    private LocalDate closeDate;
+
+    @NotNull(message = "Lí do không được để trống")
+    String reason;
+
+
     @Enumerated(EnumType.STRING)
     private StatusEnum status;
 

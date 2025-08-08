@@ -8,16 +8,22 @@ import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDT
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 import com.teamphacode.MerchantManagement.util.errors.IdInvalidException;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.User;
+
+import java.util.List;
 
 
 public interface MerchantService  {
 
     MerchantResponse handleCreateMerchant(MerchantCreateRequest request);
 
-    Merchant handleUpdateMerchant(ReqUpdateMerchant reqUpdateMerchant);
+    Merchant handleUpdateMerchant(ReqUpdateMerchant reqUpdateMerchant) throws IdInvalidException;
 
     ResultPaginationDTO handleReportMerchantByStatus(StatusEnum statusEnum, Pageable pageable) throws IdInvalidException;
 
+    Merchant findMerchantByAccountNo(String accountNo);
+
+    boolean isChanged(Object oldVal, Object newVal);
 
 }
 
