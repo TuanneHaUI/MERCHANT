@@ -4,6 +4,7 @@ import com.teamphacode.MerchantManagement.domain.Merchant;
 import com.teamphacode.MerchantManagement.domain.dto.request.MerchantCreateRequest;
 import com.teamphacode.MerchantManagement.domain.dto.request.ReqUpdateMerchant;
 import com.teamphacode.MerchantManagement.domain.dto.response.MerchantResponse;
+import com.teamphacode.MerchantManagement.domain.dto.response.ResMerchantYearStatusDTO;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDTO;
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 import com.teamphacode.MerchantManagement.util.errors.IdInvalidException;
@@ -24,6 +25,9 @@ public interface MerchantService  {
     Merchant findMerchantByAccountNo(String accountNo);
 
     boolean isChanged(Object oldVal, Object newVal);
+    List<ResMerchantYearStatusDTO> handleCountMerchantActiveByYear(int year);
+
+    ResultPaginationDTO handleFindByMerchantIdAndAccountNoAndStatus(String merchantId, String accountNo, StatusEnum status, Pageable pageable);
 
 }
 
