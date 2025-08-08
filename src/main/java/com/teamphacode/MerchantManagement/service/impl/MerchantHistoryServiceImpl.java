@@ -30,10 +30,7 @@ public class MerchantHistoryServiceImpl implements MerchantHistoryService {
 
         String cacheKey = generateCacheKey(pageable);
         Object cachedData = redisTemplate.opsForHash().get(HASH_KEY, cacheKey);
-        System.out.println("✅  key: " + cacheKey);
-        System.out.println("✅  key: " + cachedData);
         if (cachedData != null && cachedData instanceof List) {
-            System.out.println("✅ Lấy dữ liệu từ Redis cache với key: " + cacheKey);
             return (List<MerchantHistory>) cachedData;
         }
         Page<MerchantHistory> pageResult = merchantHistoryRepository.findAll(spec, pageable);
@@ -42,7 +39,7 @@ public class MerchantHistoryServiceImpl implements MerchantHistoryService {
         redisTemplate.opsForHash().put(HASH_KEY, cacheKey, resultList);
         redisTemplate.expire(HASH_KEY, Duration.ofHours(1));
 
-        System.out.println("❌ Không có trong Redis. Truy vấn DB và lưu vào cache với key: " + cacheKey);
+
         return resultList;
     }
 
