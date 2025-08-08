@@ -22,8 +22,6 @@ public interface MerchantRepository extends JpaRepository<Merchant, String>, Jpa
     Page<Merchant> findByStatus(StatusEnum status, Pageable pageable);
     Optional<Merchant> findByAccountNo(String accountNo);
 
-    //find merchants by status
-     Page<Merchant> findByStatus(StatusEnum status, Pageable pageable);
 
      //count merchants active by year
     @Query(value = "SELECT YEAR(m.open_date) AS year, m.status AS status, COUNT(*) AS total " +
