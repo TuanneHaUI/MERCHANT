@@ -4,6 +4,7 @@ import com.teamphacode.MerchantManagement.domain.Merchant;
 import com.teamphacode.MerchantManagement.domain.dto.request.MerchantCreateRequest;
 import com.teamphacode.MerchantManagement.domain.dto.request.ReqUpdateMerchant;
 import com.teamphacode.MerchantManagement.domain.dto.response.MerchantResponse;
+import com.teamphacode.MerchantManagement.domain.dto.response.ResMerchantYearStatusDTO;
 import com.teamphacode.MerchantManagement.domain.dto.response.RestResponse;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDTO;
 import com.teamphacode.MerchantManagement.service.MerchantService;
@@ -16,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -36,10 +39,20 @@ public class MerchantController {
     }
 
      @GetMapping("/merchants/report-by-status")
-     public ResultPaginationDTO reportByStatus(@RequestParam("status") StatusEnum statusEnum, Pageable pageable) throws IdInvalidException {
-         return this.merchantService.handleReportMerchantByStatus(statusEnum, pageable);
+     public ResponseEntity<ResultPaginationDTO> reportByStatus(@RequestParam("status") StatusEnum statusEnum, Pageable pageable) throws IdInvalidException {
+         return ResponseEntity.ok(this.merchantService.handleReportMerchantByStatus(statusEnum, pageable));
      }
 
+     @GetMapping("/merchants/count-active-by-year")
+     public ResponseEntity<List<ResMerchantYearStatusDTO>> countMerchantActiveByYear(@RequestParam("year") int year){
+         return ResponseEntity.ok(this.merchantService.handleCountMerchantActiveByYear(year));
+     }
 
-
+     @GetMapping("/merchants/search")
+    public ResponseEntity<ResultPaginationDTO> findByMerchantIdAndAccountNoAndStatus( @RequestParam(required = false) String merchantId,
+                                                                                      @RequestParam(required = false) String accountNo,
+                                                                                      @RequestParam(required = false) StatusEnum status,
+                                                                                      Pageable pageable){
+        return ResponseEntity.ok(this.merchantService.handleFindByMerchantIdAndAccountNoAndStatus(merchantId, accountNo, status,pageable));
+     }
 }

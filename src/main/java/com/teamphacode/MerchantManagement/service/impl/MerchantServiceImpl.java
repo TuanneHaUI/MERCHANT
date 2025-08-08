@@ -5,7 +5,9 @@ import com.teamphacode.MerchantManagement.domain.Merchant;
 import com.teamphacode.MerchantManagement.domain.dto.request.MerchantCreateRequest;
 import com.teamphacode.MerchantManagement.domain.dto.request.ReqUpdateMerchant;
 import com.teamphacode.MerchantManagement.domain.dto.response.MerchantResponse;
+import com.teamphacode.MerchantManagement.domain.dto.response.ResMerchantYearStatusDTO;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDTO;
+import com.teamphacode.MerchantManagement.domain.dto.specification.MerchantSpecification;
 import com.teamphacode.MerchantManagement.mapper.MerchantMapper;
 import com.teamphacode.MerchantManagement.repository.MerchantRepository;
 import com.teamphacode.MerchantManagement.service.MerchantService;
@@ -16,11 +18,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MerchantServiceImpl implements MerchantService {
@@ -74,8 +78,9 @@ public class MerchantServiceImpl implements MerchantService {
          // Tạo ResultPaginationDTO
          ResultPaginationDTO dto = new ResultPaginationDTO();
          ResultPaginationDTO.Meta meta = new ResultPaginationDTO.Meta();
-         meta.setPage(merchantPage.getNumber());
-         meta.setPageSize(merchantPage.getSize());
+
+         meta.setPage(pageable.getPageNumber() + 1);
+         meta.setPageSize(pageable.getPageSize());
          meta.setPages(merchantPage.getTotalPages());
          meta.setTotal(merchantPage.getTotalElements());
 
@@ -84,4 +89,33 @@ public class MerchantServiceImpl implements MerchantService {
 
          return dto;
      }
+
+    @Override
+    public List<ResMerchantYearStatusDTO> handleCountMerchantActiveByYear(int year) {
+        List<Object[]> results = this.merchantRepository.countByYearAndStatusActive(year);
+        return results.stream().map(row -> new ResMerchantYearStatusDTO(
+                        ((Number) row[0]).intValue(),
+                        (String) row[1],
+                        ((Number) row[2]).longValue())
+        ).collect(Collectors.toList());
+    }
+
+    @Override
+    public ResultPaginationDTO handleFindByMerchantIdAndAccountNoAndStatus(String merchantId, String accountNo, StatusEnum status, Pageable pageable) {
+        Specification<Merchant> spec = MerchantSpecification.filter(merchantId, accountNo, status);
+        Page<Merchant> merchantPage = this.merchantRepository.findAll(spec, pageable);
+
+        ResultPaginationDTO dto = new ResultPaginationDTO();
+        ResultPaginationDTO.Meta meta = new ResultPaginationDTO.Meta();
+
+        meta.setPage(pageable.getPageNumber() + 1);
+        meta.setPageSize(pageable.getPageSize());
+        meta.setPages(merchantPage.getTotalPages());
+        meta.setTotal(merchantPage.getTotalElements());
+
+        dto.setMeta(meta);
+        dto.setResult(merchantPage.getContent());
+
+        return dto;
+    }
 }
