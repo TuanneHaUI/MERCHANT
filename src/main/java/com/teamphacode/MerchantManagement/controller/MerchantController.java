@@ -10,6 +10,7 @@ import com.teamphacode.MerchantManagement.domain.dto.response.MerchantResponse;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResMerchantYearStatusDTO;
 import com.teamphacode.MerchantManagement.domain.dto.response.RestResponse;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDTO;
+import com.teamphacode.MerchantManagement.repository.MerchantRepository;
 import com.teamphacode.MerchantManagement.service.MerchantService;
 import com.teamphacode.MerchantManagement.service.impl.MerchantServiceImpl;
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
@@ -21,7 +22,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import com.teamphacode.MerchantManagement.domain.dto.response.MerchantTransactionSummaryDTO;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import java.util.List;
@@ -32,6 +35,7 @@ import java.util.List;
 public class MerchantController {
     @Autowired
     private MerchantServiceImpl merchantService;
+
     @Autowired
     private LogUtil logUtil;
     @PostMapping("/merchant/create")
@@ -65,4 +69,13 @@ public class MerchantController {
                                                                                       Pageable pageable){
         return ResponseEntity.ok(this.merchantService.handleFindByMerchantIdAndAccountNoAndStatus(merchantId, accountNo, status,pageable));
      }
+
+    @GetMapping("/merchants/summary-transaction-by-merchant")
+    public ResponseEntity<List<MerchantTransactionSummaryDTO>> getTransactionSummary(
+            @RequestParam("fromDate")  LocalDateTime fromDate,
+            @RequestParam("toDate") LocalDateTime toDate) {
+
+        return ResponseEntity.ok(this.merchantService.handleCountTransactionByMerchant(fromDate, toDate));
+    }
+
 }

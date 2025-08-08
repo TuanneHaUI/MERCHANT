@@ -7,6 +7,7 @@ import com.teamphacode.MerchantManagement.domain.MerchantHistory;
 import com.teamphacode.MerchantManagement.domain.dto.request.MerchantCreateRequest;
 import com.teamphacode.MerchantManagement.domain.dto.request.ReqUpdateMerchant;
 import com.teamphacode.MerchantManagement.domain.dto.response.MerchantResponse;
+import com.teamphacode.MerchantManagement.domain.dto.response.MerchantTransactionSummaryDTO;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResMerchantYearStatusDTO;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDTO;
 import com.teamphacode.MerchantManagement.domain.dto.specification.MerchantSpecification;
@@ -184,7 +185,7 @@ public class MerchantServiceImpl implements MerchantService {
     @Override
     public List<ResMerchantYearStatusDTO> handleCountMerchantActiveByYear(int year) {
         List<Object[]> results = this.merchantRepository.countByYearAndStatusActive(year);
-        return results.stream().map(row -> new ResMerchantYearStatusDTO(
+        return results.parallelStream().map(row -> new ResMerchantYearStatusDTO(
                         ((Number) row[0]).intValue(),
                         (String) row[1],
                         ((Number) row[2]).longValue())
@@ -209,6 +210,21 @@ public class MerchantServiceImpl implements MerchantService {
 
          return dto;
      }
+
+    @Override
+    public List<MerchantTransactionSummaryDTO> handleCountTransactionByMerchant(LocalDateTime fromDate, LocalDateTime toDate) {
+
+        List<Object[]> result = this.merchantRepository.summarizeTransactionByMerchant(fromDate, toDate);
+        return result.parallelStream().map(row -> new MerchantTransactionSummaryDTO(
+                (String) row[0],
+                (String) row[1],
+                (String) row[2],
+                ((Number) row[3]).longValue(),
+                ((Number) row[4]).longValue(),
+                ((Number) row[5]).longValue(),
+                ((Number) row[6]).longValue()
+        )).collect(Collectors.toList());
+    }
 
     @Override
     public Merchant findMerchantByAccountNo(String accountNo) {
