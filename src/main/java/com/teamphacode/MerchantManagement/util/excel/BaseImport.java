@@ -1,5 +1,6 @@
 package com.teamphacode.MerchantManagement.util.excel;
 
+import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
@@ -7,6 +8,7 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
@@ -87,12 +89,15 @@ public class BaseImport {
                 return Double.parseDouble(cellValueStr);
             } else if (fieldType == BigDecimal.class) {
                 return new BigDecimal(cellValueStr);
-            } else if (fieldType == LocalDate.class) {
-                // Cho phép nhiều định dạng ngày tháng, ví dụ yyyy-MM-dd
-                return LocalDate.parse(cellValueStr, DateTimeFormatter.ISO_LOCAL_DATE);
-            } else if (fieldType.isEnum()) {
-                // Chuyển đổi sang Enum, không phân biệt hoa thường
-                return Enum.valueOf((Class<Enum>) fieldType, cellValueStr);
+            } else if (fieldType == LocalDateTime.class) {
+                    return cell.getLocalDateTimeCellValue();
+            } else if (fieldType.isEnum() && fieldType == StatusEnum.class) {
+                if ("1".equals(cellValueStr)) {
+                    return StatusEnum.Active;
+                } else if ("2".equals(cellValueStr)) {
+                    return StatusEnum.Close;
+                }
+                throw new IllegalArgumentException("Giá trị không hợp lệ cho Trạng thái. Chỉ chấp nhận 1 hoặc 2.");
             }
         } catch (Exception e) {
             // Nếu có lỗi chuyển đổi, có thể trả về null hoặc ném ra lỗi tùy chỉnh

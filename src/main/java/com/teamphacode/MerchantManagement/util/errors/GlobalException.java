@@ -62,7 +62,6 @@ public class GlobalException {
         RestResponse<Object> res = new RestResponse<>();
         res.setErrorCode(HttpStatus.BAD_REQUEST.value());
 
-        // Nếu chỉ có 1 lỗi thì show rõ, còn nhiều lỗi thì gộp vào danh sách
         res.setErrorDesc(errors.size() == 1 ? errors.get(0) : String.join("; ", errors));
         res.setData(null);
 

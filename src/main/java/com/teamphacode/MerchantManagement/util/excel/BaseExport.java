@@ -4,6 +4,7 @@ import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.val;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -15,6 +16,7 @@ import java.lang.reflect.Field;
 import java.util.Base64;
 import java.util.Date;
 import java.util.List;
+import java.awt.Color;
 
 @Component
 public class BaseExport<T> {
@@ -38,12 +40,14 @@ public class BaseExport<T> {
         font.setBold(true);
         font.setFontHeight(12);
         font.setFontName("Times New Roman");
+        Color grayColor = new Color(166, 166, 166);
+        XSSFColor poiColor = new XSSFColor(grayColor, null);
         font.setColor(IndexedColors.WHITE.getIndex());
         style.setFont(font);
         style.setBorderBottom(BorderStyle.THIN);
         style.setBorderLeft(BorderStyle.THIN);
         style.setBorderRight(BorderStyle.THIN);
-        style.setFillForegroundColor(IndexedColors.BLUE.getIndex());
+        style.setFillForegroundColor(poiColor);
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
 
         for(int i = 0; i < headers.length; i++){

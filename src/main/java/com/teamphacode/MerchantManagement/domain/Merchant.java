@@ -24,6 +24,7 @@ public class Merchant {
     @Column(name = "merchant_id", length = 15)
     @NotBlank(message = "Mã định danh merchant không được để trống")
     @Size(max = 15, message = "Mã định danh merchant không được vượt quá 15 ký tự")
+    @Pattern(regexp = "^MC[A-Z0-9]*$", message = "Mã định danh phải bắt đầu bằng 'MC' và chỉ chứa chữ in hoa, số")
     private String merchantId;
 
     @Column(name = "account_no", length = 19, nullable = false, unique = true)
@@ -96,7 +97,6 @@ public class Merchant {
         this.createdBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
                 ? SecurityUtil.getCurrentUserLogin().get()
                 : "";
-        this.openDate = LocalDateTime.now();
     }
 
     @PreUpdate
@@ -105,7 +105,6 @@ public class Merchant {
                 ? SecurityUtil.getCurrentUserLogin().get()
                 : "";
         this.updatedAt = LocalDateTime.now();
-        this.closeDate = LocalDateTime.from(LocalDateTime.now());
     }
 
 }
