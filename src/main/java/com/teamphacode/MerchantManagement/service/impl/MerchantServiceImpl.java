@@ -48,6 +48,7 @@ public class MerchantServiceImpl implements MerchantService {
         if (merchantRepository.existsById(request.getMerchantId())) {
             throw new AppException("merchantId bị trùng", 400);
         }
+        redisTemplate.delete(HASH_KEY);
         return merchantMapper.toMerchantResponse(merchantRepository.save(merchant));
     }
 
@@ -137,6 +138,7 @@ public class MerchantServiceImpl implements MerchantService {
         if (!merchantsToSave.isEmpty()) {
             merchantRepository.saveAll(merchantsToSave);
         }
+        redisTemplate.delete(HASH_KEY);
     }
 
     @Override

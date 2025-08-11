@@ -17,7 +17,7 @@ public class BaseImport {
         List<T> resultList = new ArrayList<>();
 
         try (Workbook workbook = new XSSFWorkbook(inputStream)) {
-            Sheet sheet = workbook.getSheetAt(0); // Luôn lấy sheet đầu tiên
+            Sheet sheet = workbook.getSheetAt(0);
 
             // 1. Đọc hàng tiêu đề để xác định vị trí các cột
             Iterator<Row> rowIterator = sheet.iterator();
