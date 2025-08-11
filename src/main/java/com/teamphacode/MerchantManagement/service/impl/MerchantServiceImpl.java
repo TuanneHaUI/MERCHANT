@@ -6,10 +6,7 @@ import com.teamphacode.MerchantManagement.domain.Merchant;
 import com.teamphacode.MerchantManagement.domain.MerchantHistory;
 import com.teamphacode.MerchantManagement.domain.dto.request.MerchantCreateRequest;
 import com.teamphacode.MerchantManagement.domain.dto.request.ReqUpdateMerchant;
-import com.teamphacode.MerchantManagement.domain.dto.response.MerchantResponse;
-import com.teamphacode.MerchantManagement.domain.dto.response.MerchantTransactionSummaryDTO;
-import com.teamphacode.MerchantManagement.domain.dto.response.ResMerchantYearStatusDTO;
-import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDTO;
+import com.teamphacode.MerchantManagement.domain.dto.response.*;
 import com.teamphacode.MerchantManagement.domain.dto.specification.MerchantSpecification;
 import com.teamphacode.MerchantManagement.mapper.MerchantMapper;
 import com.teamphacode.MerchantManagement.repository.MCCRepository;
@@ -20,7 +17,11 @@ import com.teamphacode.MerchantManagement.util.SecurityUtil;
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 import com.teamphacode.MerchantManagement.util.errors.AppException;
 import com.teamphacode.MerchantManagement.util.errors.IdInvalidException;
+import com.teamphacode.MerchantManagement.util.form.ExcelTemplateHelper;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,11 +30,17 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.*;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static com.teamphacode.MerchantManagement.util.form.ExcelTemplateHelper.*;
 
 @Service
 public class MerchantServiceImpl implements MerchantService {
@@ -183,13 +190,23 @@ public class MerchantServiceImpl implements MerchantService {
      }
 
     @Override
-    public List<ResMerchantYearStatusDTO> handleCountMerchantActiveByYear(int year) {
-        List<Object[]> results = this.merchantRepository.countByYearAndStatusActive(year);
+    public List<ResMerchantYearStatusDTO> handleCountMerchantByYear(int year) {
+        List<Object[]> results = this.merchantRepository.countMerchantByYear(year);
         return results.parallelStream().map(row -> new ResMerchantYearStatusDTO(
-                        ((Number) row[0]).intValue(),
-                        (String) row[1],
-                        ((Number) row[2]).longValue())
-        ).collect(Collectors.toList());
+                (String) row[0],
+                ((Number) row[1]).longValue(),
+                ((Number) row[2]).longValue(),
+                ((Number) row[3]).longValue(),
+                ((Number) row[4]).longValue(),
+                ((Number) row[5]).longValue(),
+                ((Number) row[6]).longValue(),
+                ((Number) row[7]).longValue(),
+                ((Number) row[8]).longValue(),
+                ((Number) row[9]).longValue(),
+                ((Number) row[10]).longValue(),
+                ((Number) row[11]).longValue(),
+                ((Number) row[12]).longValue()
+        )).collect(Collectors.toList());
     }
 
     @Override
@@ -227,7 +244,136 @@ public class MerchantServiceImpl implements MerchantService {
     }
 
     @Override
+    public List<TransactionReportDTO> handleFindTransactionsByMerchant(String merchantId, LocalDateTime fromDate, LocalDateTime toDate) {
+        List<Object[]> result = this.merchantRepository.findTransactionsByMerchant(merchantId, fromDate, toDate);
+
+        return result.parallelStream()
+                .map(row -> new TransactionReportDTO(
+                        (String) row[0],
+                        (String) row[1],
+                        (String) row[2],
+                        (LocalDateTime) row[3],
+                        row[4] != null ? row[4].toString() : null,
+                        (String) row[5],
+                        (String) row[6],
+                        (String) row[7]
+                ))
+                .collect(Collectors.toList());    }
+
+    @Override
     public Merchant findMerchantByAccountNo(String accountNo) {
         return null;
     }
+
+    @Override
+    public byte[] exportMerchantYearReport(int year, List<ResMerchantYearStatusDTO> data) throws IOException {
+        Workbook workbook = ExcelTemplateHelper.createWorkbook();
+        Sheet sheet = workbook.createSheet("Merchant Year Report");
+
+        // ===== 1. Tiêu đề =====
+        ExcelTemplateHelper.addTitle(sheet, "BÁO CÁO TỔNG HỢP DỮ LIỆU", 13);
+
+        // ===== 2. Thông tin Năm và Ngày lấy báo cáo =====
+        ExcelTemplateHelper.addInfoRow(sheet, "Năm:", String.valueOf(year), 2);
+        ExcelTemplateHelper.addInfoRow(sheet, "Ngày lấy báo cáo:", LocalDate.now().toString(), 3);
+
+        // ===== 3. Header =====
+        List<String> headers = new ArrayList<>();
+        headers.add("STT");
+        headers.add("LOẠI MERCHANT");
+        for (int i = 1; i <= 12; i++) {
+            headers.add(String.format("THÁNG %02d", i));
+        }
+
+        ExcelTemplateHelper.addHeaderRow(sheet, headers, 5);
+
+        // ===== 4. Data =====
+        List<List<Object>> rows = new ArrayList<>();
+        int stt = 1;
+        for (ResMerchantYearStatusDTO dto : data) {
+            rows.add(List.of(
+                    stt++,
+                    dto.getStatus(),
+                    dto.getThang01(), dto.getThang02(), dto.getThang03(), dto.getThang04(),
+                    dto.getThang05(), dto.getThang06(), dto.getThang07(), dto.getThang08(),
+                    dto.getThang09(), dto.getThang10(), dto.getThang11(), dto.getThang12()
+            ));
+        }
+        ExcelTemplateHelper.addDataRows(sheet, rows, 6);
+
+        // ===== 5. Dòng Tổng cộng =====
+        int startDataRow = 7; // Excel tính từ 1, nhưng ở đây STT đầu tiên nằm ở row index 6 => Excel row 7
+        int totalRowIndex = 6 + rows.size();
+        addTotalRow(sheet, "Tổng cộng:", 0, 1, 2, 13, startDataRow, totalRowIndex);
+
+        // ===== 6. Xuất ra byte[] =====
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        workbook.write(out);
+        workbook.close();
+
+        return out.toByteArray();
+    }
+
+    public byte[] exportMerchantTransactionReport(
+            LocalDateTime fromDate,
+            LocalDateTime toDate,
+            List<MerchantTransactionSummaryDTO> data
+    ) throws IOException {
+
+        Workbook workbook = ExcelTemplateHelper.createWorkbook();;
+        Sheet sheet = workbook.createSheet("Merchant Report");
+
+        // ===== Tiêu đề =====
+        ExcelTemplateHelper.addTitle(sheet, "TỔNG HỢP GIAO DỊCH THEO MERCHANT", 7);
+
+        // ===== Thông tin ngày =====
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        ExcelTemplateHelper.addInfoRow(sheet, "Từ ngày:", df.format(fromDate), 2);
+        ExcelTemplateHelper.addInfoRow(sheet, "Đến ngày:", df.format(toDate), 3);
+        ExcelTemplateHelper.addInfoRow(sheet, "Ngày lấy báo cáo:", df.format(LocalDateTime.now()), 4);
+
+        // ===== Header nhóm =====
+        List<Object[]> headers = List.of(
+                new Object[]{0, 1, "STT"},
+                new Object[]{1, 3, "THÔNG TIN MERCHANT"},
+                new Object[]{4, 4, "THÔNG TIN GIAO DỊCH"}
+        );
+
+        ExcelTemplateHelper.createGroupHeader(sheet, workbook, 6, headers);
+
+        // ===== Header con =====
+        Row subHeader = sheet.createRow(7);
+        String[] header = {"SỐ TK", "MÃ MERCHANT", "TÊN TẮT", "THÀNH CÔNG", "THẤT BẠI", "TIMEOUT", "TỔNG"};
+
+        CellStyle headerStyle = ExcelTemplateHelper.createHeaderStyle(workbook);
+        for (int i = 0; i < header.length; i++) {
+            Cell cell = subHeader.createCell(i + 1); // lưu ý +1 vì cột 0 là STT nhóm header
+            cell.setCellValue(header[i]);
+            cell.setCellStyle(headerStyle);
+            sheet.autoSizeColumn(i + 1);
+        }
+
+        // ===== Dữ liệu =====
+        List<List<Object>> rows = new ArrayList<>();
+        int stt = 1;
+        for (MerchantTransactionSummaryDTO dto : data) {
+            rows.add(List.of(
+                    stt++,
+                    dto.getAccountNo(), dto.getMerchantId(), dto.getShortName(), dto.getSuccessCount(), dto.getFailedCount(),dto.getTimeoutCount(),
+                    dto.getTotalCount()
+            ));
+        }
+        ExcelTemplateHelper.addDataRows(sheet, rows, 8);
+
+        // ===== Xuất ra byte[] =====
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        workbook.write(bos);
+        workbook.close();
+
+        return bos.toByteArray();
+    }
+
+
+
+
 }

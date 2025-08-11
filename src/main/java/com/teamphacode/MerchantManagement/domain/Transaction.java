@@ -24,7 +24,7 @@ public class Transaction {
 
     // Liên kết đến bảng Merchant (Many-to-One)
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "merchant_id", nullable = false)
+    @JoinColumn(name = "merchant_id", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private Merchant merchant;
 
     // Mã tham chiếu core hệ thống
@@ -47,6 +47,10 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private TransactionStatusEnum status;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    private TransactionTypeEnum type;
 
     // Số tiền giao dịch
     @Column(name = "amount", nullable = false)
