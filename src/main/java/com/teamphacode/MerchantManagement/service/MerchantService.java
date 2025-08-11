@@ -25,6 +25,7 @@ public interface MerchantService  {
     Merchant findMerchantByAccountNo(String accountNo);
 
     boolean isChanged(Object oldVal, Object newVal);
+
     List<ResMerchantYearStatusDTO> handleCountMerchantActiveByYear(int year);
 
     ResultPaginationDTO handleFindByMerchantIdAndAccountNoAndStatus(String merchantId, String accountNo, StatusEnum status, Pageable pageable);

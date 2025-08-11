@@ -28,9 +28,6 @@ public class RedisConfig {
     @Value("${spring.redis.port}")
     private int redisPort;
 
-    // Nếu có mật khẩu thì mở ra:
-    // @Value("${spring.redis.password}")
-    // private String redisPassword;
 
     @Bean
     public LettuceConnectionFactory redisConnectionFactory() {

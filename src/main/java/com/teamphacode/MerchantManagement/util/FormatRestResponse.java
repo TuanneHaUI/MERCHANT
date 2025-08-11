@@ -1,6 +1,7 @@
 package com.teamphacode.MerchantManagement.util;
 
 import com.teamphacode.MerchantManagement.domain.dto.response.RestResponse;
+import com.teamphacode.MerchantManagement.util.annotation.ApiMessage;
 import org.springframework.core.MethodParameter;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -48,8 +49,8 @@ public class FormatRestResponse implements ResponseBodyAdvice<Object> {
             return body;
         } else {
             res.setData(body);
-            //ApiMessage message = returnType.getMethodAnnotation(ApiMessage.class);
-            res.setErrorDesc("CALL API SUCCESS");
+            ApiMessage message = returnType.getMethodAnnotation(ApiMessage.class);
+            res.setErrorDesc(message != null ? message.value() : "CALL API SUCCESS");
         }
 
         return res;

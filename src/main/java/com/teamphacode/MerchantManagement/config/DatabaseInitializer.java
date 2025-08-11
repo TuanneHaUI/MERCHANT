@@ -25,7 +25,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         long countUsers = this.userRepository.count();
         if (countUsers == 0) {
             Users system = new Users();
-            system.setEmail("client@gmail.com");
+            system.setEmail("tuanne2542004@gmail.com");
             system.setAddress("Hà Nội");
             system.setAge(25);
             system.setGender(GenderEnum.MALE);

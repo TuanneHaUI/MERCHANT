@@ -1,20 +1,20 @@
 package com.teamphacode.MerchantManagement.service.impl;
 
-import com.teamphacode.MerchantManagement.config.LogStepByStep;
 import com.teamphacode.MerchantManagement.domain.Users;
+import com.teamphacode.MerchantManagement.domain.dto.request.ReqRegister;
 import com.teamphacode.MerchantManagement.repository.UserRepository;
 import com.teamphacode.MerchantManagement.service.UserService;
-import com.teamphacode.MerchantManagement.util.logging.LogUtil;
-import org.springframework.context.annotation.Lazy;
+import com.teamphacode.MerchantManagement.util.errors.IdInvalidException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-    private final LogUtil logUtil;
-    public UserServiceImpl(UserRepository userRepository,@Lazy LogUtil logUtil) {
+    private final PasswordEncoder passwordEncoder;
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
-        this.logUtil = logUtil;
+        this.passwordEncoder = passwordEncoder;
     }
     public Users handleGetUserByUsername(String username) {
         return this.userRepository.findByEmail(username);
@@ -27,23 +27,31 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @LogStepByStep(tag = "Token Update")
     public void updateUserToken(String token, String email) {
-        logUtil.step("Đang truy vấn DB để tìm người dùng với email: {}", email);
         Users currentUser = handleGetUserByUsername(email);
 
         if (currentUser != null) {
-            logUtil.step("Tìm thấy user ID: {}. Đang gán token mới...", currentUser.getId());
             currentUser.setRefreshToken(token);
-            logUtil.step("Đang thực hiện lệnh save vào DB...");
             this.userRepository.save(currentUser);
-            logUtil.step("Lưu refresh token mới thành công.");
         } else {
-            logUtil.step("Không tìm thấy người dùng. Bỏ qua.");
+
         }
     }
 
     public Users getUserByRefreshTokenAndEmail(String refreshToken, String email) {
         return this.userRepository.findByRefreshTokenAndEmail(refreshToken, email);
     }
+
+    @Override
+    public Users handleCreateUser(ReqRegister user) throws IdInvalidException {
+        if(user == null){
+            throw new IdInvalidException("user null");
+        }
+        Users currentUser = new Users();
+        currentUser.setEmail(user.getEmail());
+        currentUser.setName(user.getFullName());
+        currentUser.setPassword(this.passwordEncoder.encode(user.getPassWord()));
+        return this.userRepository.save(currentUser);
+    }
+
 }

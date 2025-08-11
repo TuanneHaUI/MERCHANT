@@ -1,7 +1,6 @@
 package com.teamphacode.MerchantManagement.service.impl;
 
 import com.teamphacode.MerchantManagement.config.MerchantIdConfig;
-import com.teamphacode.MerchantManagement.domain.MCC;
 import com.teamphacode.MerchantManagement.domain.Merchant;
 import com.teamphacode.MerchantManagement.domain.MerchantHistory;
 import com.teamphacode.MerchantManagement.domain.dto.request.MerchantCreateRequest;
@@ -19,7 +18,10 @@ import com.teamphacode.MerchantManagement.util.SecurityUtil;
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 import com.teamphacode.MerchantManagement.util.errors.AppException;
 import com.teamphacode.MerchantManagement.util.errors.IdInvalidException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -29,7 +31,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -49,6 +50,9 @@ public class MerchantServiceImpl implements MerchantService {
     private static final String HASH_KEY = "active_merchants";
     @Autowired
     private MerchantHistoryRepository merchantHistoryRepository;
+    private static final Logger logger = LoggerFactory.getLogger(MerchantHistoryServiceImpl.class);
+    @Autowired
+    private HttpServletRequest request;
 
     @Override
     public MerchantResponse handleCreateMerchant(MerchantCreateRequest request){
@@ -70,10 +74,17 @@ public class MerchantServiceImpl implements MerchantService {
     @Override
     @Transactional
     public Merchant handleUpdateMerchant(ReqUpdateMerchant reqUpdateMerchant) throws IdInvalidException {
-        Merchant merchant = merchantRepository.findByAccountNo(reqUpdateMerchant.getAccountNo())
-                .orElseThrow(() -> new RuntimeException("Không tìm thấy merchant với số tài khoản: " + reqUpdateMerchant.getAccountNo()));
+        logger.info("⏳ Bắt đầu xử lý request: [{} {}]",
+                request.getMethod(),
+                request.getRequestURI());
 
+        Merchant merchant = merchantRepository.findByAccountNo(reqUpdateMerchant.getAccountNo())
+                .orElseThrow(() -> {
+                    logger.error("❌ Không tìm thấy merchant với số tài khoản: {}", reqUpdateMerchant.getAccountNo());
+                    return new RuntimeException("Không tìm thấy merchant với số tài khoản: " + reqUpdateMerchant.getAccountNo());
+                });
         if (reqUpdateMerchant.getStatus() == StatusEnum.Close && reqUpdateMerchant.getCloseDate() == null) {
+            logger.warn("⚠\uFE0F Khi cập nhật trạng thái sang ĐÓNG, phải nhập thời điểm kết thúc hoạt động (closeDate).");
             throw new RuntimeException("Khi cập nhật trạng thái sang ĐÓNG, phải nhập thời điểm kết thúc hoạt động (closeDate).");
         }
 
@@ -122,6 +133,7 @@ public class MerchantServiceImpl implements MerchantService {
 
         if (!changeContent.toString().isBlank()) {
             if(reqUpdateMerchant.getReason() == null){
+                logger.error("❌ Reason: {}", reqUpdateMerchant.getAccountNo());
                 throw new IdInvalidException("Reason null");
             }
             MerchantHistory history = MerchantHistory.builder()
@@ -136,8 +148,10 @@ public class MerchantServiceImpl implements MerchantService {
                     .build();
             Boolean exists = redisTemplate.hasKey("MerchantHistoryServiceImpl");
             if(Boolean.TRUE.equals(exists)){
+                logger.info("\uD83D\uDDD1\uFE0F Xóa key trong redis thành công!");
                 redisTemplate.delete("MerchantHistoryServiceImpl");
             }
+            logger.info("✅ Lưu thành công!");
             merchantHistoryRepository.save(history);
         }
 

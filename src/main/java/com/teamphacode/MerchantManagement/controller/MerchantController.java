@@ -1,20 +1,14 @@
 package com.teamphacode.MerchantManagement.controller;
 
-import com.teamphacode.MerchantManagement.config.LogStepByStep;
 import com.teamphacode.MerchantManagement.domain.Merchant;
-import com.teamphacode.MerchantManagement.domain.MerchantHistory;
 import com.teamphacode.MerchantManagement.domain.dto.request.MerchantCreateRequest;
-import com.teamphacode.MerchantManagement.domain.dto.request.ReqMerchantHistory;
 import com.teamphacode.MerchantManagement.domain.dto.request.ReqUpdateMerchant;
 import com.teamphacode.MerchantManagement.domain.dto.response.MerchantResponse;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResMerchantYearStatusDTO;
-import com.teamphacode.MerchantManagement.domain.dto.response.RestResponse;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDTO;
-import com.teamphacode.MerchantManagement.service.MerchantService;
 import com.teamphacode.MerchantManagement.service.impl.MerchantServiceImpl;
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 import com.teamphacode.MerchantManagement.util.errors.IdInvalidException;
-import com.teamphacode.MerchantManagement.util.logging.LogUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -24,22 +18,17 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1")
 @Validated
 public class MerchantController {
     @Autowired
     private MerchantServiceImpl merchantService;
-    @Autowired
-    private LogUtil logUtil;
     @PostMapping("/merchant/create")
     ResponseEntity<MerchantResponse> createMerchant(@Valid @RequestBody MerchantCreateRequest request){
         return ResponseEntity.ok(merchantService.handleCreateMerchant(request));
     }
 
-    @LogStepByStep(tag = "Merchant Update")
     @PutMapping("/merchant/update")
     public ResponseEntity<?> updateMerchant(@Valid @RequestBody ReqUpdateMerchant request) throws IdInvalidException {
 

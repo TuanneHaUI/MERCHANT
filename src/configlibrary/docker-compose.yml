@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  db:
+    image: mysql:8
+    restart: always
+    volumes:
+      - ./.docker/data/db:/var/lib/mysql
+      - ./db.sql:/docker-entrypoint-initdb.d/db.sql:ro
+    environment:
+      MYSQL_ROOT_PASSWORD: Iamtuanne   # mật khẩu root mới
+      MYSQL_DATABASE: tuannehehe             # tên database mới nếu bạn muốn
+      MYSQL_USER: tuanneuser                     # user mới bạn muốn tạo
+      MYSQL_PASSWORD: Iamrobot!             # mật khẩu user mới
+    ports:
+      - "3307:3306"
+
+  redis:
+    image: redis:6-alpine
+    restart: always
+    volumes:
+      - ./.docker/data/redis:/data
+    ports:
+      - "6378:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: tuanne
+      RABBITMQ_DEFAULT_PASS: 2542004Tuan@
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./.docker/data/rabbitmq:/var/lib/rabbitmq

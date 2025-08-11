@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -26,17 +27,26 @@ public class GlobalException {
     public ResponseEntity<RestResponse<Object>> handleAllException(Exception ex) {
         RestResponse<Object> res = new RestResponse<Object>();
         res.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
-        res.setErrorDesc("Internal Server Error");
+        String errorMessage = ex.getMessage();
+        if (errorMessage == null || errorMessage.isEmpty()) {
+            errorMessage = "Internal Server Error";
+        }
+        res.setErrorDesc(errorMessage);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(res);
     }
 
     @ExceptionHandler(value = {
             IdInvalidException.class,
+            UsernameNotFoundException.class
     })
     public ResponseEntity<RestResponse<Object>> handleIdException(Exception ex) {
         RestResponse<Object> res = new RestResponse<Object>();
         res.setErrorCode(HttpStatus.BAD_REQUEST.value());
-        res.setErrorDesc("Exception occurs...");
+        String errorMessage = ex.getMessage();
+        if (errorMessage == null || errorMessage.isEmpty()) {
+            errorMessage = "Exception occurs...";
+        }
+        res.setErrorDesc(errorMessage);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(res);
     }
 

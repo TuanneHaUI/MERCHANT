@@ -1,14 +1,26 @@
 spring:
-
+  output:
+    ansi:
+      enabled: always
   # Cấu hình môi trường đang chạy (dev/test/prod)
   profiles:
     active: dev
-
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: tuighetlaptrinh@gmail.com
+    password: rrtrdpjstovvjphw
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
   # Cấu hình thông tin kết nối Database (MySQL)
   datasource:
-    url: jdbc:mysql://localhost:3306/Merchant # URL kết nối DB
+    url: jdbc:mysql://localhost:3307/tuannehehe # URL kết nối DB
     username: root                             # Tên đăng nhập DB
-    password: 2542004Tuan@                     # Mật khẩu DB
+    password: Iamtuanne                    # Mật khẩu DB
     driver-class-name: com.mysql.cj.jdbc.Driver # Driver MySQL JDBC
 
     hikari:
@@ -18,10 +30,16 @@ spring:
       connection-timeout: 30000   # Timeout khi lấy connection (30s)
       pool-name: MyHikariCP       # Tên pool (tùy chọn)
 
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: tuanne
+    password: 2542004Tuan@
+
   # Cấu hình Redis (cache, rate-limit, session...)
   redis:
     host: localhost
-    port: 6379
+    port: 6378
     lettuce:
       pool:
         max-active: 10           # Số kết nối tối đa Redis
@@ -34,10 +52,10 @@ spring:
     hibernate:
       ddl-auto: update           # Tự tạo/sửa bảng khi entity thay đổi (dev ONLY)
     show-sql: true               # In câu SQL ra console
-    properties:
-      hibernate:
-        format_sql: true         # In SQL có format dễ đọc
-        dialect: org.hibernate.dialect.MySQL8Dialect # Dialect cho MySQL
+#    properties:
+#      hibernate:
+#        format_sql: true         # In SQL có format dễ đọc
+#        dialect: org.hibernate.dialect.MySQL8Dialect # Dialect cho MySQL
 
   # Cấu hình Tomcat Embedded (Server HTTP)
   servlet:
@@ -62,13 +80,16 @@ springdoc:
 # Cấu hình JWT
 tuanne:
   jwt:
-    base64-secret: qoAEABDke07+...     # Secret base64 mã hóa
+    base64-secret: qoAEABDke07+AVLepXB4aCMtsT0wMAqR5x2VFyldsnx6e75YQkJH2UcZKTjEyoNgG71SBCXfq5N6NVZxWOfsHQ==
     access-token-validity-in-seconds: 8640000     # Thời gian sống access token (100 ngày)
     refresh-token-validity-in-seconds: 8640000     # Thời gian sống refresh token (100 ngày)
 
 # Logging nâng cao (tùy chọn)
-logging:
-  level:
-    root: INFO                         # Log toàn hệ thống
-    org.springframework.web: DEBUG     # Log chi tiết Spring Web
-    com.teamphacode: DEBUG             # Log riêng package dự án bạn
+#logging:
+#  level:
+#    root: INFO                         # Log toàn hệ thống
+#    org.springframework.web: DEBUG     # Log chi tiết Spring Web
+#    com.teamphacode: DEBUG             # Log riêng package dự án bạn
+#    org.hibernate.SQL: DEBUG           # In SQL
+#    org.hibernate.type.descriptor.sql: TRACE     # In giá trị parameters (rất chi tiết)
+#

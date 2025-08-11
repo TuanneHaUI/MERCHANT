@@ -3,7 +3,8 @@
 
     <property name="LOGS_PATH" value="./logs" />
     <property name="LOG_PATTERN"
-              value="%d{yyMMdd HH:mm:ss.SSS} [%thread] %-5level %X{traceId} [%-40.40logger{39}:%-4.4line] %X{step} %X{tag} %msg%n" />
+              value="%d{yyMMdd HH:mm:ss.SSS} [%thread] %highlight(%-5level){FATAL=💀 , ERROR=❌ , WARN=⚠ , INFO=✔ , DEBUG=🔍 , TRACE=🐾} %cyan(%X{traceId}) [%-40.40logger{39}:%-4.4line] %msg%n" />
+
     <appender name="Console" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>${LOG_PATTERN}</pattern>
