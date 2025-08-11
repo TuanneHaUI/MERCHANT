@@ -3,6 +3,7 @@ package com.teamphacode.MerchantManagement.util.form;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.CellReference;
+import org.apache.poi.ss.util.RegionUtil;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.util.List;
@@ -34,8 +35,8 @@ public class ExcelTemplateHelper {
 
     public static void addInfoRow(Sheet sheet, String label, String value, int rowIndex) {
         Row row = sheet.createRow(rowIndex);
-        row.createCell(0).setCellValue(label);
-        row.createCell(1).setCellValue(value);
+        row.createCell(1).setCellValue(label);
+        row.createCell(2).setCellValue(value);
     }
 
     public static CellStyle createHeaderStyle(Workbook wb) {
@@ -54,24 +55,6 @@ public class ExcelTemplateHelper {
         style.setFont(font);
 
         return style;
-    }
-
-    public static void addHeaderRow(Sheet sheet, List<String> headers, int rowIndex) {
-        Workbook wb = sheet.getWorkbook();
-        Row headerRow = sheet.createRow(rowIndex);
-
-        CellStyle style = createHeaderStyle(wb);
-
-        Font font = wb.createFont();
-        font.setBold(true);
-        style.setFont(font);
-
-        for (int i = 0; i < headers.size(); i++) {
-            Cell cell = headerRow.createCell(i);
-            cell.setCellValue(headers.get(i));
-            cell.setCellStyle(style);
-            sheet.autoSizeColumn(i);
-        }
     }
 
     public static void addDataRows(Sheet sheet, List<List<Object>> data, int startRow) {
@@ -144,9 +127,12 @@ public class ExcelTemplateHelper {
      *                 - [2]: tiêu đề (String)
      */
     public static void createGroupHeader(Sheet sheet, Workbook workbook, int startRow,
-                                         List<Object[]> headers) {
-        Row groupHeader = sheet.createRow(startRow);
+                                         List<Object[]> headers,
+                                         int rowSpanForSingleColumns,
+                                         List<Integer> singleColumnIndexes) {
+
         CellStyle headerStyle = createHeaderStyle(workbook);
+        Row groupHeader = sheet.createRow(startRow);
 
         for (Object[] header : headers) {
             int colStart = (int) header[0];
@@ -157,9 +143,26 @@ public class ExcelTemplateHelper {
             cell.setCellValue(title);
             cell.setCellStyle(headerStyle);
 
-            if (colSpan > 1) {
-                sheet.addMergedRegion(new CellRangeAddress(startRow, startRow, colStart, colStart + colSpan - 1));
+            if (singleColumnIndexes.contains(colStart)) {
+                // Merge dọc (vertical) nhiều dòng cho cột đơn
+                CellRangeAddress region = new CellRangeAddress(startRow, startRow + rowSpanForSingleColumns - 1, colStart, colStart);
+                sheet.addMergedRegion(region);
+
+                RegionUtil.setBorderTop(BorderStyle.THIN, region, sheet);
+                RegionUtil.setBorderBottom(BorderStyle.THIN, region, sheet);
+                RegionUtil.setBorderLeft(BorderStyle.THIN, region, sheet);
+                RegionUtil.setBorderRight(BorderStyle.THIN, region, sheet);
+            } else if (colSpan > 1) {
+                // Merge ngang nhiều cột (horizontal) trên 1 dòng
+                CellRangeAddress region = new CellRangeAddress(startRow, startRow, colStart, colStart + colSpan - 1);
+                sheet.addMergedRegion(region);
+
+                RegionUtil.setBorderTop(BorderStyle.THIN, region, sheet);
+                RegionUtil.setBorderBottom(BorderStyle.THIN, region, sheet);
+                RegionUtil.setBorderLeft(BorderStyle.THIN, region, sheet);
+                RegionUtil.setBorderRight(BorderStyle.THIN, region, sheet);
             }
         }
     }
+
 }

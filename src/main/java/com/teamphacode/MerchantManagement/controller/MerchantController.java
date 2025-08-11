@@ -83,7 +83,7 @@ public class MerchantController {
             @PathVariable String merchantId,
             @RequestParam LocalDateTime fromDate,
             @RequestParam LocalDateTime toDate
-    ) {
+    ) throws IdInvalidException{
         return ResponseEntity.ok(this.merchantService.handleFindTransactionsByMerchant(merchantId, fromDate, toDate));
     }
 
@@ -91,7 +91,7 @@ public class MerchantController {
     public ResponseEntity<byte[]> downloadMerchantYearReport(@RequestParam int year) throws IOException {
         List<ResMerchantYearStatusDTO> data = this.merchantService.handleCountMerchantByYear(year);
 
-        byte[] excelFile = this.merchantService.exportMerchantYearReport(year, data);
+        byte[] excelFile = this.merchantService.handleExportMerchantByYear(year, data);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=merchant_year_" + year + ".xlsx")
@@ -105,7 +105,21 @@ public class MerchantController {
                                                              @RequestParam("toDate") LocalDateTime toDate) throws IOException {
         List<MerchantTransactionSummaryDTO> data = this.merchantService.handleCountTransactionByMerchant(fromDate, toDate);
 
-        byte[] excelFile = this.merchantService.exportMerchantTransactionReport(fromDate, toDate, data);
+        byte[] excelFile = this.merchantService.handleExportTransactionSummary(fromDate, toDate, data);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=merchant_year_" + toDate + ".xlsx")
+                .contentType(MediaType.parseMediaType(
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(excelFile);
+    }
+
+    @GetMapping("/merchants/export-transactionDetail/{merchantId}")
+    public ResponseEntity<byte[]> downloadTransactionDetail( @PathVariable String merchantId, @RequestParam("fromDate")  LocalDateTime fromDate,
+                                                             @RequestParam("toDate") LocalDateTime toDate) throws IOException, IdInvalidException {
+        List<TransactionReportDTO> data = this.merchantService.handleFindTransactionsByMerchant(merchantId, fromDate, toDate);
+
+        byte[] excelFile = this.merchantService.handleExportTransactionDetailByMerchant(fromDate, toDate, data);
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=merchant_year_" + toDate + ".xlsx")

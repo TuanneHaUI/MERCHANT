@@ -33,12 +33,13 @@ public interface MerchantService {
 
     List<MerchantTransactionSummaryDTO> handleCountTransactionByMerchant(LocalDateTime fromDate, LocalDateTime toDate);
 
-    List<TransactionReportDTO> handleFindTransactionsByMerchant(String merchantId, LocalDateTime fromDate, LocalDateTime toDate);
+    List<TransactionReportDTO> handleFindTransactionsByMerchant(String merchantId, LocalDateTime fromDate, LocalDateTime toDate) throws IdInvalidException;
 
-    byte[] exportMerchantYearReport(int year, List<ResMerchantYearStatusDTO> data) throws IOException;
+    byte[] handleExportMerchantByYear(int year, List<ResMerchantYearStatusDTO> data) throws IOException;
 
-    byte[] exportMerchantTransactionReport(LocalDateTime fromDate, LocalDateTime toDate, List<MerchantTransactionSummaryDTO> data) throws IOException;
+    byte[] handleExportTransactionSummary(LocalDateTime fromDate, LocalDateTime toDate, List<MerchantTransactionSummaryDTO> data) throws IOException;
 
+    byte[] handleExportTransactionDetailByMerchant(LocalDateTime fromDate, LocalDateTime toDate, List<TransactionReportDTO> data) throws IOException;
 }
 
 

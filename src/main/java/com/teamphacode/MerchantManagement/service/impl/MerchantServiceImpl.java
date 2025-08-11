@@ -189,6 +189,7 @@ public class MerchantServiceImpl implements MerchantService {
          return dto;
      }
 
+     //count merchant by year
     @Override
     public List<ResMerchantYearStatusDTO> handleCountMerchantByYear(int year) {
         List<Object[]> results = this.merchantRepository.countMerchantByYear(year);
@@ -209,6 +210,7 @@ public class MerchantServiceImpl implements MerchantService {
         )).collect(Collectors.toList());
     }
 
+    // search merchant
     @Override
     public ResultPaginationDTO handleFindByMerchantIdAndAccountNoAndStatus(String merchantId, String accountNo, StatusEnum status, Pageable pageable) {
         Specification<Merchant> spec = MerchantSpecification.filter(merchantId, accountNo, status);
@@ -228,6 +230,7 @@ public class MerchantServiceImpl implements MerchantService {
          return dto;
      }
 
+     // count transaction by merchant
     @Override
     public List<MerchantTransactionSummaryDTO> handleCountTransactionByMerchant(LocalDateTime fromDate, LocalDateTime toDate) {
 
@@ -243,10 +246,13 @@ public class MerchantServiceImpl implements MerchantService {
         )).collect(Collectors.toList());
     }
 
+    // find transaction detail by merchant
     @Override
-    public List<TransactionReportDTO> handleFindTransactionsByMerchant(String merchantId, LocalDateTime fromDate, LocalDateTime toDate) {
+    public List<TransactionReportDTO> handleFindTransactionsByMerchant(String merchantId, LocalDateTime fromDate, LocalDateTime toDate) throws IdInvalidException{
         List<Object[]> result = this.merchantRepository.findTransactionsByMerchant(merchantId, fromDate, toDate);
-
+        if(result.isEmpty()){
+            throw new IdInvalidException("không có dữ liệu của transaction với id " + merchantId);
+        }
         return result.parallelStream()
                 .map(row -> new TransactionReportDTO(
                         (String) row[0],
@@ -265,8 +271,9 @@ public class MerchantServiceImpl implements MerchantService {
         return null;
     }
 
+    //export count merchant by year
     @Override
-    public byte[] exportMerchantYearReport(int year, List<ResMerchantYearStatusDTO> data) throws IOException {
+    public byte[] handleExportMerchantByYear(int year, List<ResMerchantYearStatusDTO> data) throws IOException {
         Workbook workbook = ExcelTemplateHelper.createWorkbook();
         Sheet sheet = workbook.createSheet("Merchant Year Report");
 
@@ -278,14 +285,17 @@ public class MerchantServiceImpl implements MerchantService {
         ExcelTemplateHelper.addInfoRow(sheet, "Ngày lấy báo cáo:", LocalDate.now().toString(), 3);
 
         // ===== 3. Header =====
-        List<String> headers = new ArrayList<>();
-        headers.add("STT");
-        headers.add("LOẠI MERCHANT");
-        for (int i = 1; i <= 12; i++) {
-            headers.add(String.format("THÁNG %02d", i));
-        }
+        Row subHeader = sheet.createRow(5);
+        String[] header = {"STT", "LOẠI MERCHANT", "THÁNG 01", "THÁNG 02", "THÁNG 03", "THÁNG 04", "THÁNG 05",
+                "THÁNG 06", "THÁNG 07", "THÁNG 08", "THÁNG 09", "THÁNG 10", "THÁNG 11", "THÁNG 12"};
 
-        ExcelTemplateHelper.addHeaderRow(sheet, headers, 5);
+        CellStyle headerStyle = ExcelTemplateHelper.createHeaderStyle(workbook);
+        for (int i = 0; i < header.length; i++) {
+            Cell cell = subHeader.createCell(i);
+            cell.setCellValue(header[i]);
+            cell.setCellStyle(headerStyle);
+            sheet.autoSizeColumn(i);
+        }
 
         // ===== 4. Data =====
         List<List<Object>> rows = new ArrayList<>();
@@ -302,7 +312,7 @@ public class MerchantServiceImpl implements MerchantService {
         ExcelTemplateHelper.addDataRows(sheet, rows, 6);
 
         // ===== 5. Dòng Tổng cộng =====
-        int startDataRow = 7; // Excel tính từ 1, nhưng ở đây STT đầu tiên nằm ở row index 6 => Excel row 7
+        int startDataRow = 7;
         int totalRowIndex = 6 + rows.size();
         addTotalRow(sheet, "Tổng cộng:", 0, 1, 2, 13, startDataRow, totalRowIndex);
 
@@ -314,7 +324,9 @@ public class MerchantServiceImpl implements MerchantService {
         return out.toByteArray();
     }
 
-    public byte[] exportMerchantTransactionReport(
+    //export transaction summary
+    @Override
+    public byte[] handleExportTransactionSummary(
             LocalDateTime fromDate,
             LocalDateTime toDate,
             List<MerchantTransactionSummaryDTO> data
@@ -338,20 +350,21 @@ public class MerchantServiceImpl implements MerchantService {
                 new Object[]{1, 3, "THÔNG TIN MERCHANT"},
                 new Object[]{4, 4, "THÔNG TIN GIAO DỊCH"}
         );
+        List<Integer> singleColumns = List.of(0); // Cột STT cần merge dọc 2 dòng
+        ExcelTemplateHelper.createGroupHeader(sheet, workbook, 6, headers, 2, singleColumns);
 
-        ExcelTemplateHelper.createGroupHeader(sheet, workbook, 6, headers);
-
-        // ===== Header con =====
+        // Header con (sub header)
         Row subHeader = sheet.createRow(7);
-        String[] header = {"SỐ TK", "MÃ MERCHANT", "TÊN TẮT", "THÀNH CÔNG", "THẤT BẠI", "TIMEOUT", "TỔNG"};
+        String[] header = {"STT", "SỐ TK", "MÃ MERCHANT", "TÊN TẮT", "THÀNH CÔNG", "THẤT BẠI", "TIMEOUT", "TỔNG"};
 
         CellStyle headerStyle = ExcelTemplateHelper.createHeaderStyle(workbook);
         for (int i = 0; i < header.length; i++) {
-            Cell cell = subHeader.createCell(i + 1); // lưu ý +1 vì cột 0 là STT nhóm header
+            Cell cell = subHeader.createCell(i);
             cell.setCellValue(header[i]);
             cell.setCellStyle(headerStyle);
-            sheet.autoSizeColumn(i + 1);
+            sheet.autoSizeColumn(i);
         }
+
 
         // ===== Dữ liệu =====
         List<List<Object>> rows = new ArrayList<>();
@@ -373,7 +386,65 @@ public class MerchantServiceImpl implements MerchantService {
         return bos.toByteArray();
     }
 
+    //export transaction detail by merchant
+    @Override
+    public byte[] handleExportTransactionDetailByMerchant(LocalDateTime fromDate, LocalDateTime toDate, List<TransactionReportDTO> data) throws IOException {
+        Workbook workbook = ExcelTemplateHelper.createWorkbook();
+        Sheet sheet = workbook.createSheet("Transaction Detail");
 
+        // ===== Tiêu đề =====
+        ExcelTemplateHelper.addTitle(sheet, "BÁO CÁO CHI TIẾT GIAO DỊCH THEO MERCHANT", 8);
+
+        // ===== Thông tin ngày =====
+        DateTimeFormatter df = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+        ExcelTemplateHelper.addInfoRow(sheet, "Từ ngày:", df.format(fromDate), 2);
+        ExcelTemplateHelper.addInfoRow(sheet, "Đến ngày:", df.format(toDate), 3);
+        ExcelTemplateHelper.addInfoRow(sheet, "Ngày lấy báo cáo:", df.format(LocalDateTime.now()), 4);
+
+
+        // ===== Header =====
+        Row subHeader = sheet.createRow(6);
+        String[] header = {"STT", "CORE REF", "TRANTS REF\nDE#63", "TRACE NO\nDE#11", "TRANS DT\nDE#15", "STATUS\nDE#39", "SENDER ACCT\nDE#102", "SENDER BANK\nDE#32", "RECEIVE ACCT\nDE#103"};
+
+        CellStyle headerStyle = ExcelTemplateHelper.createHeaderStyle(workbook);
+        headerStyle.setWrapText(true);
+
+        for (int i = 0; i < header.length; i++) {
+            Cell cell = subHeader.createCell(i);
+            cell.setCellValue(header[i]);
+            cell.setCellStyle(headerStyle);
+            sheet.autoSizeColumn(i);
+        }
+
+        // ===== Dữ liệu =====
+        List<List<Object>> rows = new ArrayList<>();
+        int partitionSize = 1000;
+        int totalSize = data.size();
+        int stt = 1;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"); // định dạng ngày giờ cho dễ đọc
+
+        for (TransactionReportDTO dto : data) {
+            rows.add(List.of(
+                    stt++,
+                    dto.getCoreRef(),
+                    dto.getTransactionRef(),
+                    dto.getTraceNo(),
+                    dto.getTransactionDate() != null ? dto.getTransactionDate().format(dtf) : "",
+                    dto.getStatus(),
+                    dto.getSenderAccount(),
+                    dto.getSenderBank(),
+                    dto.getReceiverAccount()
+            ));
+        }
+        ExcelTemplateHelper.addDataRows(sheet, rows, 7);
+
+        // ===== Xuất ra byte[] =====
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        workbook.write(bos);
+        workbook.close();
+
+        return bos.toByteArray();
+    }
 
 
 }
