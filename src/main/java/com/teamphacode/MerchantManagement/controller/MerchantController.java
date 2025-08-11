@@ -4,10 +4,7 @@ import com.teamphacode.MerchantManagement.domain.Merchant;
 import com.teamphacode.MerchantManagement.domain.dto.request.MerchantCreateRequest;
 import com.teamphacode.MerchantManagement.domain.dto.request.ReqUpdateMerchant;
 import com.teamphacode.MerchantManagement.domain.dto.response.*;
-import com.teamphacode.MerchantManagement.repository.MerchantRepository;
-import com.teamphacode.MerchantManagement.service.MerchantService;
 import com.teamphacode.MerchantManagement.domain.dto.response.MerchantResponse;
-import com.teamphacode.MerchantManagement.domain.dto.response.ResMerchantYearStatusDTO;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDTO;
 import com.teamphacode.MerchantManagement.service.impl.MerchantServiceImpl;
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
@@ -25,36 +22,30 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/v1")
 @Validated
 public class MerchantController {
     @Autowired
     private MerchantServiceImpl merchantService;
+
     @PostMapping("/merchant/create")
     ResponseEntity<MerchantResponse> createMerchant(@Valid @RequestBody MerchantCreateRequest request){
         return ResponseEntity.ok(merchantService.handleCreateMerchant(request));
     }
 
     @PutMapping("/merchant/update")
-    public ResponseEntity<?> updateMerchant(@Valid @RequestBody ReqUpdateMerchant request) throws IdInvalidException {
-
+    ResponseEntity<?> updateMerchant(@Valid @RequestBody ReqUpdateMerchant request) throws IdInvalidException {
         Merchant merchant = this.merchantService.handleUpdateMerchant(request);
         return ResponseEntity.ok(merchant);
     }
 
      @GetMapping("/merchants/report-by-status")
-     public ResponseEntity<ResultPaginationDTO> reportByStatus(@RequestParam("status") StatusEnum statusEnum, Pageable pageable) throws IdInvalidException {
-         return ResponseEntity.ok(this.merchantService.handleReportMerchantByStatus(statusEnum, pageable));
+     public ResultPaginationDTO reportByStatus(@RequestParam("status") StatusEnum statusEnum, Pageable pageable) throws IdInvalidException {
+         return this.merchantService.handleReportMerchantByStatus(statusEnum, pageable);
      }
 
 
-     @GetMapping("/merchants/count-by-year")
-     public ResponseEntity<List<ResMerchantYearStatusDTO>> countMerchantActiveByYear(@RequestParam("year") int year){
-         return ResponseEntity.ok(this.merchantService.handleCountMerchantByYear(year));
-     }
 
      @GetMapping("/merchants/search")
     public ResponseEntity<ResultPaginationDTO> findByMerchantIdAndAccountNoAndStatus( @RequestParam(required = false) String merchantId,
@@ -66,7 +57,7 @@ public class MerchantController {
 
     @GetMapping("/merchants/summary-transaction-by-merchant")
     public ResponseEntity<List<MerchantTransactionSummaryDTO>> getTransactionSummary(
-            @RequestParam("fromDate")  LocalDateTime fromDate,
+            @RequestParam("fromDate") LocalDateTime fromDate,
             @RequestParam("toDate") LocalDateTime toDate) {
 
         return ResponseEntity.ok(this.merchantService.handleCountTransactionByMerchant(fromDate, toDate));
@@ -121,4 +112,5 @@ public class MerchantController {
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
                 .body(excelFile);
     }
+
 }

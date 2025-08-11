@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -54,10 +55,10 @@ public class ReqUpdateMerchant {
     private String email;
 
     @Column(name = "open_date")
-    private LocalDate openDate;
+    private LocalDateTime openDate;
 
     @Column(name = "close_date")
-    private LocalDate closeDate;
+    private LocalDateTime closeDate;
 
     @NotNull(message = "Lí do không được để trống")
     String reason;

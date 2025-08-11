@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.Builder;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 
@@ -25,6 +24,7 @@ public class Merchant {
     @Column(name = "merchant_id", length = 15)
     @NotBlank(message = "Mã định danh merchant không được để trống")
     @Size(max = 15, message = "Mã định danh merchant không được vượt quá 15 ký tự")
+    @Pattern(regexp = "^MC[A-Z0-9]*$", message = "Mã định danh phải bắt đầu bằng 'MC' và chỉ chứa chữ in hoa, số")
     private String merchantId;
 
     @Column(name = "account_no", length = 19, nullable = false, unique = true)
@@ -74,17 +74,14 @@ public class Merchant {
     private StatusEnum status;
 
     @Column(name = "open_date")
-    private LocalDate openDate;
+    private LocalDateTime openDate;
 
     @Column(name = "close_date")
-    private LocalDate closeDate;
+    private LocalDateTime closeDate;
 
     @Column(name = "branch_code", length = 4)
     @Size(max = 4, message = "Mã chi nhánh không được vượt quá 4 ký tự")
     private String branchCode;
-
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
@@ -100,7 +97,6 @@ public class Merchant {
         this.createdBy = SecurityUtil.getCurrentUserLogin().isPresent() == true
                 ? SecurityUtil.getCurrentUserLogin().get()
                 : "";
-        this.createdAt = LocalDateTime.now();
     }
 
     @PreUpdate

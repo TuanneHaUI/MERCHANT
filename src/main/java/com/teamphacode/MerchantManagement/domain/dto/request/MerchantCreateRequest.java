@@ -6,11 +6,18 @@ import lombok.NoArgsConstructor;
 import lombok.Data;
 import lombok.Builder;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class MerchantCreateRequest {
+
+    @NotBlank(message = "Mã định danh merchant không được để trống")
+    @Size(max = 15, message = "Mã định danh merchant không được vượt quá 15 ký tự")
+    @Pattern(regexp = "^MC[A-Z0-9]*$", message = "Mã định danh phải bắt đầu bằng 'MC' và chỉ chứa chữ in hoa, số")
+    private String merchantId;
 
     @NotBlank(message = "Số tài khoản không được để trống")
     @Size(max = 19, message = "Số tài khoản không được vượt quá 19 ký tự")
@@ -48,9 +55,9 @@ public class MerchantCreateRequest {
     @NotNull(message = "Trạng thái không được để trống")
     private StatusEnum status;
 
+    private LocalDateTime openDate;
+
+    private LocalDateTime closeDate;
+
     private String branchCode;
-
-    private String createdBy;
-
-    private String openDate;
 }

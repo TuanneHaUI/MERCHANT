@@ -1,7 +1,6 @@
 package com.teamphacode.MerchantManagement.repository;
 
 import com.teamphacode.MerchantManagement.domain.Merchant;
-import com.teamphacode.MerchantManagement.domain.dto.response.TransactionReportDTO;
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,19 +12,24 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
-
-
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface MerchantRepository extends JpaRepository<Merchant, String>, JpaSpecificationExecutor<Merchant> {
     Boolean existsByAccountNo(String accountNo);
+
     Page<Merchant> findByStatus(StatusEnum status, Pageable pageable);
+
+    @Query("SELECT m.accountNo FROM Merchant m WHERE m.accountNo IN :accountNos")
+    Set<String> findExistingAccountNos(@Param("accountNos") Set<String> accountNos);
+
     Optional<Merchant> findByAccountNo(String accountNo);
 
+    @Query("SELECT m.merchantId FROM Merchant m WHERE m.merchantId IN :merchantIds")
+    Set<String> findExistingMerchantIds(@Param("merchantIds") Set<String> merchantIds);
 
-     //count merchants by year
      @Query(value = """
     SELECT 
         m.status,
@@ -82,5 +86,4 @@ public interface MerchantRepository extends JpaRepository<Merchant, String>, Jpa
             @Param("fromDate") LocalDateTime fromDate,
             @Param("toDate") LocalDateTime toDate
     );
-
 }

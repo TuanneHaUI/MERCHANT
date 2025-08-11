@@ -6,18 +6,20 @@ import com.teamphacode.MerchantManagement.domain.dto.request.ReqUpdateMerchant;
 import com.teamphacode.MerchantManagement.domain.dto.response.*;
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 import com.teamphacode.MerchantManagement.util.errors.IdInvalidException;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.User;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
 
-public interface MerchantService {
+public interface MerchantService  {
 
     MerchantResponse handleCreateMerchant(MerchantCreateRequest request);
+
+    List<Merchant> getAll();
+
+    void handleCreateMultipleMerchants(List<MerchantCreateRequest> requests);
 
     Merchant handleUpdateMerchant(ReqUpdateMerchant reqUpdateMerchant) throws IdInvalidException;
 
@@ -40,6 +42,9 @@ public interface MerchantService {
     byte[] handleExportTransactionSummary(LocalDateTime fromDate, LocalDateTime toDate, List<MerchantTransactionSummaryDTO> data) throws IOException;
 
     byte[] handleExportTransactionDetailByMerchant(LocalDateTime fromDate, LocalDateTime toDate, List<TransactionReportDTO> data) throws IOException;
+
 }
+
+
 
 

@@ -70,14 +70,13 @@ spring:
 # Cấu hình Swagger UI
 springdoc:
   api-docs:
-    path: /v3/api-docs           # Endpoint API docs
+    path: /v3/api-docs
   swagger-ui:
-    path: /swagger-ui.html       # Endpoint giao diện Swagger UI
+    path: /swagger-ui.html
     operations-sorter: method
     tags-sorter: alpha
     display-request-duration: true
 
-# Cấu hình JWT
 tuanne:
   jwt:
     base64-secret: qoAEABDke07+AVLepXB4aCMtsT0wMAqR5x2VFyldsnx6e75YQkJH2UcZKTjEyoNgG71SBCXfq5N6NVZxWOfsHQ==
