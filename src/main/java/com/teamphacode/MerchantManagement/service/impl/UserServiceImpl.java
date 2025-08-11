@@ -27,10 +27,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    @LogStepByStep(tag = "Token Update") // Đánh dấu phương thức này và đặt tên tag
+    @LogStepByStep(tag = "Token Update")
     public void updateUserToken(String token, String email) {
-        // Không còn try-finally, không còn MDC.put/remove
-
         logUtil.step("Đang truy vấn DB để tìm người dùng với email: {}", email);
         Users currentUser = handleGetUserByUsername(email);
 

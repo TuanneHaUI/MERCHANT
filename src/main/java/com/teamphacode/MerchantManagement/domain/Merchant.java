@@ -107,4 +107,5 @@ public class Merchant {
         this.updatedAt = LocalDateTime.now();
     }
 
+
 }

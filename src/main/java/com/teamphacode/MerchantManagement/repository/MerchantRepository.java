@@ -10,12 +10,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Set;
 
 @Repository
 public interface MerchantRepository extends JpaRepository<Merchant, String> {
     Boolean existsByAccountNo(String accountNo);
-     Page<Merchant> findByStatus(StatusEnum status, Pageable pageable);
+    Page<Merchant> findByStatus(StatusEnum status, Pageable pageable);
     @Query("SELECT m.accountNo FROM Merchant m WHERE m.accountNo IN :accountNos")
     Set<String> findExistingAccountNos(@Param("accountNos") Set<String> accountNos);
 
