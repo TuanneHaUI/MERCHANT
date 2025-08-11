@@ -12,8 +12,6 @@ import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDT
 import com.teamphacode.MerchantManagement.service.impl.MerchantServiceImpl;
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 import com.teamphacode.MerchantManagement.util.errors.IdInvalidException;
-import com.teamphacode.MerchantManagement.util.logging.LogUtil;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -35,8 +33,6 @@ import java.util.List;
 public class MerchantController {
     @Autowired
     private MerchantServiceImpl merchantService;
-    @Autowired
-    private LogUtil logUtil;
     @PostMapping("/merchant/create")
     ResponseEntity<MerchantResponse> createMerchant(@Valid @RequestBody MerchantCreateRequest request){
         return ResponseEntity.ok(merchantService.handleCreateMerchant(request));
