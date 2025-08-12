@@ -1,5 +1,10 @@
 spring:
-  output:
+  data:
+    web:
+      pageable:
+        one-indexed-parameters: true
+
+    output:
     ansi:
       enabled: always
   # Cấu hình môi trường đang chạy (dev/test/prod)

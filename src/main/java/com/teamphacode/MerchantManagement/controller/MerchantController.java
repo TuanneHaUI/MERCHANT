@@ -114,7 +114,7 @@ public class MerchantController {
     }
 
     @GetMapping("/merchants")
-    public ResponseEntity<ResultPaginationDTO> fetchMerhans(Pageable pageable){
+    public ResponseEntity<ResultPaginationDTO> fetchMerchants(Pageable pageable){
         return ResponseEntity.ok(this.merchantService.handleFetchMerchants(pageable));
     }
 }

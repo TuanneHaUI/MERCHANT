@@ -555,18 +555,18 @@ public class MerchantServiceImpl implements MerchantService {
     public ResultPaginationDTO handleFetchMerchants(Pageable pageable) {
         Page<Merchant> merchantPage = this.merchantRepository.findAll(pageable);
 
-        ResultPaginationDTO dto = new ResultPaginationDTO();
-        ResultPaginationDTO.Meta meta = new ResultPaginationDTO.Meta();
+        ResultPaginationDTO rs = new ResultPaginationDTO();
+        ResultPaginationDTO.Meta mt = new ResultPaginationDTO.Meta();
 
-        meta.setPage(pageable.getPageNumber() + 1);
-        meta.setPageSize(pageable.getPageSize());
-        meta.setPages(merchantPage.getTotalPages());
-        meta.setTotal(merchantPage.getTotalElements());
+        mt.setPage(pageable.getPageNumber()+ 1);
+        mt.setPageSize(pageable.getPageSize());
 
-        dto.setMeta(meta);
-        dto.setResult(merchantPage.getContent());
+        mt.setPages(merchantPage.getTotalPages());
+        mt.setTotal(merchantPage.getTotalElements());
 
-        return dto;
+        rs.setMeta(mt);
+        rs.setResult(merchantPage.getContent());
+        return rs;
     }
 
 
