@@ -551,5 +551,23 @@ public class MerchantServiceImpl implements MerchantService {
         return bos.toByteArray();
     }
 
+    @Override
+    public ResultPaginationDTO handleFetchMerchants(Pageable pageable) {
+        Page<Merchant> merchantPage = this.merchantRepository.findAll(pageable);
+
+        ResultPaginationDTO dto = new ResultPaginationDTO();
+        ResultPaginationDTO.Meta meta = new ResultPaginationDTO.Meta();
+
+        meta.setPage(pageable.getPageNumber() + 1);
+        meta.setPageSize(pageable.getPageSize());
+        meta.setPages(merchantPage.getTotalPages());
+        meta.setTotal(merchantPage.getTotalElements());
+
+        dto.setMeta(meta);
+        dto.setResult(merchantPage.getContent());
+
+        return dto;
+    }
+
 
 }

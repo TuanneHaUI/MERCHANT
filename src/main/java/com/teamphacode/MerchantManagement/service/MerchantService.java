@@ -1,6 +1,7 @@
 package com.teamphacode.MerchantManagement.service;
 
 import com.teamphacode.MerchantManagement.domain.Merchant;
+import com.teamphacode.MerchantManagement.domain.MerchantHistory;
 import com.teamphacode.MerchantManagement.domain.dto.request.MerchantCreateRequest;
 import com.teamphacode.MerchantManagement.domain.dto.request.ReqUpdateMerchant;
 import com.teamphacode.MerchantManagement.domain.dto.response.*;
@@ -42,6 +43,8 @@ public interface MerchantService  {
     byte[] handleExportTransactionSummary(LocalDateTime fromDate, LocalDateTime toDate, List<MerchantTransactionSummaryDTO> data) throws IOException;
 
     byte[] handleExportTransactionDetailByMerchant(LocalDateTime fromDate, LocalDateTime toDate, List<TransactionReportDTO> data) throws IOException;
+
+    ResultPaginationDTO handleFetchMerchants(Pageable pageable);
 
 }
 

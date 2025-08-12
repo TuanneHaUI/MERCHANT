@@ -9,9 +9,7 @@ services:
       - ./db.sql:/docker-entrypoint-initdb.d/db.sql:ro
     environment:
       MYSQL_ROOT_PASSWORD: Iamtuanne   # mật khẩu root mới
-      MYSQL_DATABASE: tuannehehe             # tên database mới nếu bạn muốn
-      MYSQL_USER: tuanneuser                     # user mới bạn muốn tạo
-      MYSQL_PASSWORD: Iamrobot!             # mật khẩu user mới
+      MYSQL_DATABASE: merchant             # tên database mới nếu bạn muốn
     ports:
       - "3307:3306"
 

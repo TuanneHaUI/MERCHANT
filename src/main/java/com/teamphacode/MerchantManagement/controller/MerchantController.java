@@ -41,8 +41,8 @@ public class MerchantController {
     }
 
      @GetMapping("/merchants/report-by-status")
-     public ResultPaginationDTO reportByStatus(@RequestParam("status") StatusEnum statusEnum, Pageable pageable) throws IdInvalidException {
-         return this.merchantService.handleReportMerchantByStatus(statusEnum, pageable);
+     public ResponseEntity<ResultPaginationDTO> reportByStatus(@RequestParam("status") StatusEnum statusEnum, Pageable pageable) throws IdInvalidException {
+         return ResponseEntity.ok(this.merchantService.handleReportMerchantByStatus(statusEnum, pageable));
      }
 
 
@@ -113,4 +113,8 @@ public class MerchantController {
                 .body(excelFile);
     }
 
+    @GetMapping("/merchants")
+    public ResponseEntity<ResultPaginationDTO> fetchMerhans(Pageable pageable){
+        return ResponseEntity.ok(this.merchantService.handleFetchMerchants(pageable));
+    }
 }
