@@ -26,7 +26,7 @@ public class ExcelTemplateHelper {
         font.setFontHeightInPoints((short) 14);
         style.setFont(font);
         style.setAlignment(HorizontalAlignment.CENTER);
-        style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        style.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         titleCell.setCellStyle(style);
 
@@ -43,7 +43,7 @@ public class ExcelTemplateHelper {
         CellStyle style = wb.createCellStyle();
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setVerticalAlignment(VerticalAlignment.CENTER);
-        style.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
+        style.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
         style.setBorderBottom(BorderStyle.THIN);
         style.setBorderTop(BorderStyle.THIN);
