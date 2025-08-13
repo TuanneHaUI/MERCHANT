@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -47,13 +49,57 @@ public class MerchantController {
 
 
 
-     @GetMapping("/merchants/search")
-    public ResponseEntity<ResultPaginationDTO> findByMerchantIdAndAccountNoAndStatus( @RequestParam(required = false) String merchantId,
-                                                                                      @RequestParam(required = false) String accountNo,
-                                                                                      @RequestParam(required = false) StatusEnum status,
-                                                                                      Pageable pageable){
-        return ResponseEntity.ok(this.merchantService.handleFindByMerchantIdAndAccountNoAndStatus(merchantId, accountNo, status,pageable));
-     }
+    @GetMapping("/merchants/search")
+    public ResponseEntity<ResultPaginationDTO> findByFilter(
+            @RequestParam(required = false) String filter,
+            Pageable pageable) throws IdInvalidException{
+
+        String merchantId = null;
+        String accountNo = null;
+        StatusEnum status = null;
+
+        if (filter != null && !filter.isEmpty()) {
+            // Tách filter theo 'and' (có thể có khoảng trắng xung quanh)
+            String[] conditions = filter.split("\\s+and\\s+");
+
+            for (String cond : conditions) {
+                // cond ví dụ: "merchantId ~ 'MC000000002'"
+                // Regex tách key ~ 'value'
+                Pattern pattern = Pattern.compile("(\\w+)\\s*~\\s*'([^']*)'");
+                Matcher matcher = pattern.matcher(cond);
+                if (matcher.find()) {
+                    String key = matcher.group(1);
+                    String value = matcher.group(2);
+
+                    switch (key) {
+                        case "merchantId":
+                            merchantId = value;
+                            break;
+                        case "accountNo":
+                            accountNo = value;
+                            break;
+                        case "status":
+                            try {
+                                status = StatusEnum.valueOf(value);
+                            } catch (IllegalArgumentException e) {
+                                // xử lý status không hợp lệ nếu cần
+                                throw new IdInvalidException("status không hợp lệ hãy truyền Active hoặc Close");
+                            }
+                            break;
+                        default:
+                            // key không hỗ trợ, có thể log hoặc bỏ qua
+                            break;
+                    }
+                }
+            }
+        }
+
+        return ResponseEntity.ok(
+                this.merchantService.handleFindByMerchantIdAndAccountNoAndStatus(merchantId, accountNo, status, pageable)
+        );
+    }
+
+
 
     @GetMapping("/merchants/summary-transaction-by-merchant")
     public ResponseEntity<List<MerchantTransactionSummaryDTO>> getTransactionSummary(
@@ -70,6 +116,13 @@ public class MerchantController {
             @RequestParam LocalDateTime toDate
     ) throws IdInvalidException{
         return ResponseEntity.ok(this.merchantService.handleFindTransactionsByMerchant(merchantId, fromDate, toDate));
+    }
+
+    @GetMapping("/merchants/count-merchant-by-year")
+    public ResponseEntity<List<ResMerchantYearStatusDTO>> countMerchantByYear(
+            @RequestParam("year") int year){
+
+        return ResponseEntity.ok(this.merchantService.handleCountMerchantByYear(year));
     }
 
     @GetMapping("/merchants/export-merchant-year")
