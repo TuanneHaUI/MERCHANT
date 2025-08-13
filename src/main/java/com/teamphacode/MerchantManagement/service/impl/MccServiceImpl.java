@@ -1,12 +1,17 @@
 package com.teamphacode.MerchantManagement.service.impl;
 
 import com.teamphacode.MerchantManagement.domain.Mcc;
+import com.teamphacode.MerchantManagement.domain.Merchant;
 import com.teamphacode.MerchantManagement.domain.dto.request.MccUpdateRequest;
+import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDTO;
 import com.teamphacode.MerchantManagement.repository.MccRepository;
 import com.teamphacode.MerchantManagement.repository.MerchantRepository;
 import com.teamphacode.MerchantManagement.service.MccService;
 import com.teamphacode.MerchantManagement.util.errors.AppException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,7 +24,7 @@ public class MccServiceImpl implements MccService {
     private MerchantRepository merchantRepository;
     @Override
     public Mcc createMcc(Mcc request) {
-        if(mccRepository.existsById(request.getCode())) throw new AppException(request.getCode() + "existed");
+        if(mccRepository.existsById(request.getCode())) throw new AppException("Mã MCC '" + request.getCode() + "' đã tồn tại.", HttpStatus.BAD_REQUEST.value());
         return mccRepository.save(request);
     }
 
@@ -35,7 +40,25 @@ public class MccServiceImpl implements MccService {
     }
 
     @Override
-    public List<Mcc> getActiveMccs() {
-        return mccRepository.findByIsActiveTrueOrderByCode();
+    public ResultPaginationDTO getAllMccs(Pageable pageable) {
+        Page<Mcc> mccPage = this.mccRepository.findAll(pageable);
+        ResultPaginationDTO rs = new ResultPaginationDTO();
+        ResultPaginationDTO.Meta mt = new ResultPaginationDTO.Meta();
+
+        mt.setPage(pageable.getPageNumber()+ 1);
+        mt.setPageSize(pageable.getPageSize());
+
+        mt.setPages(mccPage.getTotalPages());
+        mt.setTotal(mccPage.getTotalElements());
+
+        rs.setMeta(mt);
+        rs.setResult(mccPage.getContent());
+        return rs;
+    }
+
+    @Override
+    public void deleteMcc(String code) {
+        if(!mccRepository.existsById(code)) throw new AppException("not found code");
+        mccRepository.deleteById(code);
     }
 }
