@@ -2,6 +2,8 @@ package com.teamphacode.MerchantManagement.domain;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -16,7 +18,10 @@ public class Mcc {
 
     @Id
     @Column(name = "mcc", length = 4)
+    @NotBlank(message = "code: không được để trống")
+    @Size(max = 4, message = "code: không vượt quá 4 ký tự")
     private String code;
+
 
     @Column(name = "description", length = 255, nullable = false)
     String description;
