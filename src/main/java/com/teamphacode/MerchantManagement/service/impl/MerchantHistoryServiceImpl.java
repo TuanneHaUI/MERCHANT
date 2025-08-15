@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @Service
-public class MerchantHistoryServiceImpl implements MerchantHistoryService {
+    public class MerchantHistoryServiceImpl implements MerchantHistoryService {
 
     private static final String HASH_KEY = "MerchantHistoryCache";
     private static final Logger logger = LoggerFactory.getLogger(MerchantHistoryServiceImpl.class);

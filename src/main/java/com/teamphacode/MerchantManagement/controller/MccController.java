@@ -2,6 +2,7 @@ package com.teamphacode.MerchantManagement.controller;
 
 import com.teamphacode.MerchantManagement.domain.Mcc;
 import com.teamphacode.MerchantManagement.domain.dto.request.MccUpdateRequest;
+import com.teamphacode.MerchantManagement.domain.dto.request.RestRequest;
 import com.teamphacode.MerchantManagement.service.impl.MccServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +17,11 @@ import java.util.List;
 public class MccController {
     @Autowired
     private MccServiceImpl mccService;
+
+
     @PostMapping("/mcc/createMcc")
-    public ResponseEntity<Mcc> createMcc(@Valid @RequestBody Mcc request) {
-        Mcc createdMcc = mccService.createMcc(request);
+    public ResponseEntity<Mcc> createMcc(@Valid @RequestBody RestRequest<Mcc> request) {
+        Mcc createdMcc = mccService.createMcc(request.getData());
         return new ResponseEntity<>(createdMcc, HttpStatus.CREATED);
     }
 

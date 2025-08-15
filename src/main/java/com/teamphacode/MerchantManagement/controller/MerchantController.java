@@ -1,18 +1,25 @@
 package com.teamphacode.MerchantManagement.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.teamphacode.MerchantManagement.domain.Merchant;
 import com.teamphacode.MerchantManagement.domain.dto.request.MerchantCreateRequest;
 import com.teamphacode.MerchantManagement.domain.dto.request.ReqUpdateMerchant;
 import com.teamphacode.MerchantManagement.domain.dto.response.*;
 import com.teamphacode.MerchantManagement.domain.dto.response.MerchantResponse;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDTO;
+import com.teamphacode.MerchantManagement.service.impl.MerchantHistoryServiceImpl;
 import com.teamphacode.MerchantManagement.service.impl.MerchantServiceImpl;
+import com.teamphacode.MerchantManagement.util.LogUtil;
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 import com.teamphacode.MerchantManagement.util.errors.IdInvalidException;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,6 +37,8 @@ import java.util.regex.Pattern;
 public class MerchantController {
     @Autowired
     private MerchantServiceImpl merchantService;
+    private static final Logger logger = LoggerFactory.getLogger(MerchantController.class);
+
 
     @PostMapping("/merchant/create")
     ResponseEntity<MerchantResponse> createMerchant(@Valid @RequestBody MerchantCreateRequest request){
@@ -103,10 +112,17 @@ public class MerchantController {
 
     @GetMapping("/merchants/summary-transaction-by-merchant")
     public ResponseEntity<List<MerchantTransactionSummaryDTO>> getTransactionSummary(
+            @RequestParam String requestId,
+            @RequestParam String requestTime,
             @RequestParam("fromDate") LocalDateTime fromDate,
             @RequestParam("toDate") LocalDateTime toDate) {
+        logger.info("requestBody: "+ requestId + " Time: " + requestTime + " data: " +  fromDate +", " + toDate);
 
-        return ResponseEntity.ok(this.merchantService.handleCountTransactionByMerchant(fromDate, toDate));
+        List<MerchantTransactionSummaryDTO> results = this.merchantService.handleCountTransactionByMerchant(fromDate, toDate);
+
+        LogUtil.logJsonResponse(logger, HttpStatus.OK, results);
+
+        return ResponseEntity.ok(results);
     }
 
     @GetMapping("/merchants/fetch-transaction/{merchantId}")

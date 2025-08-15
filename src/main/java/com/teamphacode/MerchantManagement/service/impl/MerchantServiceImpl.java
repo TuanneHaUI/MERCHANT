@@ -232,7 +232,6 @@ public class MerchantServiceImpl implements MerchantService {
 
         if (!changeContent.toString().isBlank()) {
             if(reqUpdateMerchant.getReason() == null){
-                logger.error("❌ Reason: {}", reqUpdateMerchant.getAccountNo());
                 throw new IdInvalidException("Reason null");
             }
             MerchantHistory history = MerchantHistory.builder()
@@ -261,6 +260,7 @@ public class MerchantServiceImpl implements MerchantService {
     @Override
     public ResultPaginationDTO handleReportMerchantByStatus(StatusEnum statusEnum, Pageable pageable)
             throws IdInvalidException {
+        logger.info("request: " + request.getMethod(), request.getRequestURI());
 
         String key = "report_by_status_" + statusEnum.name() + "_page_" + pageable.getPageNumber() +
                 "_size_" + pageable.getPageSize() + "_sort_" + pageable.getSort().toString();
@@ -273,6 +273,7 @@ public class MerchantServiceImpl implements MerchantService {
         } else {
             merchantPage = merchantRepository.findByStatus(statusEnum, pageable);
             if (merchantPage.isEmpty()) {
+                logger.error("không có dữ liệu của merchant với trạng thái " + statusEnum);
                 throw new IdInvalidException("không có dữ liệu của merchant với trạng thái " + statusEnum);
             }
             redisTemplate.opsForHash().put(HASH_KEY, key, merchantPage.getContent());
@@ -291,13 +292,17 @@ public class MerchantServiceImpl implements MerchantService {
         dto.setMeta(meta);
         dto.setResult(merchantPage.getContent());
 
+        logger.info("response: " + dto);
         return dto;
     }
 
     //count merchant by year
     @Override
     public List<ResMerchantYearStatusDTO> handleCountMerchantByYear(int year) {
+        logger.info("request: "+ request.getMethod(), request.getRequestURI());
+
         List<Object[]> results = this.merchantRepository.countMerchantByYear(year);
+
         return results.parallelStream().map(row -> new ResMerchantYearStatusDTO(
                 (String) row[0],
                 ((Number) row[1]).longValue(),
@@ -338,7 +343,7 @@ public class MerchantServiceImpl implements MerchantService {
     // count transaction by merchant
     @Override
     public List<MerchantTransactionSummaryDTO> handleCountTransactionByMerchant(LocalDateTime fromDate, LocalDateTime toDate) {
-
+        logger.info("request: " + request.getMethod() + " " + request.getRequestURI());
         List<Object[]> result = this.merchantRepository.summarizeTransactionByMerchant(fromDate, toDate);
         return result.parallelStream().map(row -> new MerchantTransactionSummaryDTO(
                 (String) row[0],
