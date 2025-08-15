@@ -141,11 +141,11 @@ public class MerchantController {
 
     @GetMapping("/merchants/fetch-transaction/{merchantId}")
     public ResponseEntity<List<TransactionReportDTO>> getTransactionsByMerchant(
-            @RequestParam String requestId,
-            @RequestParam String requestTime,
             @PathVariable String merchantId,
             @RequestParam LocalDateTime fromDate,
-            @RequestParam LocalDateTime toDate
+            @RequestParam LocalDateTime toDate,
+            @RequestParam String requestId,
+            @RequestParam String requestTime
     ) throws IdInvalidException{
         logger.info("requestBody: "+ requestId + " requestTime: " + requestTime + " data: " + merchantId +", "+ fromDate +", " + toDate);
 
@@ -213,10 +213,10 @@ public class MerchantController {
     }
 
     @GetMapping("/merchants/export-transactionDetail/{merchantId}")
-    public ResponseEntity<byte[]> downloadTransactionDetail( @RequestParam String requestId,
-                                                             @RequestParam String requestTime,
-                                                             @PathVariable String merchantId, @RequestParam("fromDate")  LocalDateTime fromDate,
-                                                             @RequestParam("toDate") LocalDateTime toDate) throws IOException, IdInvalidException {
+    public ResponseEntity<byte[]> downloadTransactionDetail(@PathVariable String merchantId,
+                                                            @RequestParam("fromDate")  LocalDateTime fromDate,
+                                                             @RequestParam("toDate") LocalDateTime toDate,@RequestParam String requestId,
+                                                            @RequestParam String requestTime) throws IOException, IdInvalidException {
         logger.info("requestBody: "+ requestId + " requestTime: " + requestTime + " data: " + merchantId +", "+ fromDate +", " + toDate);
         List<TransactionReportDTO> data = this.merchantService.handleFindTransactionsByMerchant(merchantId, fromDate, toDate);
         LogUtil.logJsonResponseService(logger, data, "List<TransactionReportDTO> data: ");

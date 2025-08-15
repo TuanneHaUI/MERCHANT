@@ -369,13 +369,13 @@ public class MerchantServiceImpl implements MerchantService {
 
         logger.info("request: {} {}", request.getMethod(), request.getRequestURI());
 
-
         List<Object[]> result = this.merchantRepository.findTransactionsByMerchant(merchantId, fromDate, toDate);
 
         if(result.isEmpty()){
             logger.error("không có dữ liệu của transaction với id " +  merchantId);
             throw new IdInvalidException("không có dữ liệu của transaction với id " + merchantId);
         }
+
         return result.parallelStream()
                 .map(row -> new TransactionReportDTO(
                         (String) row[0],
