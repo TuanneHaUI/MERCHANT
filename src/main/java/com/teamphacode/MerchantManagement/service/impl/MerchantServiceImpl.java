@@ -12,6 +12,7 @@ import com.teamphacode.MerchantManagement.repository.MccRepository;
 import com.teamphacode.MerchantManagement.repository.MerchantHistoryRepository;
 import com.teamphacode.MerchantManagement.repository.MerchantRepository;
 import com.teamphacode.MerchantManagement.service.MerchantService;
+import com.teamphacode.MerchantManagement.util.LogUtil;
 import com.teamphacode.MerchantManagement.util.SecurityUtil;
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 import com.teamphacode.MerchantManagement.util.errors.AppException;
@@ -260,7 +261,7 @@ public class MerchantServiceImpl implements MerchantService {
     @Override
     public ResultPaginationDTO handleReportMerchantByStatus(StatusEnum statusEnum, Pageable pageable)
             throws IdInvalidException {
-        logger.info("request: " + request.getMethod(), request.getRequestURI());
+        logger.info("request: {} {}", request.getMethod(), request.getRequestURI());
 
         String key = "report_by_status_" + statusEnum.name() + "_page_" + pageable.getPageNumber() +
                 "_size_" + pageable.getPageSize() + "_sort_" + pageable.getSort().toString();
@@ -279,6 +280,7 @@ public class MerchantServiceImpl implements MerchantService {
             redisTemplate.opsForHash().put(HASH_KEY, key, merchantPage.getContent());
             redisTemplate.expire(HASH_KEY, Duration.ofHours(1));
         }
+        LogUtil.logJsonResponseService(logger, merchantPage, "Page<Merchant> merchantPage: ");
 
         // Tạo ResultPaginationDTO
         ResultPaginationDTO dto = new ResultPaginationDTO();
@@ -299,7 +301,7 @@ public class MerchantServiceImpl implements MerchantService {
     //count merchant by year
     @Override
     public List<ResMerchantYearStatusDTO> handleCountMerchantByYear(int year) {
-        logger.info("request: "+ request.getMethod(), request.getRequestURI());
+        logger.info("request: {} {}", request.getMethod(), request.getRequestURI());
 
         List<Object[]> results = this.merchantRepository.countMerchantByYear(year);
 
@@ -323,8 +325,13 @@ public class MerchantServiceImpl implements MerchantService {
     // search merchant
     @Override
     public ResultPaginationDTO handleFindByMerchantIdAndAccountNoAndStatus(String merchantId, String accountNo, StatusEnum status, Pageable pageable) {
+
+        logger.info("request: {} {}", request.getMethod(), request.getRequestURI());
+
         Specification<Merchant> spec = MerchantSpecification.filter(merchantId, accountNo, status);
         Page<Merchant> merchantPage = this.merchantRepository.findAll(spec, pageable);
+
+        LogUtil.logJsonResponseService(logger, merchantPage,"Page<Merchant> merchantPage");
 
         ResultPaginationDTO dto = new ResultPaginationDTO();
         ResultPaginationDTO.Meta meta = new ResultPaginationDTO.Meta();
@@ -343,7 +350,7 @@ public class MerchantServiceImpl implements MerchantService {
     // count transaction by merchant
     @Override
     public List<MerchantTransactionSummaryDTO> handleCountTransactionByMerchant(LocalDateTime fromDate, LocalDateTime toDate) {
-        logger.info("request: " + request.getMethod() + " " + request.getRequestURI());
+        logger.info("request: {} {}", request.getMethod(), request.getRequestURI());
         List<Object[]> result = this.merchantRepository.summarizeTransactionByMerchant(fromDate, toDate);
         return result.parallelStream().map(row -> new MerchantTransactionSummaryDTO(
                 (String) row[0],
@@ -359,8 +366,14 @@ public class MerchantServiceImpl implements MerchantService {
     // find transaction detail by merchant
     @Override
     public List<TransactionReportDTO> handleFindTransactionsByMerchant(String merchantId, LocalDateTime fromDate, LocalDateTime toDate) throws IdInvalidException{
+
+        logger.info("request: {} {}", request.getMethod(), request.getRequestURI());
+
+
         List<Object[]> result = this.merchantRepository.findTransactionsByMerchant(merchantId, fromDate, toDate);
+
         if(result.isEmpty()){
+            logger.error("không có dữ liệu của transaction với id " +  merchantId);
             throw new IdInvalidException("không có dữ liệu của transaction với id " + merchantId);
         }
         return result.parallelStream()
@@ -384,6 +397,8 @@ public class MerchantServiceImpl implements MerchantService {
     //export count merchant by year
     @Override
     public byte[] handleExportMerchantByYear(int year, List<ResMerchantYearStatusDTO> data) throws IOException {
+        logger.info("request: {} {}", request.getMethod(), request.getRequestURI());
+
         Workbook workbook = ExcelTemplateHelper.createWorkbook();
         Sheet sheet = workbook.createSheet("Merchant Year Report");
 
@@ -441,6 +456,7 @@ public class MerchantServiceImpl implements MerchantService {
             LocalDateTime toDate,
             List<MerchantTransactionSummaryDTO> data
     ) throws IOException {
+        logger.info("request: {} {}", request.getMethod(), request.getRequestURI());
 
         Workbook workbook = ExcelTemplateHelper.createWorkbook();;
         Sheet sheet = workbook.createSheet("Merchant Report");
@@ -499,6 +515,8 @@ public class MerchantServiceImpl implements MerchantService {
     //export transaction detail by merchant
     @Override
     public byte[] handleExportTransactionDetailByMerchant(LocalDateTime fromDate, LocalDateTime toDate, List<TransactionReportDTO> data) throws IOException {
+        logger.info("request: {} {}", request.getMethod(), request.getRequestURI());
+
         Workbook workbook = ExcelTemplateHelper.createWorkbook();
         Sheet sheet = workbook.createSheet("Transaction Detail");
 

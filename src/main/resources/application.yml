@@ -52,15 +52,15 @@ spring:
         min-idle: 1              # Số connection "rảnh" tối thiểu
         max-wait: 1000           # Timeout khi lấy connection (ms)
 
-  # Cấu hình JPA & Hibernate
-  jpa:
-    hibernate:
-      ddl-auto: update           # Tự tạo/sửa bảng khi entity thay đổi (dev ONLY)
-    show-sql: true               # In câu SQL ra console
-#    properties:
-#      hibernate:
-#        format_sql: true         # In SQL có format dễ đọc
-#        dialect: org.hibernate.dialect.MySQL8Dialect # Dialect cho MySQL
+#  # Cấu hình JPA & Hibernate
+#  jpa:
+#    hibernate:
+#      ddl-auto: update           # Tự tạo/sửa bảng khi entity thay đổi (dev ONLY)
+#    show-sql: true                # In câu SQL ra console
+##    properties:
+##      hibernate:
+##        format_sql: true         # In SQL có format dễ đọc
+##        dialect: org.hibernate.dialect.MySQL8Dialect # Dialect cho MySQL
 
   # Cấu hình Tomcat Embedded (Server HTTP)
   servlet:
