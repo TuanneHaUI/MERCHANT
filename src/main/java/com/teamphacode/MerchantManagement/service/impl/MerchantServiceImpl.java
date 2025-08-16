@@ -19,6 +19,7 @@ import com.teamphacode.MerchantManagement.util.errors.IdInvalidException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Valid;
 import jakarta.validation.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -172,7 +173,7 @@ public class MerchantServiceImpl implements MerchantService {
 
     @Override
     @Transactional
-    public Merchant handleUpdateMerchant(ReqUpdateMerchant reqUpdateMerchant) throws IdInvalidException {
+    public Merchant handleUpdateMerchant(@Valid  ReqUpdateMerchant reqUpdateMerchant) throws IdInvalidException {
         logger.info("⏳ Bắt đầu xử lý request: [{} {}]",
                 request.getMethod(),
                 request.getRequestURI());

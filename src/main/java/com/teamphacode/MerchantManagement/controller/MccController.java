@@ -31,7 +31,7 @@ public class MccController {
         );
     }
 
-    // <<< SỬA LẠI UPDATE
+
     @PutMapping("/mcc/updateMcc/{code}")
     public ResponseEntity<RestResponse<Mcc>> updateMcc(
             @PathVariable String code,
@@ -46,7 +46,7 @@ public class MccController {
         );
     }
 
-    // <<< SỬA LẠI GET ALL
+
     @GetMapping("/mcc/getAllMcc")
     public ResponseEntity<RestResponse<ResultPaginationDTO>> getAllMccs(Pageable pageable) {
         ResultPaginationDTO result = mccService.getAllMccs(pageable);
@@ -58,7 +58,6 @@ public class MccController {
         );
     }
 
-    // <<< SỬA LẠI DELETE
     @DeleteMapping("/mcc/removeMcc/{code}")
     public ResponseEntity<RestResponse<String>> removeMcc(@PathVariable String code){
         mccService.deleteMcc(code);
@@ -66,7 +65,7 @@ public class MccController {
                 RestResponse.<String>builder()
                         .errorCode(0)
                         .errorDesc("Xóa MCC thành công!")
-                        .data(null) // Không cần data khi xóa
+                        .data(null)
                         .build()
         );
     }

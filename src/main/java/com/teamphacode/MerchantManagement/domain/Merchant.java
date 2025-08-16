@@ -49,18 +49,18 @@ public class Merchant {
     @Size(min = 4, max = 4, message = "Mã loại dịch vụ phải có đúng 4 ký tự")
     private String mcc;
 
-    @Column(name = "city", length = 15, nullable = false)
+    @Column(name = "city", length = 50, nullable = false)
     @NotBlank(message = "Thành phố không được để trống")
-    @Size(max = 15, message = "Thành phố không được vượt quá 15 ký tự")
+    @Size(max = 50, message = "Thành phố không được vượt quá 15 ký tự")
     private String city;
 
-    @Column(name = "location", length = 15, nullable = false)
+    @Column(name = "location", length = 50, nullable = false)
     @NotBlank(message = "Địa chỉ không được để trống")
-    @Size(max = 15, message = "Địa chỉ không được vượt quá 15 ký tự")
+    @Size(max = 50, message = "Địa chỉ không được vượt quá 15 ký tự")
     private String location;
 
-    @Column(name = "phone_no", length = 20)
-    @Size(max = 20, message = "Số điện thoại không được vượt quá 20 ký tự")
+    @Column(name = "phone_no", length = 30)
+    @Size(max = 30, message = "Số điện thoại không được vượt quá 20 ký tự")
     private String phoneNo;
 
     @Column(name = "email", length = 100)

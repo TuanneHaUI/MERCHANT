@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -23,7 +24,7 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 public class GlobalException {
 
     // handle all exception
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler({Exception.class})
     public ResponseEntity<RestResponse<Object>> handleAllException(Exception ex) {
         RestResponse<Object> res = new RestResponse<Object>();
         res.setErrorCode(HttpStatus.INTERNAL_SERVER_ERROR.value());
@@ -34,7 +35,14 @@ public class GlobalException {
         res.setErrorDesc(errorMessage);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(res);
     }
-
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<RestResponse<Object>> handleBadCredentials(BadCredentialsException ex) {
+        RestResponse<Object> res = new RestResponse<>();
+        res.setErrorCode(HttpStatus.UNAUTHORIZED.value());
+        res.setErrorDesc("Tên đăng nhập hoặc mật khẩu không đúng"); // Hoặc dùng ex.getMessage()
+        res.setData(null);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(res);
+    }
     @ExceptionHandler(value = {
             IdInvalidException.class,
             UsernameNotFoundException.class

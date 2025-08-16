@@ -39,7 +39,9 @@ public class Users {
     private Instant updatedAt;
     private String createdBy;
     private String updatedBy;
-
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Role role;
 
     @PrePersist
     public void handleBeforeCreate() {
