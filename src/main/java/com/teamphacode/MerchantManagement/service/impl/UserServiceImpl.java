@@ -8,6 +8,7 @@ import com.teamphacode.MerchantManagement.domain.dto.request.ResupdateUser;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDTO;
 import com.teamphacode.MerchantManagement.repository.UserRepository;
 import com.teamphacode.MerchantManagement.service.UserService;
+import com.teamphacode.MerchantManagement.util.LogUtil;
 import com.teamphacode.MerchantManagement.util.errors.IdInvalidException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -25,11 +26,18 @@ import java.util.Optional;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+
     private final PasswordEncoder passwordEncoder;
+
     private final RoleServiceImpl roleService;
+
     private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
     @Autowired
     private HttpServletRequest request;
+
+    private LogUtil logUtil;
+
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleServiceImpl roleService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -154,7 +162,7 @@ public class UserServiceImpl implements UserService {
                 Role currentRole = this.roleService.fetchById(user.getRole().getId());
                 currentUser.setRole(currentRole != null ? currentRole : null);
             }
-            //logger.info("Create user success {}"+currentUser);
+            logUtil.logJsonResponseService( logger,currentUser,"create user in  handleAdminCreateUser success ");
             return this.userRepository.save(currentUser);
         }
 

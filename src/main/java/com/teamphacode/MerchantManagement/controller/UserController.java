@@ -4,13 +4,17 @@ package com.teamphacode.MerchantManagement.controller;
 import com.teamphacode.MerchantManagement.domain.Users;
 import com.teamphacode.MerchantManagement.domain.dto.request.ReqCreatedUser;
 import com.teamphacode.MerchantManagement.domain.dto.request.ResupdateUser;
-import com.teamphacode.MerchantManagement.domain.dto.response.ResCreateUserDTO;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDTO;
 import com.teamphacode.MerchantManagement.service.impl.UserServiceImpl;
+import com.teamphacode.MerchantManagement.util.LogUtil;
 import com.teamphacode.MerchantManagement.util.annotation.ApiMessage;
 import com.teamphacode.MerchantManagement.util.errors.IdInvalidException;
 import com.turkraft.springfilter.boot.Filter;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
@@ -29,24 +33,34 @@ public class UserController {
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserController(UserServiceImpl userService, PasswordEncoder passwordEncoder) {
+    @Autowired
+    private LogUtil logUtil;
+
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+
+    @Autowired
+    private HttpServletRequest request;
+
+    public UserController(UserServiceImpl userService, PasswordEncoder passwordEncoder, LogUtil logUtil) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping("/users")
     @ApiMessage("Create a new user")
-    public ResponseEntity<?> createNewUser(@Valid ReqCreatedUser userCreated, BindingResult result)
+    public ResponseEntity<?> createNewUser(@Valid @RequestBody ReqCreatedUser userCreated, BindingResult result)
             throws IdInvalidException, MethodArgumentNotValidException {
         boolean isEmailExist = this.userService.isEmailExist(userCreated.getEmail());
         if (result.hasErrors()) {
+            logger.warn("Dữ liệu dto không hợp lệ!");
             throw new MethodArgumentNotValidException(null, result);
         }
         if (isEmailExist) {
+            logger.warn("Email đã tồn tại");
             throw new IdInvalidException(
                     "Email " + userCreated.getEmail() + "đã tồn tại, vui lòng sử dụng email khác.");
         }
-
+        logger.info("Start run {} {}"+  request.getMethod(), request.getRequestURI());
         return ResponseEntity.status(HttpStatus.CREATED).body(this.userService.handleAdminCreateUser(userCreated));
     }
 

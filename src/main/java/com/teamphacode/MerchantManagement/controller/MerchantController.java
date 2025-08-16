@@ -1,18 +1,25 @@
 package com.teamphacode.MerchantManagement.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.teamphacode.MerchantManagement.domain.Merchant;
 import com.teamphacode.MerchantManagement.domain.dto.request.MerchantCreateRequest;
 import com.teamphacode.MerchantManagement.domain.dto.request.ReqUpdateMerchant;
 import com.teamphacode.MerchantManagement.domain.dto.response.*;
 import com.teamphacode.MerchantManagement.domain.dto.response.MerchantResponse;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDTO;
+import com.teamphacode.MerchantManagement.service.impl.MerchantHistoryServiceImpl;
 import com.teamphacode.MerchantManagement.service.impl.MerchantServiceImpl;
+import com.teamphacode.MerchantManagement.util.LogUtil;
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
 import com.teamphacode.MerchantManagement.util.errors.IdInvalidException;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -30,6 +37,8 @@ import java.util.regex.Pattern;
 public class MerchantController {
     @Autowired
     private MerchantServiceImpl merchantService;
+    private static final Logger logger = LoggerFactory.getLogger(MerchantController.class);
+
 
     @PostMapping("/merchant/create")
     ResponseEntity<MerchantResponse> createMerchant(@Valid @RequestBody MerchantCreateRequest request){
@@ -43,14 +52,24 @@ public class MerchantController {
     }
 
      @GetMapping("/merchants/report-by-status")
-     public ResponseEntity<ResultPaginationDTO> reportByStatus(@RequestParam("status") StatusEnum statusEnum, Pageable pageable) throws IdInvalidException {
-         return ResponseEntity.ok(this.merchantService.handleReportMerchantByStatus(statusEnum, pageable));
+     public ResponseEntity<ResultPaginationDTO> reportByStatus(@RequestParam String requestId,
+                                                               @RequestParam String requestTime,
+                                                               @RequestParam("status") StatusEnum statusEnum, Pageable pageable) throws IdInvalidException {
+         logger.info("requestBody: "+ requestId + " requestTime: " + requestTime + " data: " +  statusEnum );
+
+         ResultPaginationDTO results = this.merchantService.handleReportMerchantByStatus(statusEnum, pageable);
+
+         LogUtil.logJsonResponse(logger, HttpStatus.OK, results);
+
+         return ResponseEntity.ok(results);
      }
 
 
 
     @GetMapping("/merchants/search")
     public ResponseEntity<ResultPaginationDTO> findByFilter(
+            @RequestParam String requestId,
+            @RequestParam String requestTime,
             @RequestParam(required = false) String filter,
             Pageable pageable) throws IdInvalidException{
 
@@ -93,9 +112,13 @@ public class MerchantController {
                 }
             }
         }
+        logger.info("requestBody: "+ requestId + " requestTime: " + requestTime + " data: " +  merchantId +", " + accountNo+", " + status);
+        ResultPaginationDTO results =  this.merchantService.handleFindByMerchantIdAndAccountNoAndStatus(merchantId, accountNo, status, pageable);
+
+        LogUtil.logJsonResponse(logger, HttpStatus.OK, results);
 
         return ResponseEntity.ok(
-                this.merchantService.handleFindByMerchantIdAndAccountNoAndStatus(merchantId, accountNo, status, pageable)
+                results
         );
     }
 
@@ -103,48 +126,85 @@ public class MerchantController {
 
     @GetMapping("/merchants/summary-transaction-by-merchant")
     public ResponseEntity<List<MerchantTransactionSummaryDTO>> getTransactionSummary(
+            @RequestParam String requestId,
+            @RequestParam String requestTime,
             @RequestParam("fromDate") LocalDateTime fromDate,
             @RequestParam("toDate") LocalDateTime toDate) {
+        logger.info("requestBody: "+ requestId + " requestTime: " + requestTime + " data: " +  fromDate +", " + toDate);
 
-        return ResponseEntity.ok(this.merchantService.handleCountTransactionByMerchant(fromDate, toDate));
+        List<MerchantTransactionSummaryDTO> results = this.merchantService.handleCountTransactionByMerchant(fromDate, toDate);
+
+        LogUtil.logJsonResponse(logger, HttpStatus.OK, results);
+
+        return ResponseEntity.ok(results);
     }
 
     @GetMapping("/merchants/fetch-transaction/{merchantId}")
     public ResponseEntity<List<TransactionReportDTO>> getTransactionsByMerchant(
             @PathVariable String merchantId,
             @RequestParam LocalDateTime fromDate,
-            @RequestParam LocalDateTime toDate
+            @RequestParam LocalDateTime toDate,
+            @RequestParam String requestId,
+            @RequestParam String requestTime
     ) throws IdInvalidException{
+        logger.info("requestBody: "+ requestId + " requestTime: " + requestTime + " data: " + merchantId +", "+ fromDate +", " + toDate);
+
+        List<TransactionReportDTO> results = this.merchantService.handleFindTransactionsByMerchant(merchantId, fromDate, toDate);
+
+        LogUtil.logJsonResponse(logger, HttpStatus.OK, results);
+
         return ResponseEntity.ok(this.merchantService.handleFindTransactionsByMerchant(merchantId, fromDate, toDate));
     }
 
     @GetMapping("/merchants/count-merchant-by-year")
     public ResponseEntity<List<ResMerchantYearStatusDTO>> countMerchantByYear(
+            @RequestParam String requestId,
+            @RequestParam String requestTime,
             @RequestParam("year") int year){
+        logger.info("requestBody: "+ requestId + " requestTime: " + requestTime + " data: " +  year);
 
-        return ResponseEntity.ok(this.merchantService.handleCountMerchantByYear(year));
+        List<ResMerchantYearStatusDTO> results = this.merchantService.handleCountMerchantByYear(year);
+        LogUtil.logJsonResponse(logger, HttpStatus.OK, results);
+        return ResponseEntity.ok(results);
     }
 
-    @GetMapping("/merchants/export-merchant-year")
-    public ResponseEntity<byte[]> downloadMerchantYearReport(@RequestParam int year) throws IOException {
-        List<ResMerchantYearStatusDTO> data = this.merchantService.handleCountMerchantByYear(year);
+        @GetMapping("/merchants/export-merchant-year")
+        public ResponseEntity<byte[]> downloadMerchantYearReport(@RequestParam String requestId,
+                                                                 @RequestParam String requestTime,
+                                                                 @RequestParam int year) throws IOException {
 
-        byte[] excelFile = this.merchantService.handleExportMerchantByYear(year, data);
+            logger.info("requestBody: "+ requestId + " requestTime: " + requestTime + " data: " +  year);
 
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=merchant_year_" + year + ".xlsx")
-                .contentType(MediaType.parseMediaType(
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
-                .body(excelFile);
-    }
+            List<ResMerchantYearStatusDTO> data = this.merchantService.handleCountMerchantByYear(year);
+
+            LogUtil.logJsonResponseService(logger, data, "List<ResMerchantYearStatusDTO> data: ");
+
+            byte[] excelFile = this.merchantService.handleExportMerchantByYear(year, data);
+
+            if(excelFile != null){
+                logger.info("respose: tạo excel thành công");
+            }
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=merchant_year_" + year + ".xlsx")
+                    .contentType(MediaType.parseMediaType(
+                            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                    .body(excelFile);
+        }
 
     @GetMapping("/merchants/export-transactionSummary")
-    public ResponseEntity<byte[]> downloadTransactionSummary(@RequestParam("fromDate")  LocalDateTime fromDate,
+    public ResponseEntity<byte[]> downloadTransactionSummary(@RequestParam String requestId,
+                                                             @RequestParam String requestTime,
+                                                             @RequestParam("fromDate")  LocalDateTime fromDate,
                                                              @RequestParam("toDate") LocalDateTime toDate) throws IOException {
+        logger.info("requestBody: "+ requestId + " requestTime: " + requestTime + " data: " + fromDate +", " + toDate);
+
         List<MerchantTransactionSummaryDTO> data = this.merchantService.handleCountTransactionByMerchant(fromDate, toDate);
+        LogUtil.logJsonResponseService(logger, data, "List<MerchantTransactionSummaryDTO> data: ");
 
         byte[] excelFile = this.merchantService.handleExportTransactionSummary(fromDate, toDate, data);
-
+        if(excelFile != null){
+            logger.info("respose: tạo excel thành công");
+        }
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=merchant_year_" + toDate + ".xlsx")
                 .contentType(MediaType.parseMediaType(
@@ -153,12 +213,18 @@ public class MerchantController {
     }
 
     @GetMapping("/merchants/export-transactionDetail/{merchantId}")
-    public ResponseEntity<byte[]> downloadTransactionDetail( @PathVariable String merchantId, @RequestParam("fromDate")  LocalDateTime fromDate,
-                                                             @RequestParam("toDate") LocalDateTime toDate) throws IOException, IdInvalidException {
+    public ResponseEntity<byte[]> downloadTransactionDetail(@PathVariable String merchantId,
+                                                            @RequestParam("fromDate")  LocalDateTime fromDate,
+                                                             @RequestParam("toDate") LocalDateTime toDate,@RequestParam String requestId,
+                                                            @RequestParam String requestTime) throws IOException, IdInvalidException {
+        logger.info("requestBody: "+ requestId + " requestTime: " + requestTime + " data: " + merchantId +", "+ fromDate +", " + toDate);
         List<TransactionReportDTO> data = this.merchantService.handleFindTransactionsByMerchant(merchantId, fromDate, toDate);
+        LogUtil.logJsonResponseService(logger, data, "List<TransactionReportDTO> data: ");
 
         byte[] excelFile = this.merchantService.handleExportTransactionDetailByMerchant(fromDate, toDate, data);
-
+        if(excelFile != null){
+            logger.info("respose: tạo excel thành công");
+        }
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=merchant_year_" + toDate + ".xlsx")
                 .contentType(MediaType.parseMediaType(

@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1")
 public class MccController {
@@ -19,54 +21,28 @@ public class MccController {
     private MccServiceImpl mccService;
 
     @PostMapping("/mcc/createMcc")
-    public ResponseEntity<RestResponse<Mcc>> createMcc(@Valid @RequestBody Mcc request) {
+    public ResponseEntity<?> createMcc(@Valid @RequestBody Mcc request) {
         Mcc createdMcc = mccService.createMcc(request);
-        return new ResponseEntity<>(
-                RestResponse.<Mcc>builder()
-                        .errorCode(0)
-                        .errorDesc("Thêm mới MCC thành công!")
-                        .data(createdMcc)
-                        .build(),
-                HttpStatus.CREATED
-        );
+        return ResponseEntity.ok(createdMcc);
     }
 
-
     @PutMapping("/mcc/updateMcc/{code}")
-    public ResponseEntity<RestResponse<Mcc>> updateMcc(
+    public ResponseEntity<?> updateMcc(
             @PathVariable String code,
             @Valid @RequestBody MccUpdateRequest request) {
         Mcc updatedMcc = mccService.updateMcc(code, request);
-        return ResponseEntity.ok(
-                RestResponse.<Mcc>builder()
-                        .errorCode(0)
-                        .errorDesc("Cập nhật MCC thành công!")
-                        .data(updatedMcc)
-                        .build()
-        );
+        return ResponseEntity.ok(updatedMcc);
     }
 
-
     @GetMapping("/mcc/getAllMcc")
-    public ResponseEntity<RestResponse<ResultPaginationDTO>> getAllMccs(Pageable pageable) {
+    public ResponseEntity<?> getAllMccs(Pageable pageable) {
         ResultPaginationDTO result = mccService.getAllMccs(pageable);
-        return ResponseEntity.ok(
-                RestResponse.<ResultPaginationDTO>builder()
-                        .errorCode(0)
-                        .data(result)
-                        .build()
-        );
+        return ResponseEntity.ok(result);
     }
 
     @DeleteMapping("/mcc/removeMcc/{code}")
-    public ResponseEntity<RestResponse<String>> removeMcc(@PathVariable String code){
+    public ResponseEntity<?> removeMcc(@PathVariable String code){
         mccService.deleteMcc(code);
-        return ResponseEntity.ok(
-                RestResponse.<String>builder()
-                        .errorCode(0)
-                        .errorDesc("Xóa MCC thành công!")
-                        .data(null)
-                        .build()
-        );
+        return ResponseEntity.ok("Xóa Mcc " + code + "thành công");
     }
 }
