@@ -2,6 +2,7 @@ package com.teamphacode.MerchantManagement.controller;
 
 import com.teamphacode.MerchantManagement.domain.Merchant;
 import com.teamphacode.MerchantManagement.domain.dto.request.MerchantCreateRequest;
+import com.teamphacode.MerchantManagement.domain.dto.response.ResImportExcel;
 import com.teamphacode.MerchantManagement.domain.dto.response.RestResponse;
 import com.teamphacode.MerchantManagement.service.MerchantService;
 import com.teamphacode.MerchantManagement.util.excel.BaseExport;
@@ -85,7 +86,6 @@ public class ExcelController {
 
     @PostMapping(value = "/merchant/import/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Import file Excel merchant")
-    @ApiResponse(responseCode = "200", description = "Upload thành công")
     public ResponseEntity<?> importMerchantsFromExcel(
             @Parameter(
                     description = "File Excel upload",
@@ -125,10 +125,7 @@ public class ExcelController {
         merchantService.handleCreateMultipleMerchants(requests);
 
         String message = "Tải lên và xử lý thành công " + requests.size() + " merchants từ file: " + file.getOriginalFilename();
-        RestResponse<String> response = new RestResponse<>();
-        response.setData(message);
-        response.setErrorCode(HttpStatus.OK.value());
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(new ResImportExcel(message));
     }
 
     //-----------------------------------------------------------------------------------------------------------
