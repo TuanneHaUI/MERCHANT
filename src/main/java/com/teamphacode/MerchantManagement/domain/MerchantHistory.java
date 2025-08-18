@@ -1,9 +1,6 @@
 package com.teamphacode.MerchantManagement.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,7 +26,8 @@ public class MerchantHistory {
 
     private String changedBy;
 
+    @Column(name = "change_content", length = 3000)
     private String changeContent;
-
+    @Column(name = "reason", length = 5000)
     private String reason;
 }

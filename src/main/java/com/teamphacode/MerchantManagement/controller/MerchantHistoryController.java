@@ -3,6 +3,7 @@ package com.teamphacode.MerchantManagement.controller;
 
 import com.teamphacode.MerchantManagement.domain.MerchantHistory;
 import com.teamphacode.MerchantManagement.domain.dto.request.ReqMerchantHistory;
+import com.teamphacode.MerchantManagement.domain.dto.response.ResultPaginationDTO;
 import com.teamphacode.MerchantManagement.service.impl.MerchantHistoryServiceImpl;
 import com.teamphacode.MerchantManagement.service.impl.MerchantServiceImpl;
 import com.turkraft.springfilter.boot.Filter;
@@ -24,7 +25,7 @@ public class MerchantHistoryController {
     private MerchantHistoryServiceImpl merchantHistoryService;
 
     @GetMapping("/merchant/history")
-    public ResponseEntity<List<MerchantHistory>> getMerchantHistory(@Filter Specification<MerchantHistory> spec, Pageable pageable){
+    public ResponseEntity<ResultPaginationDTO> getMerchantHistory(@Filter Specification<MerchantHistory> spec, Pageable pageable){
 
         return ResponseEntity.ok(this.merchantHistoryService.handleGetMerchantHistoryByMerchantIdOrAccountNo(spec, pageable));
     }

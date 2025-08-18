@@ -3,6 +3,7 @@ package com.teamphacode.MerchantManagement.controller;
 import com.teamphacode.MerchantManagement.domain.Users;
 import com.teamphacode.MerchantManagement.domain.dto.request.ReqLoginDTO;
 import com.teamphacode.MerchantManagement.domain.dto.request.ReqRegister;
+import com.teamphacode.MerchantManagement.domain.dto.request.ReqSendOtp;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResCreateUserDTO;
 import com.teamphacode.MerchantManagement.domain.dto.response.ResLoginDTO;
 import com.teamphacode.MerchantManagement.domain.dto.response.RestloginOtp;
@@ -56,132 +57,143 @@ public class AuthController {
         this.otpService = otpService;
     }
 
-//    @PostMapping("/auth/login")
-//    public ResponseEntity<ResLoginDTO> login(@Valid @RequestBody ReqLoginDTO loginDto) {
-//        // Nạp input gồm username/password vào Security
-//        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-//                loginDto.getUsername(), loginDto.getPassword());
-//
-//        // xác thực người dùng => cần viết hàm loadUserByUsername
-//        Authentication authentication = authenticationManagerBuilder.getObject()
-//                .authenticate(authenticationToken);
-//        // create a token
-//        // set thông tin người dùng đăng nhập vào context( có thể dùng sao này)
-//        SecurityContextHolder.getContext().setAuthentication(authentication);
-//
-//        ResLoginDTO res = new ResLoginDTO();
-//        Users currentUserDB = userService.handleGetUserByUsername(loginDto.getUsername());
-//        if (currentUserDB != null) {
-//            ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(currentUserDB.getId(),
-//                    currentUserDB.getEmail(),
-//                    currentUserDB.getName());
-//            res.setUser(userLogin);
-//        }
-//        String access_token = this.securityUtil.createAccessToken(authentication.getName(), res);
-//        res.setAccessToken(access_token);
-//
-//        // create refresh token
-//        String refresh_token = this.securityUtil.createRefreshToken(loginDto.getUsername(), res);
-//
-//        // update user
-//        this.userService.updateUserToken(refresh_token, loginDto.getUsername());
-//
-//        // set cookies
-//        ResponseCookie resCookies = ResponseCookie
-//                .from("refresh_token", refresh_token)
-//                .httpOnly(true)
-//                .secure(true)
-//                .path("/")
-//                .maxAge(refreshTokenExpiration)
-//                .build();
-//        return ResponseEntity.ok()
-//                .header(HttpHeaders.SET_COOKIE, resCookies.toString())
-//                .body(res);
-//    }
-
     @PostMapping("/auth/login")
-    @ApiMessage("Login susscess")
-    public ResponseEntity<?> login(@RequestBody ReqLoginDTO loginDto) throws IdInvalidException {
-        try {
-            if (loginDto.getUsername() == null || loginDto.getUsername().isEmpty() ||
-                    loginDto.getPassword() == null || loginDto.getPassword().isEmpty()) {
-                return ResponseEntity.badRequest().body("Username và password không được để trống");
-            }
+    public ResponseEntity<ResLoginDTO> login(@Valid @RequestBody ReqLoginDTO loginDto) {
+        // Nạp input gồm username/password vào Security
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+                loginDto.getUsername(), loginDto.getPassword());
 
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
-                    loginDto.getUsername(), loginDto.getPassword());
+        // xác thực người dùng => cần viết hàm loadUserByUsername
+        Authentication authentication = authenticationManagerBuilder.getObject()
+                .authenticate(authenticationToken);
+        // create a token
+        // set thông tin người dùng đăng nhập vào context( có thể dùng sao này)
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-            Authentication authentication = authenticationManagerBuilder.getObject()
-                    .authenticate(authenticationToken);
-
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            String otp = String.format("%06d", new Random().nextInt(1_000_000));
-            otpService.saveOtp(loginDto.getUsername(), otp);
-
-            this.emailServiceImpl.sendOtpMessage(loginDto.getUsername(), otp);
-
-            RestloginOtp restloginOtp = new RestloginOtp();
-            restloginOtp.setEmail(loginDto.getUsername());
-            restloginOtp.setDescription("OTP đã được gửi đến email của bạn");
-
-            return ResponseEntity.ok(restloginOtp);
-
-        }  catch (Exception e) {
-            // Lỗi hệ thống khác
-            logger.error("Lỗi khi đăng nhập", e);
-            throw new IdInvalidException("Lỗi khi đăng nhập");
-        }
-    }
-
-    @PostMapping("/auth/verify-otp")
-    @ApiMessage("otp susscess")
-    public ResponseEntity<?> verifyOtp(@RequestBody Map<String, String> request) throws Exception {
-        try {
-            String email = request.get("email");
-            String otp = request.get("otp");
-
-            if (email == null || email.isEmpty() || otp == null || otp.isEmpty()) {
-                return ResponseEntity.badRequest().body("Email và OTP không được để trống");
-            }
-
-            if (!otpService.verifyOtp(email, otp)) {
-                throw new IdInvalidException("otp đã hết hạn hoặc không đúng");
-            }
-
-            Users currentUser = userService.handleGetUserByUsername(email);
-            if (currentUser == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Tài khoản không tồn tại");
-            }
-
-            ResLoginDTO res = new ResLoginDTO();
-            ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(
-                    currentUser.getId(), currentUser.getEmail(), currentUser.getName());
+        ResLoginDTO res = new ResLoginDTO();
+        Users currentUserDB = userService.handleGetUserByUsername(loginDto.getUsername());
+        if (currentUserDB != null) {
+            ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(currentUserDB.getId(),
+                    currentUserDB.getEmail(),
+                    currentUserDB.getName());
             res.setUser(userLogin);
-
-            String access_token = securityUtil.createAccessToken(currentUser.getEmail(), res);
-            String refresh_token = securityUtil.createRefreshToken(currentUser.getEmail(), res);
-
-            res.setAccessToken(access_token);
-            userService.updateUserToken(refresh_token, currentUser.getEmail());
-
-            ResponseCookie resCookies = ResponseCookie
-                    .from("refresh_token", refresh_token)
-                    .httpOnly(true)
-                    .secure(true)
-                    .path("/")
-                    .maxAge(refreshTokenExpiration)
-                    .build();
-
-            return ResponseEntity.ok()
-                    .header(HttpHeaders.SET_COOKIE, resCookies.toString())
-                    .body(res);
-
-        } catch (Exception e) {
-            logger.error("Lỗi verify OTP", e);
-            throw new Exception("Lỗi verify OTP");
         }
+        String access_token = this.securityUtil.createAccessToken(authentication.getName(), res);
+        res.setAccessToken(access_token);
+
+        // create refresh token
+        String refresh_token = this.securityUtil.createRefreshToken(loginDto.getUsername(), res);
+
+        // update user
+        this.userService.updateUserToken(refresh_token, loginDto.getUsername());
+
+        // set cookies
+        ResponseCookie resCookies = ResponseCookie
+                .from("refresh_token", refresh_token)
+                .httpOnly(true)
+                .secure(true)
+                .path("/")
+                .maxAge(refreshTokenExpiration)
+                .build();
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, resCookies.toString())
+                .body(res);
     }
+
+    @GetMapping("/auth/account")
+    @ApiMessage("fetch account")
+    public ResponseEntity<ResLoginDTO.UserGetAccount> getAccount() {
+        String email = SecurityUtil.getCurrentUserLogin().isPresent() ? SecurityUtil.getCurrentUserLogin().get()
+                : "";
+
+        Users currentUserDB = userService.handleGetUserByUsername(email);
+        ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin();
+        ResLoginDTO.UserGetAccount userGetAccount = new ResLoginDTO.UserGetAccount();
+        if (currentUserDB != null) {
+            userLogin.setId(currentUserDB.getId());
+            userLogin.setEmail(currentUserDB.getEmail());
+            userLogin.setName(currentUserDB.getName());
+            //userLogin.setRole(currentUserDB.getRole());
+            userGetAccount.setUser(userLogin);
+        }
+        return ResponseEntity.ok().body(userGetAccount);
+    }
+//    @PostMapping("/auth/login")
+//    @ApiMessage("Login susscess")
+//    public ResponseEntity<?> login(@RequestBody ReqLoginDTO loginDto) throws IdInvalidException {
+//            if (loginDto.getUsername() == null || loginDto.getUsername().isEmpty() ||
+//                    loginDto.getPassword() == null || loginDto.getPassword().isEmpty()) {
+//                return ResponseEntity.badRequest().body("Username và password không được để trống");
+//            }
+//
+//            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
+//                    loginDto.getUsername(), loginDto.getPassword());
+//
+//            Authentication authentication = authenticationManagerBuilder.getObject()
+//                    .authenticate(authenticationToken);
+//
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//            String otp = String.format("%06d", new Random().nextInt(1_000_000));
+//            otpService.saveOtp(loginDto.getUsername(), otp);
+//
+//            this.emailServiceImpl.sendOtpMessage(loginDto.getUsername(), otp);
+//
+//            RestloginOtp restloginOtp = new RestloginOtp();
+//            restloginOtp.setEmail(loginDto.getUsername());
+//            restloginOtp.setDescription("OTP đã được gửi đến email của bạn");
+//            return ResponseEntity.ok(restloginOtp);
+//
+//    }
+//
+//    @PostMapping("/auth/verify-otp")
+//    @ApiMessage("otp susscess")
+//    public ResponseEntity<?> verifyOtp(@RequestBody Map<String, String> request) throws Exception {
+//        try {
+//            String email = request.get("email");
+//            String otp = request.get("otp");
+//
+//            if (email == null || email.isEmpty() || otp == null || otp.isEmpty()) {
+//                return ResponseEntity.badRequest().body("Email và OTP không được để trống");
+//            }
+//
+//            if (!otpService.verifyOtp(email, otp)) {
+//                throw new IdInvalidException("otp đã hết hạn hoặc không đúng");
+//            }
+//
+//            Users currentUser = userService.handleGetUserByUsername(email);
+//            if (currentUser == null) {
+//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Tài khoản không tồn tại");
+//            }
+//
+//            ResLoginDTO res = new ResLoginDTO();
+//            ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(
+//                    currentUser.getId(), currentUser.getEmail(), currentUser.getName());
+//            res.setUser(userLogin);
+//
+//            String access_token = securityUtil.createAccessToken(currentUser.getEmail(), res);
+//            String refresh_token = securityUtil.createRefreshToken(currentUser.getEmail(), res);
+//
+//            res.setAccessToken(access_token);
+//            userService.updateUserToken(refresh_token, currentUser.getEmail());
+//
+//            ResponseCookie resCookies = ResponseCookie
+//                    .from("refresh_token", refresh_token)
+//                    .httpOnly(true)
+//                    .secure(true)
+//                    .path("/")
+//                    .maxAge(refreshTokenExpiration)
+//                    .build();
+//
+//            return ResponseEntity.ok()
+//                    .header(HttpHeaders.SET_COOKIE, resCookies.toString())
+//                    .body(res);
+//
+//        } catch (Exception e) {
+//            logger.error("Lỗi verify OTP", e);
+//            throw new Exception("Lỗi verify OTP");
+//        }
+//    }
 
     @GetMapping("/auth/refresh")
     @ApiMessage("refresh susscess")
@@ -259,7 +271,7 @@ public class AuthController {
 
     @PostMapping("/auth/register")
     @ApiMessage("Register otp")
-    public ResponseEntity<?> register(@Valid @RequestBody ReqRegister postManUser) throws IdInvalidException {
+    public ResponseEntity<?> register(@Valid @RequestBody ReqSendOtp postManUser) throws IdInvalidException {
         if(postManUser == null){
             throw new IdInvalidException("User null");
         }
@@ -288,7 +300,7 @@ public class AuthController {
         if (!otpService.verifyOtp(postManUser.getEmail(), postManUser.getOtp())) {
             throw new IdInvalidException("otp đã hết hạn hoặc không đúng");
         }
-        if(!postManUser.getPassWord().equals(postManUser.getConfirmPassWord())){
+        if(!postManUser.getPassword().equals(postManUser.getConfirmPassword())){
             throw new IdInvalidException("Mật khẩu không hợp lệ");
         }
         Users currentUser = this.userService.handleCreateUser(postManUser);

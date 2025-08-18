@@ -2,13 +2,15 @@ package com.teamphacode.MerchantManagement.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.teamphacode.MerchantManagement.domain.Users;
 import com.teamphacode.MerchantManagement.service.impl.MerchantHistoryServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class LogUtil {
 
     private static final ObjectMapper mapper = new ObjectMapper()
@@ -33,4 +35,5 @@ public class LogUtil {
             logger.error("Error serializing response", e);
         }
     }
+
 }
