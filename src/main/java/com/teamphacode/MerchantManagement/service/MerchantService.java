@@ -15,6 +15,7 @@ import java.util.List;
 
 
 public interface MerchantService  {
+    void deleteMerchant(String id);
 
     MerchantResponse handleCreateMerchant(MerchantCreateRequest request);
 

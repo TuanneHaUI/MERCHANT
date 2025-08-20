@@ -66,13 +66,36 @@ public class MerchantServiceImpl implements MerchantService {
     private HttpServletRequest request;
     @Autowired
     private Validator validator;
+
     @Override
-    public MerchantResponse handleCreateMerchant(MerchantCreateRequest request){
-        Merchant merchant = merchantMapper.toMerchant(request);
-        merchant.setMerchantId(merchantIdConfig.generateMerchantId());
-        if (merchantRepository.existsByAccountNo(request.getAccountNo())) {
+    public void deleteMerchant(String id) {
+        logger.info("⏳ Bắt đầu xử lý request: [{} {}]",
+                request.getMethod(),
+                request.getRequestURI());
+        Merchant merchant = merchantRepository.findById(id).orElseThrow(() -> new AppException("id ko ton tai"));
+        logger.info("✅xóa thành công!");
+        merchantRepository.delete(merchant);
+    }
+
+    @Override
+    public MerchantResponse handleCreateMerchant(MerchantCreateRequest requests){
+        logger.info("⏳ Bắt đầu xử lý request: [{} {}]",
+                request.getMethod(),
+                request.getRequestURI());
+        Merchant merchant = merchantMapper.toMerchant(requests);
+        if (merchantRepository.existsById(requests.getMerchantId())) {
+            logger.error("❌ accountMerchantId bị trùng: {}", requests.getMerchantId());
+            throw new AppException("MerchantId bị trùng", 400);
+        }
+        if (merchantRepository.existsByAccountNo(requests.getAccountNo())) {
+            logger.error("❌ accountNo bị trùng: {}", requests.getAccountNo());
             throw new AppException("accountNo bị trùng", 400);
         }
+        if(!mccRepository.existsById(requests.getMcc())){
+            logger.error("❌ Mã mcc không tồn tại");
+            throw new AppException("Mã mcc không tồn tại", 400);
+        }
+        logger.info("✅Lưu thành công!");
         return merchantMapper.toMerchantResponse(merchantRepository.save(merchant));
     }
 
@@ -84,7 +107,11 @@ public class MerchantServiceImpl implements MerchantService {
     @Override
     @Transactional
     public void handleCreateMultipleMerchants(List<MerchantCreateRequest> requests) {
+        logger.info("⏳ Bắt đầu xử lý request: [{} {}]",
+                request.getMethod(),
+                request.getRequestURI());
         if (requests == null || requests.isEmpty()) {
+            logger.error("❌ file rỗng");
             return;
         }
 
@@ -112,6 +139,7 @@ public class MerchantServiceImpl implements MerchantService {
         duplicateMerchantIdsInFile.forEach((mid, rows) -> fileErrors.append("Mã định danh '").append(mid).append("' bị trùng ở các dòng: ").append(rows).append(". "));
 
         if (fileErrors.length() > 0) {
+            logger.error("Phát hiện dữ liệu trùng lặp trong file: " + fileErrors.toString());
             throw new AppException("Phát hiện dữ liệu trùng lặp trong file: " + fileErrors.toString(), 400);
         }
 
@@ -154,12 +182,14 @@ public class MerchantServiceImpl implements MerchantService {
 
         // --- BƯỚC 4: RA QUYẾT ĐỊNH CUỐI CÙNG ---
         if (allErrors.length() > 0) {
+            logger.error("Dữ liệu trong file không hợp lệ: " + allErrors.toString());
             // Nếu có BẤT KỲ lỗi nào được ghi nhận, ném ra exception với tất cả các lỗi
             throw new AppException("Dữ liệu trong file không hợp lệ: " + allErrors.toString(), 400);
         }
 
         // Chỉ lưu nếu danh sách không rỗng và không có lỗi nào xảy ra
         if (!merchantsToSave.isEmpty()) {
+            logger.info("✅Lưu thành công!");
             merchantRepository.saveAll(merchantsToSave);
         }
         redisTemplate.delete(HASH_KEY);

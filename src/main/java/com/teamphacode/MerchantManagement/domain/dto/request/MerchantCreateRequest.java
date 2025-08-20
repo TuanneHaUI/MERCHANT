@@ -1,5 +1,7 @@
 package com.teamphacode.MerchantManagement.domain.dto.request;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.teamphacode.MerchantManagement.util.constant.StatusEnum;
+import com.teamphacode.MerchantManagement.util.time.LenientLocalDateTimeDeserializer;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -54,10 +56,11 @@ public class MerchantCreateRequest {
 
     @NotNull(message = "Trạng thái không được để trống")
     private StatusEnum status;
-
+    @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
     private LocalDateTime openDate;
-
+    @JsonDeserialize(using = LenientLocalDateTimeDeserializer.class)
     private LocalDateTime closeDate;
 
+    @Size(max = 4, message = "Mã chi nhánh không được vượt quá 4 ký tự")
     private String branchCode;
 }

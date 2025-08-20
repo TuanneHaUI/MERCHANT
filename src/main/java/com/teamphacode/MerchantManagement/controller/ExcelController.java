@@ -5,11 +5,17 @@ import com.teamphacode.MerchantManagement.domain.dto.request.MerchantCreateReque
 import com.teamphacode.MerchantManagement.domain.dto.response.ResImportExcel;
 import com.teamphacode.MerchantManagement.domain.dto.response.RestResponse;
 import com.teamphacode.MerchantManagement.service.MerchantService;
+import com.teamphacode.MerchantManagement.service.impl.MccServiceImpl;
+import com.teamphacode.MerchantManagement.service.impl.MerchantHistoryServiceImpl;
+import com.teamphacode.MerchantManagement.service.impl.MerchantServiceImpl;
+import com.teamphacode.MerchantManagement.util.LogUtil;
 import com.teamphacode.MerchantManagement.util.excel.BaseExport;
 import com.teamphacode.MerchantManagement.util.excel.BaseImport;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -38,9 +44,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 @Slf4j
 @RequestMapping("/api/v1")
 public class ExcelController {
-
     @Autowired
     private MerchantService merchantService;
+    private static final Logger logger = LoggerFactory.getLogger(MerchantServiceImpl.class);
 
     @GetMapping("/merchant/export/excel")
     public void exportToExcel(HttpServletResponse response) throws IOException {
@@ -87,6 +93,8 @@ public class ExcelController {
     @PostMapping(value = "/merchant/import/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "Import file Excel merchant")
     public ResponseEntity<?> importMerchantsFromExcel(
+            @RequestParam String requestId,
+            @RequestParam String requestTime,
             @Parameter(
                     description = "File Excel upload",
                     content = @Content(
@@ -95,7 +103,9 @@ public class ExcelController {
                     )
             )
             @RequestParam("file") MultipartFile file) throws Exception {
+        logger.info("requestBody: "+ requestId + " requestTime: " + requestTime + " data: file");
         if (file.isEmpty()) {
+            logger.warn("file empty");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Vui lòng chọn một file để tải lên.");
         }
 
@@ -123,8 +133,8 @@ public class ExcelController {
 
 
         merchantService.handleCreateMultipleMerchants(requests);
-
         String message = "Tải lên và xử lý thành công " + requests.size() + " merchants từ file: " + file.getOriginalFilename();
+        LogUtil.logJsonResponse(logger, HttpStatus.OK, message);
         return ResponseEntity.ok(new ResImportExcel(message));
     }
 

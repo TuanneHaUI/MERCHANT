@@ -8,6 +8,9 @@ import com.teamphacode.MerchantManagement.repository.MccRepository;
 import com.teamphacode.MerchantManagement.repository.MerchantRepository;
 import com.teamphacode.MerchantManagement.service.MccService;
 import com.teamphacode.MerchantManagement.util.errors.AppException;
+import jakarta.servlet.http.HttpServletRequest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,20 +25,33 @@ public class MccServiceImpl implements MccService {
     private MccRepository mccRepository;
     @Autowired
     private MerchantRepository merchantRepository;
+
+    private static final Logger logger = LoggerFactory.getLogger(MccServiceImpl.class);
+
+    @Autowired
+    private HttpServletRequest requests;
     @Override
     public Mcc createMcc(Mcc request) {
+        logger.info("⏳ Bắt đầu xử lý request: [{} {}]",
+                requests.getMethod(),
+                requests.getRequestURI());
         if(mccRepository.existsById(request.getCode())) throw new AppException("Mã MCC '" + request.getCode() + "' đã tồn tại.", HttpStatus.BAD_REQUEST.value());
+        logger.info("✅Tao thành công!");
         return mccRepository.save(request);
     }
 
     @Override
     public Mcc updateMcc(String code, MccUpdateRequest request) {
+        logger.info("⏳ Bắt đầu xử lý request: [{} {}]",
+                requests.getMethod(),
+                requests.getRequestURI());
         Mcc mcc = mccRepository.findById(code)
                 .orElseThrow(() -> new AppException("MCC not found with code: " + code));
 
         mcc.setDescription(request.getDescription() != null ? request.getDescription() : mcc.getDescription());
         mcc.setDescriptionEn(request.getDescriptionEn() != null ? request.getDescriptionEn() : mcc.getDescriptionEn());
         mcc.setActive(request.isActive() != mcc.isActive() ? request.isActive() : mcc.isActive());
+        logger.info("✅Lưu thành công!");
         return mccRepository.save(mcc);
     }
 
@@ -58,7 +74,11 @@ public class MccServiceImpl implements MccService {
 
     @Override
     public void deleteMcc(String code) {
+        logger.info("⏳ Bắt đầu xử lý request: [{} {}]",
+                requests.getMethod(),
+                requests.getRequestURI());
         if(!mccRepository.existsById(code)) throw new AppException("not found code");
+        logger.info("✅Xóa thành công!");
         mccRepository.deleteById(code);
     }
 }

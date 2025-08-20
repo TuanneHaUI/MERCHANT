@@ -39,9 +39,24 @@ public class MerchantController {
     private MerchantServiceImpl merchantService;
     private static final Logger logger = LoggerFactory.getLogger(MerchantController.class);
 
+    @DeleteMapping("/merchant/delete/{id}")
+    ResponseEntity<?> deleteMerchant(
+            @RequestParam String requestId,
+            @RequestParam String requestTime,
+            @PathVariable String id){
+        logger.info("requestBody: "+ requestId + " requestTime: " + requestTime + " data: id " + id);
+        merchantService.deleteMerchant(id);
+        LogUtil.logJsonResponse(logger, HttpStatus.OK, "deleted complete");
+        return ResponseEntity.ok(new ResImportExcel("deleted complete"));
+    }
+
 
     @PostMapping("/merchant/create")
-    ResponseEntity<MerchantResponse> createMerchant(@Valid @RequestBody MerchantCreateRequest request){
+    ResponseEntity<MerchantResponse> createMerchant(
+            @RequestParam String requestId,
+            @RequestParam String requestTime,
+            @Valid @RequestBody MerchantCreateRequest request){
+        logger.info("requestBody: "+ requestId + " requestTime: " + requestTime + " data: " +  request );
         return ResponseEntity.ok(merchantService.handleCreateMerchant(request));
     }
 
