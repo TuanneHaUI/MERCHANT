@@ -45,7 +45,7 @@ public class SecurityConfiguration {
                 "/v3/api-docs/**",
                 "/swagger-ui/**",
                 "/swagger-ui.html",
-                "/api/v1/auth/login", "/api/v1/auth/refresh", "/api/v1/auth/register"
+                "/api/v1/auth/login", "/api/v1/auth/register"
         };
 
         http
@@ -54,10 +54,10 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(
                         authz -> authz
                                 .requestMatchers(whiteList).permitAll()
-//                                .requestMatchers(HttpMethod.POST, "/register").permitAll()
+                               .requestMatchers(HttpMethod.POST, "/api/v1/auth/otp/register").permitAll()
 //                                .requestMatchers(HttpMethod.POST, "/login").permitAll()
-
-                                .anyRequest().permitAll())
+                                .requestMatchers(HttpMethod.GET, "/api/v1/auth/refresh").permitAll()
+                                .anyRequest().authenticated())
                 // lấy token và và xác thực
                 .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults())
                         .authenticationEntryPoint(customAuthenticationEntryPoint))

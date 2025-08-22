@@ -2,6 +2,7 @@ package com.teamphacode.MerchantManagement.domain.dto.response;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.teamphacode.MerchantManagement.domain.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +27,9 @@ public class ResLoginDTO {
         private long id;
         private String email;
         private String name;
+        private Role role;
     }
+
     @Getter
     @Setter
     @NoArgsConstructor

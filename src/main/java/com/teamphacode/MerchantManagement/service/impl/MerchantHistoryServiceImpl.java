@@ -36,14 +36,11 @@ import java.util.List;
 
         logger.info("\uD83D\uDD0D Bắt đầu tìm kiếm");
 
-        // Tạo cache key dựa trên page + size + sort + filter (spec)
         String cacheKey = generateCacheKey(pageable, spec);
 
-        // Lấy dữ liệu từ Redis (sử dụng JSON serializer)
         Object cachedObj = redisTemplate.opsForHash().get(HASH_KEY, cacheKey);
         if (cachedObj != null) {
             try {
-                // Chuyển từ LinkedHashMap hoặc ArrayList sang DTO đúng kiểu
                 ResultPaginationDTO cachedData = new ObjectMapper()
                         .convertValue(cachedObj, ResultPaginationDTO.class);
                 logger.info("✅ Tìm kiếm trong Redis thành công!");
@@ -53,10 +50,8 @@ import java.util.List;
             }
         }
 
-        // Query database
         Page<MerchantHistory> pageResult = merchantHistoryRepository.findAll(spec, pageable);
 
-        // Build DTO
         ResultPaginationDTO dto = new ResultPaginationDTO();
         ResultPaginationDTO.Meta meta = new ResultPaginationDTO.Meta();
         meta.setPage(pageable.getPageNumber() + 1); // Pageable index bắt đầu từ 0
@@ -67,18 +62,14 @@ import java.util.List;
         dto.setMeta(meta);
         dto.setResult(pageResult.getContent());
 
-        // Lưu cache dưới dạng JSON
         redisTemplate.opsForHash().put(HASH_KEY, cacheKey, dto);
-        // Optional: expire từng key thay vì toàn bộ HASH
         redisTemplate.expire(HASH_KEY, Duration.ofHours(1));
 
         logger.info("✅ Tìm kiếm thành công!");
         return dto;
     }
 
-    /**
-     * Sinh cache key dựa trên page + size + sort + filter
-     */
+
     private String generateCacheKey(Pageable pageable, Specification<MerchantHistory> spec) {
         StringBuilder keyBuilder = new StringBuilder();
         keyBuilder.append("page:").append(pageable.getPageNumber())
@@ -101,11 +92,11 @@ import java.util.List;
         return keyBuilder.toString();
     }
 
-    private String generateCacheKey(Pageable pageable) {
-        String page = String.valueOf(pageable.getPageNumber());
-        String size = String.valueOf(pageable.getPageSize());
-        String sort = pageable.getSort().toString().replace(":", "-");
-
-        return "::page=" + page + "::size=" + size + "::sort=" + sort;
-    }
+//    private String generateCacheKey(Pageable pageable) {
+//        String page = String.valueOf(pageable.getPageNumber());
+//        String size = String.valueOf(pageable.getPageSize());
+//        String sort = pageable.getSort().toString().replace(":", "-");
+//
+//        return "::page=" + page + "::size=" + size + "::sort=" + sort;
+//    }
 }
