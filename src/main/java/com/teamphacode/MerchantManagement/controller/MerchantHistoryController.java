@@ -26,7 +26,6 @@ public class MerchantHistoryController {
 
     @GetMapping("/merchant/history")
     public ResponseEntity<ResultPaginationDTO> getMerchantHistory(@Filter Specification<MerchantHistory> spec, Pageable pageable){
-
         return ResponseEntity.ok(this.merchantHistoryService.handleGetMerchantHistoryByMerchantIdOrAccountNo(spec, pageable));
     }
 

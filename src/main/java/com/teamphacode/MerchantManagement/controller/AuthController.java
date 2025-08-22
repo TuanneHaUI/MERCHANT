@@ -66,6 +66,7 @@ public class AuthController {
         // xác thực người dùng => cần viết hàm loadUserByUsername
         Authentication authentication = authenticationManagerBuilder.getObject()
                 .authenticate(authenticationToken);
+
         // create a token
         // set thông tin người dùng đăng nhập vào context( có thể dùng sao này)
         SecurityContextHolder.getContext().setAuthentication(authentication);
@@ -75,7 +76,7 @@ public class AuthController {
         if (currentUserDB != null) {
             ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(currentUserDB.getId(),
                     currentUserDB.getEmail(),
-                    currentUserDB.getName());
+                    currentUserDB.getName(), currentUserDB.getRole());
             res.setUser(userLogin);
         }
         String access_token = this.securityUtil.createAccessToken(authentication.getName(), res);
@@ -113,7 +114,7 @@ public class AuthController {
             userLogin.setId(currentUserDB.getId());
             userLogin.setEmail(currentUserDB.getEmail());
             userLogin.setName(currentUserDB.getName());
-            //userLogin.setRole(currentUserDB.getRole());
+            userLogin.setRole(currentUserDB.getRole());
             userGetAccount.setUser(userLogin);
         }
         return ResponseEntity.ok().body(userGetAccount);
@@ -196,20 +197,22 @@ public class AuthController {
 //    }
 
     @GetMapping("/auth/refresh")
-    @ApiMessage("refresh susscess")
+    @ApiMessage("Get user by refresh token")
     public ResponseEntity<ResLoginDTO> getRefreshToken(
             @CookieValue(name = "refresh_token", defaultValue = "abc") String refresh_token)
             throws IdInvalidException {
+        System.out.println("jwt trên"+refresh_token);
         if (refresh_token.equals("abc")) {
             throw new IdInvalidException("Bạn không có refresh token ở Cookies");
         }
-
+        System.out.println("jwt dưới"+refresh_token);
         // check valid
         Jwt decodedToken = this.securityUtil.checkValidRefreshToken(refresh_token);
         String email = decodedToken.getSubject();
-
+        System.out.println("Email sau khi giải mã "+email);
         // check user by token + email
         Users currentUser = this.userService.getUserByRefreshTokenAndEmail(refresh_token, email);
+        System.out.println("User "+currentUser);
         if (currentUser == null) {
             throw new IdInvalidException("Refresh Token không hợp lệ");
         }
@@ -220,7 +223,7 @@ public class AuthController {
         if (currentUserDB != null) {
             ResLoginDTO.UserLogin userLogin = new ResLoginDTO.UserLogin(currentUserDB.getId(),
                     currentUserDB.getEmail(),
-                    currentUserDB.getName());
+                    currentUserDB.getName(), currentUserDB.getRole());
             res.setUser(userLogin);
         }
         String access_token = this.securityUtil.createAccessToken(email, res);

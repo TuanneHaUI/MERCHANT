@@ -614,14 +614,10 @@ public class MerchantServiceImpl implements MerchantService {
 
         mt.setPage(pageable.getPageNumber()+ 1);
         mt.setPageSize(pageable.getPageSize());
-
         mt.setPages(merchantPage.getTotalPages());
         mt.setTotal(merchantPage.getTotalElements());
-
         rs.setMeta(mt);
         rs.setResult(merchantPage.getContent());
         return rs;
     }
-
-
 }

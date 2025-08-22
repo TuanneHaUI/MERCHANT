@@ -28,4 +28,6 @@ public interface UserService {
      Users fetchUserById(long id);
 
      Users handleAdminCreateUser(ReqCreatedUser user) throws IdInvalidException;
+
+     void handleDeleteUser(long id);
 }

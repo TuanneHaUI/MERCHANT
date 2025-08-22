@@ -53,9 +53,9 @@ spring:
         max-wait: 1000           # Timeout khi lấy connection (ms)
 
 #  # Cấu hình JPA & Hibernate
-#  jpa:
-#    hibernate:
-#      ddl-auto: update           # Tự tạo/sửa bảng khi entity thay đổi (dev ONLY)
+  jpa:
+    hibernate:
+      ddl-auto: update           # Tự tạo/sửa bảng khi entity thay đổi (dev ONLY)
 #    show-sql: true                # In câu SQL ra console
 ##    properties:
 ##      hibernate:
@@ -85,8 +85,8 @@ springdoc:
 tuanne:
   jwt:
     base64-secret: qoAEABDke07+AVLepXB4aCMtsT0wMAqR5x2VFyldsnx6e75YQkJH2UcZKTjEyoNgG71SBCXfq5N6NVZxWOfsHQ==
-    access-token-validity-in-seconds: 900     # Thời gian sống access token (100 ngày)
-    refresh-token-validity-in-seconds: 86400     # Thời gian sống refresh token (100 ngày)
+    access-token-validity-in-seconds: 8640000      # 5 giây
+    refresh-token-validity-in-seconds: 8640000
 
 # Logging nâng cao (tùy chọn)
 #logging:
