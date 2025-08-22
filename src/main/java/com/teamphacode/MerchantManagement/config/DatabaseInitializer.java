@@ -80,6 +80,12 @@ public class DatabaseInitializer implements CommandLineRunner {
             arr.add(new Permission("Export merchant year", "/api/v1/merchants/export-merchant-year", "GET", "MERCHANT_EXPORT"));
             arr.add(new Permission("Count merchant by year", "/api/v1/merchants/count-merchant-by-year", "GET", "MERCHANT_EXPORT"));
 
+            // Mcc
+            arr.add(new Permission("Get all MCC", "/api/v1/mcc/getAllMcc", "GET", "MCC"));
+            arr.add(new Permission("Create MCC", "/api/v1/mcc/createMcc", "POST", "MCC"));
+            arr.add(new Permission("Update MCC", "/api/v1/mcc/updateMcc/{code}", "PUT", "MCC"));
+            arr.add(new Permission("Delete MCC", "/api/v1/mcc/removeMcc/{code}", "DELETE", "MCC"));
+
             // ----- MERCHANT_HISTORY -----
             arr.add(new Permission("Get merchant history paginate", "/api/v1/merchant-histories", "GET", "MERCHANT_HISTORY"));
 
