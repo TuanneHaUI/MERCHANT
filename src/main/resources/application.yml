@@ -23,7 +23,7 @@ spring:
             enable: true
   # Cấu hình thông tin kết nối Database (MySQL)
   datasource:
-    url: jdbc:mysql://localhost:3307/merchant # URL kết nối DB
+    url: jdbc:mysql://localhost:3307/tuannehehe # URL kết nối DB
     username: root                             # Tên đăng nhập DB
     password: Iamtuanne                    # Mật khẩu DB
     driver-class-name: com.mysql.cj.jdbc.Driver # Driver MySQL JDBC
