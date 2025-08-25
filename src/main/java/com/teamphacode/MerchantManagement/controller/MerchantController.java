@@ -62,6 +62,9 @@ public class MerchantController {
 
     @PutMapping("/merchant/update")
     ResponseEntity<?> updateMerchant(@Valid @RequestBody ReqUpdateMerchant request) throws IdInvalidException {
+        if(request == null){
+            throw new IdInvalidException("request null");
+        }
         Merchant merchant = this.merchantService.handleUpdateMerchant(request);
         return ResponseEntity.ok(merchant);
     }

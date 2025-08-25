@@ -201,15 +201,12 @@ public class AuthController {
     public ResponseEntity<ResLoginDTO> getRefreshToken(
             @CookieValue(name = "refresh_token", defaultValue = "abc") String refresh_token)
             throws IdInvalidException {
-        System.out.println("jwt trên"+refresh_token);
         if (refresh_token.equals("abc")) {
             throw new IdInvalidException("Bạn không có refresh token ở Cookies");
         }
-        System.out.println("jwt dưới"+refresh_token);
         // check valid
         Jwt decodedToken = this.securityUtil.checkValidRefreshToken(refresh_token);
         String email = decodedToken.getSubject();
-        System.out.println("Email sau khi giải mã "+email);
         // check user by token + email
         Users currentUser = this.userService.getUserByRefreshTokenAndEmail(refresh_token, email);
         System.out.println("User "+currentUser);
@@ -235,7 +232,6 @@ public class AuthController {
         // update user
         this.userService.updateUserToken(new_refresh_token, email);
 
-        // set cookies
         ResponseCookie resCookies = ResponseCookie
                 .from("refresh_token", new_refresh_token)
                 .httpOnly(true)

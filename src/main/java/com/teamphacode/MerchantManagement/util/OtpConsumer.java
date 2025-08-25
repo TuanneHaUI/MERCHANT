@@ -12,10 +12,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class OtpConsumer {
     private final EmailServiceImpl emailServiceImpl;
+
     private static final Logger logger = LoggerFactory.getLogger(MerchantHistoryServiceImpl.class);
+
     public OtpConsumer(EmailServiceImpl emailServiceImpl) {
         this.emailServiceImpl = emailServiceImpl;
     }
+
+
     @RabbitListener(queues = RabbitMQConfig.OTP_QUEUE)
     public void receiveOtpMessage(OtpMessage message) {
         logger.info("đã chạy vô receiveOtpMessage");

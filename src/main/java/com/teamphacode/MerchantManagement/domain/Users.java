@@ -35,10 +35,15 @@ public class Users {
 
     @Column(columnDefinition = "MEDIUMTEXT")
     private String refreshToken;
+
     private Instant createdAt;
+
     private Instant updatedAt;
+
     private String createdBy;
+
     private String updatedBy;
+
     @ManyToOne
     @JoinColumn(name = "role_id")
     private Role role;

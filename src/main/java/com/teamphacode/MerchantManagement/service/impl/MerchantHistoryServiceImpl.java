@@ -34,7 +34,7 @@ import java.util.List;
     public ResultPaginationDTO handleGetMerchantHistoryByMerchantIdOrAccountNo(
             Specification<MerchantHistory> spec, Pageable pageable) {
 
-        logger.info("\uD83D\uDD0D Bắt đầu tìm kiếm");
+        logger.info("==>>> Bắt đầu tìm kiếm<<<==");
 
         String cacheKey = generateCacheKey(pageable, spec);
 

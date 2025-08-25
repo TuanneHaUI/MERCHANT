@@ -1,6 +1,7 @@
 package com.teamphacode.MerchantManagement.service.impl;
 
 import com.teamphacode.MerchantManagement.config.MerchantIdConfig;
+import com.teamphacode.MerchantManagement.domain.Mcc;
 import com.teamphacode.MerchantManagement.domain.Merchant;
 import com.teamphacode.MerchantManagement.domain.MerchantHistory;
 import com.teamphacode.MerchantManagement.domain.dto.request.MerchantCreateRequest;
@@ -126,10 +127,10 @@ public class MerchantServiceImpl implements MerchantService {
             String merchantId = requests.get(i).getMerchantId();
             int rowNum = i + 2;
 
-            if (accountNo != null && !accountNo.isEmpty() && !accountNosInFile.add(accountNo)) {
+            if (!accountNo.isBlank() && !accountNosInFile.add(accountNo)) {
                 duplicateAccountNosInFile.computeIfAbsent(accountNo, k -> new ArrayList<>()).add(rowNum);
             }
-            if (merchantId != null && !merchantId.isEmpty() && !merchantIdsInFile.add(merchantId)) {
+            if (!accountNo.isBlank() && !merchantIdsInFile.add(merchantId)) {
                 duplicateMerchantIdsInFile.computeIfAbsent(merchantId, k -> new ArrayList<>()).add(rowNum);
             }
         }
@@ -211,11 +212,11 @@ public class MerchantServiceImpl implements MerchantService {
 
         Merchant merchant = merchantRepository.findByAccountNo(reqUpdateMerchant.getAccountNo())
                 .orElseThrow(() -> {
-                    logger.error("❌ Không tìm thấy merchant với số tài khoản: {}", reqUpdateMerchant.getAccountNo());
+                    logger.error("Không tìm thấy merchant với số tài khoản: {}", reqUpdateMerchant.getAccountNo());
                     return new RuntimeException("Không tìm thấy merchant với số tài khoản: " + reqUpdateMerchant.getAccountNo());
                 });
         if (reqUpdateMerchant.getStatus() == StatusEnum.Close && reqUpdateMerchant.getCloseDate() == null) {
-            logger.warn("⚠\uFE0F Khi cập nhật trạng thái sang ĐÓNG, phải nhập thời điểm kết thúc hoạt động (closeDate).");
+            logger.warn("Khi cập nhật trạng thái sang ĐÓNG, phải nhập thời điểm kết thúc hoạt động (closeDate).");
             throw new RuntimeException("Khi cập nhật trạng thái sang ĐÓNG, phải nhập thời điểm kết thúc hoạt động (closeDate).");
         }
 
@@ -229,7 +230,13 @@ public class MerchantServiceImpl implements MerchantService {
             changeContent.append(String.format("shortName: '%s' → '%s'; ", merchant.getShortName(), reqUpdateMerchant.getShortName()));
             merchant.setShortName(reqUpdateMerchant.getShortName());
         }
+
+        Mcc mcc = this.mccRepository.findByCode(reqUpdateMerchant.getMcc());
+        if(mcc == null){
+            throw new IdInvalidException("Mã mcc không tồn tại");
+        }
         if (isChanged(merchant.getMcc(), reqUpdateMerchant.getMcc())) {
+
             changeContent.append(String.format("mcc: '%s' → '%s'; ", merchant.getMcc(), reqUpdateMerchant.getMcc()));
             merchant.setMcc(reqUpdateMerchant.getMcc());
         }
@@ -281,7 +288,7 @@ public class MerchantServiceImpl implements MerchantService {
                 logger.info("\uD83D\uDDD1\uFE0F Xóa key trong redis thành công!");
                 redisTemplate.delete("MerchantHistoryServiceImpl");
             }
-            logger.info("✅ Lưu thành công!");
+            logger.info("Lưu thành công!");
             merchantHistoryRepository.save(history);
         }
 

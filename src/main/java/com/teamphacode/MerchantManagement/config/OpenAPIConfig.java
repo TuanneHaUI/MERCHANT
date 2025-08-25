@@ -15,6 +15,7 @@ import io.swagger.v3.oas.models.servers.Server;
 @Configuration
 public class OpenAPIConfig {
 
+    // Định nghĩa security scheme cho Swagger (Bearer JWT)
     private SecurityScheme createAPIKeyScheme() {
         return new SecurityScheme()
                 .type(SecurityScheme.Type.HTTP)
@@ -22,6 +23,7 @@ public class OpenAPIConfig {
                 .scheme("bearer");
     }
 
+    // Tạo một server object (liệt kê server trong Swagger UI)
     private Server createServer(String url, String description) {
         Server server = new Server();
         server.setUrl(url);
@@ -52,14 +54,15 @@ public class OpenAPIConfig {
                 .license(createLicense());
     }
 
+   // Bean chính -> cấu hình OpenAPI cho swagger-ui
     @Bean
     public OpenAPI myOpenAPI() {
         return new OpenAPI()
-                .info(createApiInfo())
+                .info(createApiInfo()) // set metadata cho spring
                 .servers(List.of(
                         createServer("http://localhost:8080", "Server URL in Development environment"),
                         createServer("https://tuanne.vn", "Server URL in Production environment")))
-                .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication"))
+                .addSecurityItem(new SecurityRequirement().addList("Bearer Authentication")) // yêu cầu security
                 .components(new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme()));
     }
 }

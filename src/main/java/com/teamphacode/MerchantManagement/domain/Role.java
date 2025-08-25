@@ -40,9 +40,13 @@ public class Role {
     private String description;
 
     private boolean active;
+
     private Instant createdAt;
+
     private Instant updatedAt;
+
     private String createdBy;
+
     private String updatedBy;
 
     @ManyToMany(fetch = FetchType.LAZY)
